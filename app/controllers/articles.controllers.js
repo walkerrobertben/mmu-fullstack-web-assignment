@@ -1,5 +1,7 @@
 const self = {};
 
+const Joi = require("joi")
+
 const model = require("../models/articles.models");
 
 self.getAll = (req, res) => {
@@ -39,13 +41,13 @@ self.createSingle = (req, res) => {
         const validation = schema.validate(req.body);
 
         if (validation.error) {
-            return res.status(400).send(error.details[0].message);
+            return res.status(400).send(validation.error.details[0].message);
         }
     }
 
     const article = Object.assign({}, req.body);
 
-    model.addNew(article).then((article_id) => {
+    model.addSingle(article).then((article_id) => {
         res.status(201).send({article_id: article_id});
     }).catch((error) => {
         console.error(error);
