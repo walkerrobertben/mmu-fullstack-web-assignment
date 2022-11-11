@@ -55,10 +55,31 @@ self.login = (req, res) => {
         }
     }
 
-    model.authenticateUser(req.body.email, req.body.password).then((success, user_id) => {
+    model.attemptLogin(req.body.email, req.body.password).then((success, user_id) => {
+        if (success) {
 
-        
+            model.getToken(user_id).then((session_token) => {
+                if (session_token) {
+                    res.status(200).send({user_id: user_id, session_token: session_token}); //already logged in
+                } else {
+                    
+                    //give the user a session token
+                    model.setToken(user_id).then((session_token) => {
+                        
+                        res.status(200).send({user_id: user_id, session_token: session_token}); //logged in
 
+                    }).catch((error) => {
+                        console.error(error);
+                        res.sendStatus(500);
+                    });
+                }
+            }).catch((error) => {
+                console.error(error);
+                res.sendStatus(500);
+            });
+        } else {
+            res.sendStatus(400);
+        }
     }).catch((error) => {
         console.error(error);
         res.sendStatus(500);

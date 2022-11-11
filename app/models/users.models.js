@@ -68,6 +68,34 @@ self.addSingle = (user) => {
     });
 }
 
+self.attemptLogin = (email, password) => {
+    return new Promise((resolve, reject) => {
+
+        const query = "SELECT user_id, password, salt FROM users WHERE email=?";
+        const params = [email];
+
+        db.get(query, params, (error, row) => {
+            if (error) {
+                reject(error);
+            } else {
+                if (row != null) {
+
+                    const salt = Buffer.from(row.salt, "hex");
+                    const attemptHash = HashPassword(password, salt);
+
+                    if (row.password === attemptHash.toString("hex")) {
+                        resolve(true, row.user_id); //email & password match
+                    } else {
+                        resolve(false); //wrong password
+                    }
+                } else {
+                    resolve(false); //wrong email
+                }
+            }
+        });
+    });
+}
+
 self.getToken = (user_id) => {
     return new Promise((resolve, reject) => {
 
@@ -106,33 +134,6 @@ self.setToken = (user_id) => {
     });
 }
 
-self.authenticateUser = (email, passwordAttempt) => {
-    return new Promise((resolve, reject) => {
-
-        const query = "SELECT user_id, password, salt FROM users WHERE email=?";
-        const params = [email];
-
-        db.get(query, params, (error, row) => {
-            if (error) {
-                reject(error);
-            } else {
-                if (row != null) {
-
-                    const salt = Buffer.from(row.salt, "hex");
-                    const attemptHash = HashPassword(passwordAttempt, salt);
-
-                    if (row.password === attemptHash.toString("hex")) {
-                        resolve(true, row.user_id); //email & password match
-                    } else {
-                        resolve(false); //wrong password
-                    }
-                } else {
-                    resolve(false); //wrong email
-                }
-            }
-        });
-    });
-}
 
 
 
