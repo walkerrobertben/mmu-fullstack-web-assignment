@@ -2,6 +2,8 @@ const self = {}
 
 const crypto = require("crypto");
 
+const db = require("../../database");
+
 function DBRowToUser(row) {
     return {
         "user_id": row.user_id,
@@ -13,7 +15,7 @@ function DBRowToUser(row) {
     }
 }
 
-const getAll = () => {
+self.getAll = () => {
     return new Promise((resolve, reject) => {
 
         const query = "SELECT * FROM users";
@@ -37,9 +39,9 @@ const getAll = () => {
     });
 }
 
-const addSingle = (user) => {
+self.addSingle = (user) => {
     return new Promise((resolve, reject) => {
-        
+
         const salt = crypto.randomBytes(64);
         const hash = crypto.pbkdf2Sync(user.password, salt, 100000, 256, "sha256");
     

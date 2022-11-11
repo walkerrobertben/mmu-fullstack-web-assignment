@@ -10,7 +10,7 @@ module.exports = function(app) {
     //     .delete(controller.deleteSingle);
 
     app.route("/login")
-        .posh(controller.login);
+        .post(controller.login);
 
     app.route("/logout")
         .post(controller.logout);
