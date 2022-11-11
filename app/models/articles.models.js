@@ -4,12 +4,12 @@ const db = require("../../database");
 
 function DBRowToArticle(row) {
     return {
-        article_id: row.article_id,
-        title: row.title,
-        author: row.author,
-        date_published: new Date(row.date_published).toLocaleDateString(),
-        date_edited: new Date(row.date_edited).toLocaleDateString(),
-        article_text: row.article_text
+        "article_id": row.article_id,
+        "title": row.title,
+        "author": row.author,
+        "date_published": new Date(row.date_published).toLocaleDateString(),
+        "date_edited": new Date(row.date_edited).toLocaleDateString(),
+        "article_text": row.article_text
     }
 }
 
