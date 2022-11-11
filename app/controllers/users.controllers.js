@@ -58,14 +58,17 @@ self.login = (req, res) => {
     model.attemptLogin(req.body.email, req.body.password).then((success, user_id) => {
         if (success) {
 
+            //Seems to be some issue here. Every time I click log in, its generating a new session token??
+
             model.getToken(user_id).then((session_token) => {
                 if (session_token) {
+                
                     res.status(200).send({user_id: user_id, session_token: session_token}); //already logged in
                 } else {
                     
                     //give the user a session token
                     model.setToken(user_id).then((session_token) => {
-                        
+
                         res.status(200).send({user_id: user_id, session_token: session_token}); //logged in
 
                     }).catch((error) => {

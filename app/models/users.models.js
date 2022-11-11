@@ -22,7 +22,7 @@ function GenerateSalt() {
     return crypto.randomBytes(64);
 }
 function HashPassword(password, salt) {
-    return crypto.pbkdf2Sync(user.password, salt, 100000, 256, "sha256");
+    return crypto.pbkdf2Sync(password, salt, 100000, 256, "sha256");
 }
 
 self.getAll = () => {
