@@ -41,8 +41,51 @@ self.createSingle = (req, res) => {
 }
 
 self.login = (req, res) => {
-    res.sendStatus(500);
+    
+    { //validation
+        const schema = Joi.object({
+            "email": Joi.string().required(),
+            "password": Joi.string().required(),
+        });
+
+        const validation = schema.validate(req.body);
+
+        if (validation.error) {
+            return res.status(400).send(validation.error.details[0].message);
+        }
+    }
+
+    model.authenticateUser(req.body.email, req.body.password).then((success, user_id) => {
+
+        
+
+    }).catch((error) => {
+        console.error(error);
+        res.sendStatus(500);
+    });
+
 }
+
+
+/*self.login = (email, password) => {
+    return new Promise((resolve, reject) => {
+
+        //this will need to have some kind of failreason here
+
+        AuthenticateUser(email, password).then((success, user_id) => {
+            if (success) {
+
+
+
+            } else {
+                resolve(false);
+            }
+        }).catch((error) => {
+            reject(error);
+        });
+    });
+}*/
+
 
 self.logout = (req, res) => {
     res.sendStatus(500);

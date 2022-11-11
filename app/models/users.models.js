@@ -15,6 +15,16 @@ function DBRowToUser(row) {
     }
 }
 
+function GenerateToken() {
+    return crypto.randomBytes(16).toString("hex");
+}
+function GenerateSalt() {
+    return crypto.randomBytes(64);
+}
+function HashPassword(password, salt) {
+    return crypto.pbkdf2Sync(user.password, salt, 100000, 256, "sha256");
+}
+
 self.getAll = () => {
     return new Promise((resolve, reject) => {
 
@@ -42,8 +52,8 @@ self.getAll = () => {
 self.addSingle = (user) => {
     return new Promise((resolve, reject) => {
 
-        const salt = crypto.randomBytes(64);
-        const hash = crypto.pbkdf2Sync(user.password, salt, 100000, 256, "sha256");
+        const salt = GenerateSalt();
+        const hash = HashPassword(user.password, salt); //crypto.pbkdf2Sync(user.password, salt, 100000, 256, "sha256");
     
         const query = "INSERT INTO users (first_name, last_name, email, password, salt) VALUES(?,?,?,?,?)";
         const params = [user.first_name, user.last_name, user.email, hash.toString("hex"), salt.toString("hex")];
@@ -57,5 +67,73 @@ self.addSingle = (user) => {
         });
     });
 }
+
+self.getToken = (user_id) => {
+    return new Promise((resolve, reject) => {
+
+        const query = "SELECT session_token FROM users WHERE user_id=?";
+        const params = [user_id];
+
+        db.get(query, params, (error, row) => {
+            if (error) {
+                reject(error);
+            } else {
+                if (row != null) {
+                    resolve(row.session_token);
+                } else {
+                    resolve(null);
+                }
+            }
+        });
+    });
+}
+
+self.setToken = (user_id) => {
+    return new Promise((resolve, reject) => {
+
+        const session_token = GenerateToken();
+
+        const query = "UPDATE users SET session_token=? WHERE user_id=?";
+        const params = [session_token, user_id];
+
+        db.run(query, params, (error) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(session_token);
+            }
+        });
+    });
+}
+
+self.authenticateUser = (email, passwordAttempt) => {
+    return new Promise((resolve, reject) => {
+
+        const query = "SELECT user_id, password, salt FROM users WHERE email=?";
+        const params = [email];
+
+        db.get(query, params, (error, row) => {
+            if (error) {
+                reject(error);
+            } else {
+                if (row != null) {
+
+                    const salt = Buffer.from(row.salt, "hex");
+                    const attemptHash = HashPassword(passwordAttempt, salt);
+
+                    if (row.password === attemptHash.toString("hex")) {
+                        resolve(true, row.user_id); //email & password match
+                    } else {
+                        resolve(false); //wrong password
+                    }
+                } else {
+                    resolve(false); //wrong email
+                }
+            }
+        });
+    });
+}
+
+
 
 module.exports = self;
