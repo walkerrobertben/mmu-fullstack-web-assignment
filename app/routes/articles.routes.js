@@ -4,11 +4,11 @@ module.exports = function(app) {
 
     app.route("/articles")
         .get(controller.getAll)
-        .post(controller.create);
+        .post(controller.createSingle);
 
     app.route("/articles/:article_id")
-        .get(controller.getOne)
-        .patch(controller.updateArticle)
-        .delete(controller.deleteArticle);
+        .get(controller.getSingle)
+        .patch(controller.updateSingle)
+        .delete(controller.deleteSingle);
 
 }
