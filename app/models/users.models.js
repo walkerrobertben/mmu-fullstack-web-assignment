@@ -49,6 +49,26 @@ self.getAll = () => {
     });
 }
 
+self.getSingleFromSessionToken = (session_token) => {
+    return new Promise((resolve, reject) => {
+
+        const query = "SELECT user_id FROM users WHERE session_token=?";
+        const params = [session_token];
+
+        db.get(query, params, (error, row) => {
+            if (error) {
+                reject(error);
+            } else {
+                if (row != null) {
+                    resolve(row.user_id);
+                } else {
+                    resolve(null);
+                }
+            }
+        });
+    });
+}
+
 self.addSingle = (user) => {
     return new Promise((resolve, reject) => {
 

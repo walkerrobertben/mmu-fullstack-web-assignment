@@ -61,7 +61,7 @@ self.login = (req, res) => {
             const user_id = loginAttemptResult.user_id;
 
             model.getToken(user_id).then((session_token) => {
-                
+
                 if (session_token != null) {
                     res.status(200).send({user_id: user_id, session_token: session_token}); //already logged in
 
@@ -90,7 +90,10 @@ self.login = (req, res) => {
 }
 
 self.logout = (req, res) => {
-    res.sendStatus(500);
+    const session_token = req.header("token");
+
+    
+
 }
 
 self.deleteSingle = (req, res) => {
