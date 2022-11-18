@@ -1,6 +1,6 @@
 const controller = require("../controllers/users.controllers.js");
 
-const authenticate = require("../lib/authenticate").authenticate;
+const authenticate = require("../lib/authenticate");
 
 module.exports = function(app) {
 
@@ -15,6 +15,6 @@ module.exports = function(app) {
         .post(controller.login);
 
     app.route("/logout")
-        .post(authenticate, controller.logout);
+        .post(authenticate.require, controller.logout);
 
 }

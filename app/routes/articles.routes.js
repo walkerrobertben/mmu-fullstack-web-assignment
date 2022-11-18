@@ -1,14 +1,16 @@
 const controller = require("../controllers/articles.controllers.js");
 
+const authenticate = require("../lib/authenticate").require;
+
 module.exports = function(app) {
 
     app.route("/articles")
         .get(controller.getAll)
-        .post(controller.createSingle);
+        .post(authenticate.require, controller.createSingle);
 
     app.route("/articles/:article_id")
         .get(controller.getSingle)
-        .patch(controller.updateSingle)
-        .delete(controller.deleteSingle);
+        .patch(authenticate.require, controller.updateSingle)
+        .delete(authenticate.require, controller.deleteSingle);
 
 }

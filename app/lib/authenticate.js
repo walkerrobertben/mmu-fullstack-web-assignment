@@ -3,7 +3,41 @@ const self = {}
 
 const users_model = require("../models/users.models");
 
-self.authenticate = (req, res, next) => {
+
+function GetAuthenticated(user_id) {
+    return {
+        "user_id": user_id
+    }
+}
+
+
+//this *checks* if authenticated but will always call next()
+self.check = (req, res, next) => {
+
+    const session_token = req.header("X-Authorization");
+
+    if (session_token == null) {
+        return next(); //no token
+    }
+
+    users_model.getUserIdFromSessionToken(session_token).then((user_id) => {
+        if (user_id != null) {
+
+            req.authenticated = GetAuthenticated(user_id);
+            return next();
+
+        } else {
+            return next();
+        }
+    }).catch((error) => {
+        console.error(error);
+        return next();
+    });
+}
+
+
+//this *requires* the user is authenticated for next() to be called
+self.require = (req, res, next) => {
 
     const session_token = req.header("X-Authorization");
     if (session_token == null) {
@@ -13,11 +47,7 @@ self.authenticate = (req, res, next) => {
     users_model.getUserIdFromSessionToken(session_token).then((user_id) => {
         if (user_id != null) {
 
-            req.authenticated = {
-                "user_id": user_id
-                //could add more to this later like 'level' for user/admin accounts
-            }
-
+            req.authenticated = GetAuthenticated(user_id);
             return next();
 
         } else {
