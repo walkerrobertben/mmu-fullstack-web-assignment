@@ -1,6 +1,6 @@
 const controller = require("../controllers/articles.controllers.js");
 
-const authenticate = require("../lib/authenticate").require;
+const authenticate = require("../lib/authenticate");
 
 module.exports = function(app) {
 

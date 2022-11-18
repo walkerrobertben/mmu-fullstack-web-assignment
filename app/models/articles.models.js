@@ -9,7 +9,8 @@ function DBRowToArticle(row) {
         "author": row.author,
         "date_published": new Date(row.date_published).toLocaleDateString(),
         "date_edited": new Date(row.date_edited).toLocaleDateString(),
-        "article_text": row.article_text
+        "article_text": row.article_text,
+        "created_by": row.created_by
     }
 }
 
@@ -58,12 +59,12 @@ self.getSingle = (article_id) => {
     });
 }
 
-self.addSingle = (article) => {
+self.addSingle = (article, created_by_user_id) => {
     return new Promise((resolve, reject) => {
         const date = Date.now();
 
         const query = "INSERT INTO articles (title, author, date_published, date_edited, article_text, created_by) VALUES(?,?,?,?,?,?)";
-        const params = [article.title, article.author, date, date, article.article_text, 1];
+        const params = [article.title, article.author, date, date, article.article_text, created_by_user_id];
     
         db.run(query, params, function(error) {
             if (error) {

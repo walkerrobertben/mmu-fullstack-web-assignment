@@ -47,7 +47,7 @@ self.createSingle = (req, res) => {
 
     const article = Object.assign({}, req.body);
 
-    model.addSingle(article).then((article_id) => {
+    model.addSingle(article, req.authenticated.user_id).then((article_id) => {
         res.status(201).send({article_id: article_id});
     }).catch((error) => {
         console.error(error);
