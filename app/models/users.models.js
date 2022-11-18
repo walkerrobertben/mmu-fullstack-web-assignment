@@ -49,7 +49,7 @@ self.getAll = () => {
     });
 }
 
-self.getSingleFromSessionToken = (session_token) => {
+self.getUserIdFromSessionToken = (session_token) => {
     return new Promise((resolve, reject) => {
 
         const query = "SELECT user_id FROM users WHERE session_token=?";
@@ -153,8 +153,6 @@ self.setToken = (user_id) => {
         const query = "UPDATE users SET session_token=? WHERE user_id=?";
         const params = [session_token, user_id];
 
-        console.log(user_id);
-
         db.run(query, params, (error) => {
             if (error) {
                 reject(error);
@@ -165,6 +163,22 @@ self.setToken = (user_id) => {
     });
 }
 
+self.deleteToken = (user_id) => {
+    return new Promise((resolve, reject) => {
+
+        const query = "UPDATE users SET session_token=NULL WHERE user_id=?";
+        const params = [user_id];
+
+        db.run(query, params, (error) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve();
+            }
+        })
+
+    });
+}
 
 
 
