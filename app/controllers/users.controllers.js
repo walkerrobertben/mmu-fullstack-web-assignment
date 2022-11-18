@@ -90,27 +90,6 @@ self.login = (req, res) => {
 
 }
 
-
-/*self.login = (email, password) => {
-    return new Promise((resolve, reject) => {
-
-        //this will need to have some kind of failreason here
-
-        AuthenticateUser(email, password).then((success, user_id) => {
-            if (success) {
-
-
-
-            } else {
-                resolve(false);
-            }
-        }).catch((error) => {
-            reject(error);
-        });
-    });
-}*/
-
-
 self.logout = (req, res) => {
     res.sendStatus(500);
 }
