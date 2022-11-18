@@ -90,28 +90,10 @@ self.login = (req, res) => {
 }
 
 self.logout = (req, res) => {
+    model.deleteToken(req.authenticated.user_id).then(() => {
+        //logged out
+        res.sendStatus(200);
 
-    const session_token = req.header("X-Authorization");
-    if (session_token == null) {
-        return res.sendStatus(401);
-    }
-
-    model.getUserIdFromSessionToken(session_token).then((user_id) => {
-        if (user_id != null) {
-
-            model.deleteToken(user_id).then(() => {
-
-                //logged out
-                res.sendStatus(200);
-    
-            }).catch((error) => {
-                console.error(error);
-                res.sendStatus(500);
-            });
-
-        } else {
-            res.sendStatus(401);
-        }
     }).catch((error) => {
         console.error(error);
         res.sendStatus(500);
