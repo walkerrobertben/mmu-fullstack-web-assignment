@@ -84,12 +84,21 @@ self.attemptLogin = (email, password) => {
                     const attemptHash = HashPassword(password, salt);
 
                     if (row.password === attemptHash.toString("hex")) {
-                        resolve(true, row.user_id); //email & password match
+                        resolve({ //email & password match, success
+                            success: true,
+                            user_id: row.user_id
+                        });
                     } else {
-                        resolve(false); //wrong password
+                        resolve({ //wrong password
+                            success: false,
+                            user_id: null
+                        });
                     }
                 } else {
-                    resolve(false); //wrong email
+                    resolve({ //wrong email
+                        success: false,
+                        user_id: null
+                    });
                 }
             }
         });
@@ -123,6 +132,8 @@ self.setToken = (user_id) => {
 
         const query = "UPDATE users SET session_token=? WHERE user_id=?";
         const params = [session_token, user_id];
+
+        console.log(user_id);
 
         db.run(query, params, (error) => {
             if (error) {
