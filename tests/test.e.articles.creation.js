@@ -108,9 +108,6 @@ describe('Test malformed creation of articles, when logged in.', () => {
     });
 
     bad_article_data.forEach((article) => {
-
-        console.log(article);
-
         it('Should return 400 status code: ' + article.test_description, () => {
             return chai.request(SERVER_URL)
                 .post('/articles')
