@@ -113,7 +113,7 @@ describe('Test malformed creation of articles, when logged in.', () => {
 
         it('Should return 400 status code: ' + article.test_description, () => {
             return chai.request(SERVER_URL)
-                .post('/users')
+                .post('/articles')
                 .set('X-Authorization', SESSION_TOKEN)
                 .send({
                     "title": article.title,
@@ -131,7 +131,7 @@ describe('Test malformed creation of articles, when logged in.', () => {
 
     it('Should return 400 status code: missing title', () => {
         return chai.request(SERVER_URL)
-            .post('/users')
+            .post('/articles')
             .set('X-Authorization', SESSION_TOKEN)
             .send({
                 "author": good_article_data[0].author,
@@ -147,7 +147,7 @@ describe('Test malformed creation of articles, when logged in.', () => {
 
     it('Should return 400 status code: missing author', () => {
         return chai.request(SERVER_URL)
-            .post('/users')
+            .post('/articles')
             .set('X-Authorization', SESSION_TOKEN)
             .send({
                 "title": good_article_data[0].title,
@@ -163,7 +163,7 @@ describe('Test malformed creation of articles, when logged in.', () => {
 
     it('Should return 400 status code: missing text', () => {
         return chai.request(SERVER_URL)
-            .post('/users')
+            .post('/articles')
             .set('X-Authorization', SESSION_TOKEN)
             .send({
                 "title": good_article_data[0].title,
@@ -179,7 +179,7 @@ describe('Test malformed creation of articles, when logged in.', () => {
 
     it('Should return 400 status code: extra field', () => {
         return chai.request(SERVER_URL)
-            .post('/users')
+            .post('/articles')
             .set('X-Authorization', SESSION_TOKEN)
             .send({
                 "title": good_article_data[0].title,
