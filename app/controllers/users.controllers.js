@@ -13,8 +13,8 @@ self.getAll = (req, res) => {
         return res.sendStatus(401);
     }
 
-    model.getAll().then((articles) => {
-        res.status(200).send(articles);
+    model.getAll().then((users) => {
+        res.status(200).send(users);
     }).catch((error) => {
         console.error(error);
         res.sendStatus(500);
@@ -29,12 +29,15 @@ self.createSingle = (req, res) => {
     }
 
     { //validation
+
+        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/;
+
         const schema = Joi.object({
             "first_name": Joi.string().required(),
             "last_name": Joi.string().required(),
             "email": Joi.string().email().required(),
-            "password": Joi.string().required(),
-        });
+            "password": Joi.string().regex(passwordPattern).required(),
+        }).unknown(false);
 
         const validation = schema.validate(req.body);
 

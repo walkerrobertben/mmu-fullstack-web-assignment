@@ -36,7 +36,7 @@ self.createSingle = (req, res) => {
             "title": Joi.string().required(),
             "author": Joi.string().required(),
             "article_text": Joi.string().required()
-        });
+        }).unknown(false);
 
         const validation = schema.validate(req.body);
 
@@ -72,7 +72,7 @@ self.updateSingle = (req, res) => {
                 const validation = schema.validate(req.body);
 
                 if (validation.error) {
-                    return res.status(400).send(error.details[0].message);
+                    return res.status(400).send(validation.error.details[0].message);
                 }
             }
 

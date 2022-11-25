@@ -9,8 +9,7 @@ function DBRowToArticle(row) {
         "author": row.author,
         "date_published": new Date(row.date_published).toLocaleDateString(),
         "date_edited": new Date(row.date_edited).toLocaleDateString(),
-        "article_text": row.article_text,
-        "created_by": row.created_by
+        "article_text": row.article_text
     }
 }
 
