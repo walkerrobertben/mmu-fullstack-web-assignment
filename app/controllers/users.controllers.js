@@ -4,7 +4,15 @@ const Joi = require("joi")
 
 const model = require("../models/users.models");
 
+const user_levels = require("../lib/user_levels");
+
 self.getAll = (req, res) => {
+
+    //require admin
+    if (req.authenticated.user_level < user_levels.LEVEL_ADMIN) {
+        return res.sendStatus(401);
+    }
+
     model.getAll().then((articles) => {
         res.status(200).send(articles);
     }).catch((error) => {
@@ -14,6 +22,11 @@ self.getAll = (req, res) => {
 }
 
 self.createSingle = (req, res) => {
+
+    //require admin
+    if (req.authenticated.user_level < user_levels.LEVEL_ADMIN) {
+        return res.sendStatus(401);
+    }
 
     { //validation
         const schema = Joi.object({

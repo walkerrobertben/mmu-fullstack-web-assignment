@@ -3,10 +3,12 @@ const self = {}
 
 const users_model = require("../models/users.models");
 
+const user_levels = require("../lib/user_levels");
 
 function GetAuthenticated(user_id) {
     return {
-        "user_id": user_id
+        "user_id": user_id,
+        "user_level": (user_id === 1 ? user_levels.LEVEL_ADMIN : user_levels.LEVEL_USER)
     }
 }
 
@@ -21,14 +23,13 @@ self.check = (req, res, next) => {
     }
 
     users_model.getUserIdFromSessionToken(session_token).then((user_id) => {
+
         if (user_id != null) {
-
             req.authenticated = GetAuthenticated(user_id);
-            return next();
-
-        } else {
-            return next();
         }
+
+        return next();
+
     }).catch((error) => {
         console.error(error);
         return next();

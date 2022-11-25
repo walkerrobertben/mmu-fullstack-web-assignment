@@ -5,8 +5,8 @@ const authenticate = require("../lib/authenticate");
 module.exports = function(app) {
 
     app.route("/users")
-        .get(controller.getAll)
-        .post(controller.createSingle);
+        .get(authenticate.require, controller.getAll)
+        .post(authenticate.require, controller.createSingle);
 
     // app.route("/users/:user_id")
     //     .delete(controller.deleteSingle);
