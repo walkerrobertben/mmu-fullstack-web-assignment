@@ -1,7 +1,12 @@
 const self = {}
 
+const Joi = require("joi")
+
 const model = require("../models/comments.models");
+
 const articles_model = require("../models/articles.models");
+
+const user_levels = require("../lib/user_levels");
 
 self.getAll = (req, res) => {
 
@@ -17,6 +22,69 @@ self.getAll = (req, res) => {
             });
         } else {
             res.sendStatus(404);    
+        }
+    }).catch((error) => {
+        console.error(error);
+        res.sendStatus(500);
+    });
+}
+
+self.createSingle = (req, res) => {
+
+    const article_id = parseInt(req.params.article_id);
+
+    articles_model.getSingle(article_id).then((article) => {
+        if (article != null) {
+
+            { //validation
+                const schema = Joi.object({
+                    "comment_text": Joi.string().required(),
+                });
+
+                const validation = schema.validate(req.body);
+
+                if (validation.error) {
+                    return res.status(400).send(validation.error.details[0].message);
+                }
+            }
+
+            const comment = Object.assign({}, req.body);
+
+            model.addSingle(article_id, comment).then((comment_id) => {
+                res.status(201).send({comment_id: comment_id});
+            }).catch((error) => {
+                console.error(error);
+                res.sendStatus(500);
+            });
+
+        } else {
+            res.sendStatus(404);
+        }
+    }).catch((error) => {
+        console.error(error);
+        res.sendStatus(500);
+    });
+}
+
+self.deleteSingle = (req, res) => {
+
+    //require admin
+    if (req.authenticated.user_level < user_levels.LEVEL_ADMIN) {
+        return res.sendStatus(401);
+    }
+
+    const comment_id = parseInt(req.params.comment_id);
+
+    model.getSingle(comment_id).then((comment) => {
+        if (comment != null) {
+            model.deleteSingle(comment_id).then(() => {
+                res.sendStatus(200);
+            }).catch((error) => {
+                console.error(error);
+                res.sendStatus(500);
+            });
+        } else {
+            res.sendStatus(404);
         }
     }).catch((error) => {
         console.error(error);

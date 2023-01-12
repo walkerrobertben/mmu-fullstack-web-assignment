@@ -36,7 +36,7 @@ self.createSingle = (req, res) => {
             "title": Joi.string().required(),
             "author": Joi.string().required(),
             "article_text": Joi.string().required()
-        }).unknown(false);
+        });
 
         const validation = schema.validate(req.body);
 

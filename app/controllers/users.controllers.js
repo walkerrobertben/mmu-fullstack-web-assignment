@@ -37,7 +37,7 @@ self.createSingle = (req, res) => {
             "last_name": Joi.string().required(),
             "email": Joi.string().email().required(),
             "password": Joi.string().regex(passwordPattern).required(),
-        }).unknown(false);
+        });
 
         const validation = schema.validate(req.body);
 

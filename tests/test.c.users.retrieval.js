@@ -72,7 +72,6 @@ describe("Test getting users when logged in as admin.", () => {
                 .get("/users")
                 .set('X-Authorization', ADMIN_TOKEN)
                 .then((res) => {
-
                     expect(res).to.have.status(200)
                     expect(res.body).to.be.an('array')
                     expect(res.body.length).to.equal(21)
