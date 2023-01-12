@@ -71,7 +71,7 @@ self.addSingle = (user) => {
     return new Promise((resolve, reject) => {
 
         const salt = GenerateSalt();
-        const hash = HashPassword(user.password, salt); //crypto.pbkdf2Sync(user.password, salt, 100000, 256, "sha256");
+        const hash = HashPassword(user.password, salt);
     
         const query = "INSERT INTO users (first_name, last_name, email, password, salt) VALUES(?,?,?,?,?)";
         const params = [user.first_name, user.last_name, user.email, hash.toString("hex"), salt.toString("hex")];
