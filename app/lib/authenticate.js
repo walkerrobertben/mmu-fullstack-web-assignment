@@ -8,7 +8,7 @@ const user_levels = require("../lib/user_levels");
 function GetAuthenticated(user_id) {
     return {
         "user_id": user_id,
-        "user_level": (user_id === 1 ? user_levels.LEVEL_ADMIN : user_levels.LEVEL_USER)
+        "user_level": (user_id === 1 ? user_levels.LEVEL_ADMIN : user_levels.LEVEL_AUTHOR)
     }
 }
 

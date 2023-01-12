@@ -58,6 +58,27 @@ self.getSingle = (article_id) => {
     });
 }
 
+self.getAuthor = (article_id) => {
+    return new Promise((resolve, reject) => {
+
+        const query = "SELECT created_by FROM articles WHERE article_id=?";
+        const params = [article_id];
+
+        db.get(query, params, (error, row) => {
+            if (error) {
+                reject(error);
+            } else {
+                if (row != null) {
+                    resolve(row.created_by);
+                } else {
+                    resolve(null);
+                }
+            }
+        });
+
+    });
+}
+
 self.addSingle = (article, created_by_user_id) => {
     return new Promise((resolve, reject) => {
         const date = Date.now();

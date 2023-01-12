@@ -68,21 +68,37 @@ self.createSingle = (req, res) => {
 
 self.deleteSingle = (req, res) => {
 
-    //require admin
-    if (req.authenticated.user_level < user_levels.LEVEL_ADMIN) {
-        return res.sendStatus(401);
-    }
-
     const comment_id = parseInt(req.params.comment_id);
 
     model.getSingle(comment_id).then((comment) => {
         if (comment != null) {
-            model.deleteSingle(comment_id).then(() => {
-                res.sendStatus(200);
+
+            model.getArticleId(comment_id).then((article_id) => {
+                articles_model.getAuthor(article_id).then((author_id) => {
+
+                    //require user is author or admin
+                    if (req.authenticated.user_level < user_levels.LEVEL_ADMIN) {
+                        if (req.authenticated.user_id != author_id) {
+                            return res.sendStatus(401);
+                        }
+                    }
+
+                    model.deleteSingle(comment_id).then(() => {
+                        res.sendStatus(200);
+                    }).catch((error) => {
+                        console.error(error);
+                        res.sendStatus(500);
+                    });
+
+                }).catch((error) => {
+                    console.error(error);
+                    res.sendStatus(500);
+                });
             }).catch((error) => {
                 console.error(error);
                 res.sendStatus(500);
             });
+
         } else {
             res.sendStatus(404);
         }

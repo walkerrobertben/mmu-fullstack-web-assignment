@@ -8,9 +8,6 @@ module.exports = function(app) {
         .get(authenticate.require, controller.getAll)
         .post(authenticate.require, controller.createSingle);
 
-    // app.route("/users/:user_id")
-    //     .delete(controller.deleteSingle);
-
     app.route("/login")
         .post(controller.login);
 

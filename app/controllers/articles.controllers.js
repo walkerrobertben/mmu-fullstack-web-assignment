@@ -4,6 +4,8 @@ const Joi = require("joi")
 
 const model = require("../models/articles.models");
 
+const user_levels = require("../lib/user_levels");
+
 self.getAll = (req, res) => {
     model.getAll().then((articles) => {
         res.status(200).send(articles);
@@ -62,32 +64,46 @@ self.updateSingle = (req, res) => {
     model.getSingle(article_id).then((article) => {
         if (article != null) {
 
-            { //validation
-                const schema = Joi.object({
-                    "title": Joi.string(),
-                    "author": Joi.string(),
-                    "article_text": Joi.string()
-                });
-
-                const validation = schema.validate(req.body);
-
-                if (validation.error) {
-                    return res.status(400).send(validation.error.details[0].message);
+            model.getAuthor(article_id).then((author_id) => {
+                
+                //require user is author or admin
+                if (req.authenticated.user_level < user_levels.LEVEL_ADMIN) {
+                    if (req.authenticated.user_id != author_id) {
+                        return res.sendStatus(401);
+                    }
                 }
-            }
 
-            if (req.body.hasOwnProperty("title")) {
-                article.title = req.body.title;
-            }
-            if (req.body.hasOwnProperty("author")) {
-                article.author = req.body.author;
-            }
-            if (req.body.hasOwnProperty("article_text")) {
-                article.article_text = req.body.article_text;
-            }
+                { //validation
+                    const schema = Joi.object({
+                        "title": Joi.string(),
+                        "author": Joi.string(),
+                        "article_text": Joi.string()
+                    });
 
-            model.updateSingle(article_id, article).then(() => {
-                res.sendStatus(200);
+                    const validation = schema.validate(req.body);
+
+                    if (validation.error) {
+                        return res.status(400).send(validation.error.details[0].message);
+                    }
+                }
+
+                if (req.body.hasOwnProperty("title")) {
+                    article.title = req.body.title;
+                }
+                if (req.body.hasOwnProperty("author")) {
+                    article.author = req.body.author;
+                }
+                if (req.body.hasOwnProperty("article_text")) {
+                    article.article_text = req.body.article_text;
+                }
+
+                model.updateSingle(article_id, article).then(() => {
+                    res.sendStatus(200);
+                }).catch((error) => {
+                    console.error(error);
+                    res.sendStatus(500);
+                });
+            
             }).catch((error) => {
                 console.error(error);
                 res.sendStatus(500);
@@ -96,6 +112,7 @@ self.updateSingle = (req, res) => {
         } else {
             res.sendStatus(404);    
         }
+
     }).catch((error) => {
         console.error(error);
         res.sendStatus(500);
@@ -109,8 +126,22 @@ self.deleteSingle = (req, res) => {
     model.getSingle(article_id).then((article) => {
         if (article != null) {
 
-            model.deleteSingle(article_id).then(() => {
-                res.sendStatus(200);
+            model.getAuthor(article_id).then((author_id) => {
+                
+                //require user is author or admin
+                if (req.authenticated.user_level < user_levels.LEVEL_ADMIN) {
+                    if (req.authenticated.user_id != author_id) {
+                        return res.sendStatus(401);
+                    }
+                }
+
+                model.deleteSingle(article_id).then(() => {
+                    res.sendStatus(200);
+                }).catch((error) => {
+                    console.error(error);
+                    res.sendStatus(500);
+                });
+            
             }).catch((error) => {
                 console.error(error);
                 res.sendStatus(500);

@@ -116,9 +116,4 @@ self.logout = (req, res) => {
     });
 }
 
-self.deleteSingle = (req, res) => {
-    console.error("delete user deprecated");
-    res.sendStatus(500);
-}
-
 module.exports = self;

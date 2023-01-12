@@ -55,6 +55,27 @@ self.getSingle = (comment_id) => {
     });
 }
 
+self.getArticleId = (comment_id) => {
+    return new Promise((resolve, reject) => {
+
+        const query = "SELECT article_id FROM comments WHERE comment_id=?";
+        const params = [comment_id];
+
+        db.get(query, params, (error, row) => {
+            if (error) {
+                reject(error);
+            } else {
+                if (row != null) {
+                    resolve(row.article_id);
+                } else {
+                    resolve(null);
+                }
+            }
+        });
+
+    });
+}
+
 self.addSingle = (article_id, comment) => {
     return new Promise((resolve, reject) => {
         const date = Date.now();
