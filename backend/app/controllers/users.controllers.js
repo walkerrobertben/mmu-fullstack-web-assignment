@@ -60,7 +60,7 @@ self.login = (req, res) => {
     
     { //validation
         const schema = Joi.object({
-            "email": Joi.string().required(),
+            "email": Joi.string().email().required(),
             "password": Joi.string().required(),
         });
 
