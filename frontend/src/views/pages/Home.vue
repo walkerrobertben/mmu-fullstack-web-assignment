@@ -1,5 +1,5 @@
 <template>
-    <div>
-      <NH1>Home</NH1>
-    </div>
-  </template>
+  <div>
+    <NH1>Home</NH1>
+  </div>
+</template>
