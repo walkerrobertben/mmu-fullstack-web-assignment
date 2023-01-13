@@ -5,7 +5,7 @@ import naive from "naive-ui";
 
 import 'vfonts/Lato.css';
 
-import App from './views/App.vue';
+import App from './App.vue';
 const app = createApp(App)
 
 app.use(router);
