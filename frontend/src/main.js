@@ -3,8 +3,8 @@ import naive from "naive-ui"
 
 import 'vfonts/Lato.css'
 
-import App from './App.vue'
+import VueApp from './views/origin.vue'
 
-const app = createApp(App)
+const app = createApp(VueApp)
 app.use(naive);
 app.mount("#app");
