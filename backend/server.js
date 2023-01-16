@@ -2,6 +2,8 @@ const express = require("express")
 const morgan = require('morgan')
 const bodyParser = require("body-parser");
 
+const cors = require("cors");
+
 
 const app = express()
 
@@ -15,6 +17,9 @@ app.listen(HTTP_PORT, () => {
 
 // Logging
 app.use(morgan('tiny'));
+
+//Cors
+app.use(cors());
 
 // Body parser
 app.use(bodyParser.urlencoded({ extended: false }));
