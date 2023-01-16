@@ -15,8 +15,6 @@
 	right: 0;
 	margin: auto;
 
-	z-index: -1;
-
 	display: flex;
 	justify-content: center;
   	align-items: center;
@@ -24,6 +22,11 @@
 	max-width: 20rem;
 	height: calc(100vh - 6rem);
 	padding: 3rem;
+
+	pointer-events: none;
+}
+.b-form-container > * {
+	pointer-events: auto;
 }
 </style>
 

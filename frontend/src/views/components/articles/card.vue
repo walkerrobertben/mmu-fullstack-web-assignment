@@ -18,7 +18,7 @@
             </div>
             <div class="b-bottom">
                 <n-divider/>
-                <n-button secondary>Read more</n-button>
+                <n-button secondary @click="readArticle">Read more</n-button>
             </div>
         </div>
     </n-card>
@@ -55,16 +55,14 @@ const truncate_after = 280;
 
 function truncate(str) {
     if (str.length > truncate_after) {
-        var t = str.substring(0, truncate_after);
-        if (t.slice(-1) === " ") {
-            t = str.substring(0, truncate_after - 1);
-        }
-
-        return t + "...";
+        return str.substring(0, (str[truncate_after - 1] === " " ? truncate_after - 1 : truncate_after)) + "...";
     } else {
         return str;
     }
-    
+}
+
+function readArticle(e) {
+
 }
 
 export default {
@@ -81,6 +79,7 @@ export default {
         bDate: String,
         bText: String,
         bIsOwned: Boolean,
-    }
+    },
+    methods: {readArticle}
 }
 </script>

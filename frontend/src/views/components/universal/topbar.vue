@@ -20,7 +20,7 @@
 
 				<div class="b-space-grow"></div>
 
-				<LoginButton/>
+				<UserLink/>
 
 			</n-space>
 
@@ -32,7 +32,7 @@
 <style>
 
 .b-topbar .n-space {
-	margin: 1rem;
+	padding: 1rem;
 }
 
 .b-topbar .n-space div:nth-child(3) {
@@ -85,7 +85,7 @@
 <script>
 
 import { useThemeVars } from 'naive-ui'
-import LoginButton from "./loginbutton.vue"
+import UserLink from "./user.vue"
 
 export default {
   data() {
@@ -93,6 +93,6 @@ export default {
 		themeVars: useThemeVars(),
 	}
   },
-  components: {LoginButton},
+  components: {UserLink},
 }
 </script>

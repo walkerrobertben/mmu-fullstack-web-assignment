@@ -1,9 +1,14 @@
 <template>
-	<TopBar/>
-	<router-view/>
-
-	<n-divider/>
-	<n-text style="display: block; width: 100%; margin-bottom: 20px; text-align: center;">MMU FSW BLOG</n-text>
+	<div class="b-page-flexed">
+		<div>
+			<TopBar/>
+			<router-view/>
+		</div>
+		<div>
+			<n-divider/>
+			<n-text style="display: block; width: 100%; margin-bottom: 20px; text-align: center;">MMU FSW BLOG</n-text>
+		</div>
+	</div>
 </template>
 
 <style>
@@ -15,9 +20,14 @@ p, a, span {
 	font-size: inherit;
 }
 
-.b-rem-spacer {
-	width: 100%;
-	height: 1rem;
+
+.b-page-flexed {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+.b-page-flexed > div:nth-child(1) {
+	flex-grow: 1;
 }
 
 .b-page-width {
