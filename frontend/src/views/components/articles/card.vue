@@ -55,8 +55,6 @@
 </style>
 
 <script>
-import router from "../../../router/index"
-
 import { computed } from "vue";
 
 const truncate_after = 280;
@@ -70,8 +68,6 @@ function truncate(str) {
 }
 
 function readArticle(event) {
-    // console.log(e.target.dataset.articleId);
-    // router.
     this.$router.push(`/articles/${event.target.dataset.articleId}`);
 }
 
