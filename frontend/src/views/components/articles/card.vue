@@ -1,12 +1,11 @@
 <template>
     <n-card>
         <div class="b-container">
+
             <div v-if="bIsOwned" class="b-tags">
-                <n-space justify="right" :size="8">
-                    <n-tag type="info">Private</n-tag>
-                    <n-tag>Edit</n-tag>
-                </n-space>
+                <ArticleTags :b-show-wrote="false" :b-is-private="bIsPrivate"></ArticleTags>
             </div>
+
             <div class="b-content">
                 <n-h2>{{bTitle}}</n-h2>
                 <n-space :vertical="true" :size="0">
@@ -25,6 +24,11 @@
 </template>
 
 <style scoped>
+
+/* .n-space {
+    flex-flow: row-reverse wrap !important;
+} */
+
 .n-card {
     height: 100%;
 }
@@ -57,6 +61,8 @@
 <script>
 import { computed } from "vue";
 
+import ArticleTags from "./tags.vue"
+
 const truncate_after = 280;
 
 function truncate(str) {
@@ -68,7 +74,7 @@ function truncate(str) {
 }
 
 function readArticle(event) {
-    this.$router.push(`/articles/${event.target.dataset.articleId}`);
+    this.$router.push(`/article/${event.target.dataset.articleId}`);
 }
 
 export default {
@@ -86,7 +92,9 @@ export default {
         bDate: String,
         bText: String,
         bIsOwned: Boolean,
+        bIsPrivate: Boolean,
     },
-    methods: {readArticle}
+    methods: {readArticle},
+    components: {ArticleTags}
 }
 </script>

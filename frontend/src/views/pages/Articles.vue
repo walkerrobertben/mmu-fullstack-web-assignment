@@ -11,7 +11,8 @@
                     :b-author="article.author"
                     :b-date="article.date_published"
                     :b-text="article.article_text"
-                    :b-is-owned="index == 0"
+                    :b-is-owned="index <= 1"
+                    :b-is-private="index == 1"
                 ></ArticleCard>
             </n-gi>
             
@@ -25,10 +26,12 @@
 import { ref } from "vue";
 import { article_service } from "../../services/article.service"
 
-const articles = ref([]);
-
 import Title from "../components/universal/title.vue"
 import ArticleCard from "../components/articles/card.vue"
+
+const articles = ref([]);
+
+console.log("?");
 
 export default {
     data() {
@@ -43,7 +46,6 @@ export default {
         })
         .catch((error) => {
             console.error(error);
-            articles.value = [];
         });
     },
     components: {Title, ArticleCard} 

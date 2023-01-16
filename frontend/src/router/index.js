@@ -3,10 +3,13 @@ import { createRouter, createWebHistory } from "vue-router";
 //pages
 import Home from "../views/pages/Home.vue";
 import Articles from "../views/pages/Articles.vue";
+import Article from "../views/pages/Article.vue";
 import Login from "../views/pages/Login.vue";
+
 const routes = [
     {path: "/", component: Home},
     {path: "/articles", component: Articles},
+    {path: "/article/:id", component: Article},
     {path: "/login", component: Login},
 ];
 

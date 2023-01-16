@@ -1,5 +1,5 @@
 <template>
-    <n-h1>{{ bText }}</n-h1>
+    <n-h1 class="b-page-title">{{ bText }}</n-h1>
 </template>
 
 <style scoped>

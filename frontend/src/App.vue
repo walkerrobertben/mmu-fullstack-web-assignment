@@ -15,6 +15,8 @@
 :root {
 	font-size: 16px;
 	--b-page-width: 1200px;
+
+	overflow-y: scroll;
 }
 p, a, span {
 	font-size: inherit;

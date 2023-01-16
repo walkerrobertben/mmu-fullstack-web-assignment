@@ -9,9 +9,6 @@
 </template>
 
 <style scoped>
-.n-h1 {
-	margin: 1rem 0;
-}
 .n-h2, .n-h3 {
 	margin: 0;
 }
