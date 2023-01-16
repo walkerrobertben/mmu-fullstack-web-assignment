@@ -31,8 +31,6 @@ import ArticleCard from "../components/articles/card.vue"
 
 const articles = ref([]);
 
-console.log("?");
-
 export default {
     data() {
         return {
