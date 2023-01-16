@@ -31,7 +31,7 @@ export default {
                     render: () => {
                         return MountComponent(
                             LoginForm,
-                            h("div", {style: "width: 200px; padding: 0.5rem;"})
+                            h("div", {style: "width: 200px; padding: 1rem;"})
                         ); 
                     },
                 }
