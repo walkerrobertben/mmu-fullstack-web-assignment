@@ -1,7 +1,7 @@
 <template>
     <n-card>
         <div class="b-container">
-            <div class="b-tags">
+            <div v-if="bIsOwned" class="b-tags">
                 <n-space justify="right" :size="8">
                     <n-tag type="info">Private</n-tag>
                     <n-tag>Edit</n-tag>
@@ -80,6 +80,7 @@ export default {
         bAuthor: String,
         bDate: String,
         bText: String,
+        bIsOwned: Boolean,
     }
 }
 </script>

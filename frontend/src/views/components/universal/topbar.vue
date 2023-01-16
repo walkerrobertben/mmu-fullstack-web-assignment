@@ -18,7 +18,9 @@
 					</span>
 				</router-link>
 
-				<LoginButton class="b-li"/>
+				<div class="b-space-grow"></div>
+
+				<LoginButton/>
 
 			</n-space>
 
@@ -33,6 +35,10 @@
 	margin: 1rem;
 }
 
+.b-topbar .n-space div:nth-child(3) {
+	flex-grow: 1;
+}
+
 .b-topbar .n-divider{
 	margin: 0;
 }
@@ -45,7 +51,8 @@
 
 	font-size: 1rem;
 	text-decoration: none;
-
+	
+	cursor: pointer;
 }
 
 .b-topbar .b-li > span {

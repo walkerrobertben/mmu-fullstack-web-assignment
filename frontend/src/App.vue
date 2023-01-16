@@ -1,6 +1,9 @@
 <template>
 	<TopBar/>
 	<router-view/>
+
+	<n-divider/>
+	<n-text style="display: block; width: 100%; margin-bottom: 20px; text-align: center;">MMU FSW BLOG</n-text>
 </template>
 
 <style>
@@ -28,7 +31,9 @@ p, a, span {
 
 <script>
 import TopBar from "./views/components/universal/topbar.vue"
+
 export default {
-	components: {TopBar} 
+	components: {TopBar}
 }
+
 </script>

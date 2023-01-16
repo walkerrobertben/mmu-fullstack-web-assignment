@@ -8,7 +8,7 @@ const MountComponent = (component, onElement) => {
     app_using(subapp);
     
     const proxyElement = new Proxy(onElement, {
-        set(target, prop, value) {
+        set(_, prop, value) {
             if (prop == "el") {
                 subapp.mount(value);
             }

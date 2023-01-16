@@ -1,17 +1,17 @@
 <template>
-    <div>
-        <span>
-            <n-dropdown class="b-login-button-dropdown" trigger="click" :options="dropdownOptions" >
+    <n-dropdown class="b-login-button-dropdown" trigger="click" :options="dropdownOptions">
+        <div class="b-li">
+            <span>
                 <n-text>Login</n-text>
-            </n-dropdown>
-            <span class="b-hover-underline"></span>
-        </span>
-    </div>
+                <span class="b-hover-underline"></span>
+            </span>
+        </div>
+    </n-dropdown>
 </template>
 
 <style>
 .n-dropdown-menu.b-login-button-dropdown {
-    margin-top: 12px;
+    margin-top: 0;
     padding: 0;
 }
 </style>
@@ -37,6 +37,9 @@ export default {
                 }
             ]
         }
+    },
+    updated(a) {
+        console.log(a);
     }
 }
 </script>
