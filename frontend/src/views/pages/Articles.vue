@@ -1,11 +1,14 @@
 <template>
+    <!-- <n-text>{{ articles }}</n-text> -->
+    <div class="b-article-list">
 
-
-    <n-text>{{ articles }}</n-text>
-
-    <!-- <p v-for="article in articles">{{ article.title }}</p> -->
-
+    </div>
+    <ArticleCard/>
 </template>
+
+<style>
+    
+</style>
 
 <script>
 
@@ -14,6 +17,8 @@ import { article_service } from "../../services/article.service"
 
 const articles = ref([]);
 
+import ArticleCard from "../components/articles/card.vue"
+
 export default {
     data() {
         return {
@@ -21,9 +26,15 @@ export default {
         }
     },
     mounted() {
-        article_service.getAll().then((json) => {
+        article_service.getAll()
+        .then((json) => {
             articles.value = json;
         })
-    }
+        .catch((error) => {
+            console.error(error);
+            articles.value = [];
+        });
+    },
+    components: {ArticleCard} 
 }
 </script>
