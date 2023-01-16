@@ -7,26 +7,42 @@
             <n-input type="password" placeholder="Password" v-model:value="password" @focus="enteringInfo"/>
         </n-form-item>
 
-        <n-space justify="start" align="center" :size="16">
+        <n-space justify="center" align="center" :size="0">
             <n-button :type="loginFailed ? 'Error' : 'Primary'" :loading="loggingIn" @click="tryLogin">Login</n-button>
-            <n-text :type="loginFailed ? 'error' : 'default'" class="invisible" :class="{'revealed': loginFailed}">Unable to login</n-text>
+
+            <div class="b-unable-clipper" :class="{'b-revealed': loginFailed}">
+                <n-text type="error" v-resize="unableTextResized">Unable to login</n-text>
+            </div>
+
         </n-space>
     </n-form>
 </template>
 
 <style>
-.invisible {
-    opacity: 0;
-    transition: opacity .3s var(--n-bezier);
+.b-unable-clipper {
+    width: 0px;
+    padding-left: 0px;
+    transform: translateX(16px);
+
+    overflow-x: hidden;
+
+    /* transition: width .3s var(--n-bezier); */
+    transition-property: width, padding-left, transform;
+    transition-duration: .3s;
+    transition-timing-function: var(--n-bezier);
 }
-.invisible.revealed {
-    opacity: 1;
+.b-unable-clipper.b-revealed {
+    width: v-bind(unableRevealWidth);
+    padding-left: 16px;
+    transform: translateX(0px);
+}
+.b-unable-clipper span {
+    white-space: nowrap;
 }
 </style>
 
 <script>
-
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { Joi } from 'vue-joi-validation';
 
 const email = ref("");
@@ -34,6 +50,8 @@ const password = ref("");
 
 const loggingIn = ref(false);
 const loginFailed = ref(false);
+
+const unableRevealWidth = ref(0);
 
 function validateEmailWithJoi() {
     const schema = Joi.object({
@@ -72,6 +90,10 @@ function tryLogin() { //on button click
     }, 1000);
 }
 
+function unableTextResized({width, height}) {
+    unableRevealWidth.value = width.toString() + "px";
+}
+
 export default {
     data() {
         return {
@@ -81,15 +103,18 @@ export default {
             loggingIn: loggingIn,
             loginFailed: loginFailed,
 
-            loginStatus: computed(getLoginStatus),
-            
             emailStatus: computed(() => {
                 const loginStatus = getLoginStatus();
                 return loginStatus == undefined ? getEmailStatus() : loginStatus;
             }),
+            
             emailFeedback: computed(getEmailFeedback),
+
+            loginStatus: computed(getLoginStatus),
+            
+            unableRevealWidth: unableRevealWidth,
         }
     },
-    methods: {enteringInfo, tryLogin}
+    methods: {enteringInfo, tryLogin, unableTextResized}
 }
 </script>
