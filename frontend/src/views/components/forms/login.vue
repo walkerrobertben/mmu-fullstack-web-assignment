@@ -11,7 +11,7 @@
             <n-button :type="loginFailed ? 'Error' : 'Primary'" :loading="loggingIn" @click="tryLogin">Login</n-button>
 
             <div class="b-unable-clipper" :class="{'b-revealed': loginFailed}">
-                <n-text type="error" v-resize="unableTextResized">Unable to login</n-text>
+                <n-text ref="unableText" type="error" v-resize="unableTextResized">Unable to login</n-text>
             </div>
 
         </n-space>
@@ -42,7 +42,7 @@
 </style>
 
 <script>
-import { computed, ref, onMounted } from "vue";
+import { computed, ref } from "vue";
 import { Joi } from 'vue-joi-validation';
 
 const email = ref("");
@@ -114,6 +114,9 @@ export default {
             
             unableRevealWidth: unableRevealWidth,
         }
+    },
+    mounted() {
+        unableTextResized({width: this.$refs.unableText.$el.offsetWidth, height: this.$refs.unableText.$el.offsetHeight});
     },
     methods: {enteringInfo, tryLogin, unableTextResized}
 }

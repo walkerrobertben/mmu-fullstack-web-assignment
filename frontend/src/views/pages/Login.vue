@@ -1,31 +1,34 @@
 <template>
-  <div class="b-form-container">
-    <n-card>
-      <LoginForm/>
-    </n-card>
-  </div>
-
+	<div class="b-form-container">
+		<n-card>
+			<LoginForm/>
+		</n-card>
+	</div>
 </template>
 
 <style>
 .b-form-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
-  max-width: 20rem;
-  height: calc(100vh - 6rem);
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
 
-  margin: auto;
-  padding: 3rem;
+	display: flex;
+	justify-content: center;
+  	align-items: center;
+
+	max-width: 20rem;
+	height: calc(100vh - 6rem);
+	padding: 3rem;
 }
 </style>
 
 <script>
-
 import LoginForm from "../components/forms/login.vue"
 
 export default {
-  components: {LoginForm} 
+	components: {LoginForm} 
 }
 </script>
