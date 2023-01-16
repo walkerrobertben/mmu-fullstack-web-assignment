@@ -10,6 +10,9 @@
 p, a, span {
 	font-size: inherit;
 }
+.b-content-container {
+	margin: 1rem;
+}
 </style>
 
 <script>

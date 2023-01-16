@@ -38,8 +38,7 @@
 }
 
 .b-topbar .n-divider{
-	margin-top: 0;
-	margin-bottom: 2rem;
+	margin: 0;
 }
 
 .b-topbar a {
@@ -68,13 +67,20 @@
 	background-color: v-bind("themeVars.primaryColor");
 
 	transform: scaleX(0);
-	transform-origin: 100%;
-	transition: transform .2s;
+	transform-origin: right center;
+	
+	transition-property: transform, height, bottom;
+	transition-duration: .2s;
 }
 
-.b-topbar a:hover .b-hover-underline {
+.b-topbar a.router-link-active .b-hover-underline {
+	bottom: -1px;
+	height: 4px;
+}
+
+.b-topbar a:hover .b-hover-underline, .b-topbar a.router-link-active .b-hover-underline {
 	transform: scaleX(1);
-	transform-origin: 0%;
+	transform-origin: left center;
 }
 </style>
 
