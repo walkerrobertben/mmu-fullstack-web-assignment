@@ -18,7 +18,7 @@
             </div>
             <div class="b-bottom">
                 <n-divider/>
-                <n-button secondary @click="readArticle">Read more</n-button>
+                <n-button class="b-card-read-more" secondary @click="readArticle" :data-article-id="bArticleId">Read more</n-button>
             </div>
         </div>
     </n-card>
@@ -48,7 +48,15 @@
 }
 </style>
 
+<style>
+.n-button.b-card-read-more * {
+    pointer-events: none;
+}
+</style>
+
 <script>
+import router from "../../../router/index"
+
 import { computed } from "vue";
 
 const truncate_after = 280;
@@ -61,8 +69,10 @@ function truncate(str) {
     }
 }
 
-function readArticle(e) {
-
+function readArticle(event) {
+    // console.log(e.target.dataset.articleId);
+    // router.
+    this.$router.push(`/articles/${event.target.dataset.articleId}`);
 }
 
 export default {
@@ -74,6 +84,7 @@ export default {
         }
     },
     props: {
+        bArticleId: Number,
         bTitle: String,
         bAuthor: String,
         bDate: String,
