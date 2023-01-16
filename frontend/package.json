@@ -12,7 +12,6 @@
     "vfonts": "^0.0.3",
     "vue": "^3.2.45",
     "vue-joi-validation": "^1.0.9",
-    "vue-resize-observer": "^2.0.15",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {

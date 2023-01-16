@@ -24,7 +24,6 @@ p, a, span {
 @media only screen and (max-width: 1325px) {:root {--b-page-width: 924px}}
 @media only screen and (max-width: 1024px) {:root {--b-page-width: 650px}}
 @media only screen and (max-width: 700px) {:root {--b-page-width: calc(100% - 50px)}}
-
 </style>
 
 <script>

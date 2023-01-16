@@ -11,7 +11,7 @@
             <n-button :type="loginFailed ? 'Error' : 'Primary'" :loading="loggingIn" @click="tryLogin">Login</n-button>
 
             <div class="b-unable-clipper" :class="{'b-revealed': loginFailed}">
-                <n-text ref="unableText" type="error" v-resize="unableTextResized">Unable to login</n-text>
+                <n-text ref="unableText" type="error">Unable to login</n-text>
             </div>
 
         </n-space>
@@ -24,15 +24,15 @@
     padding-left: 0px;
     transform: translateX(16px);
 
-    overflow-x: hidden;
+    overflow: hidden;
 
-    /* transition: width .3s var(--n-bezier); */
     transition-property: width, padding-left, transform;
     transition-duration: .3s;
     transition-timing-function: var(--n-bezier);
 }
 .b-unable-clipper.b-revealed {
-    width: v-bind(unableRevealWidth);
+    width: 93.16px; /*based on font and text*/
+    max-width: fit-content;
     padding-left: 16px;
     transform: translateX(0px);
 }
@@ -50,8 +50,6 @@ const password = ref("");
 
 const loggingIn = ref(false);
 const loginFailed = ref(false);
-
-const unableRevealWidth = ref(0);
 
 function validateEmailWithJoi() {
     const schema = Joi.object({
@@ -90,10 +88,6 @@ function tryLogin() { //on button click
     }, 1000);
 }
 
-function unableTextResized({width, height}) {
-    unableRevealWidth.value = width.toString() + "px";
-}
-
 export default {
     data() {
         return {
@@ -111,13 +105,8 @@ export default {
             emailFeedback: computed(getEmailFeedback),
 
             loginStatus: computed(getLoginStatus),
-            
-            unableRevealWidth: unableRevealWidth,
         }
     },
-    mounted() {
-        unableTextResized({width: this.$refs.unableText.$el.offsetWidth, height: this.$refs.unableText.$el.offsetHeight});
-    },
-    methods: {enteringInfo, tryLogin, unableTextResized}
+    methods: {enteringInfo, tryLogin}
 }
 </script>

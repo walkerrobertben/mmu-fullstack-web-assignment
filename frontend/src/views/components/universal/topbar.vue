@@ -4,26 +4,22 @@
 		<div class="b-topbar">
 			<n-space :size="16">
 
-				<router-link to="/">
+				<router-link to="/" class="b-li">
 					<span>
 						<n-text>Home</n-text>
 						<span class="b-hover-underline"></span>
 					</span>
 				</router-link>
 
-				<router-link to="/articles">
+				<router-link to="/articles" class="b-li">
 					<span>
 						<n-text>Articles</n-text>
 						<span class="b-hover-underline"></span>
 					</span>
 				</router-link>
 
-				<router-link to="/login">
-					<span>
-						<n-text>Login</n-text>
-						<span class="b-hover-underline"></span>
-					</span>
-				</router-link>
+				<LoginButton class="b-li"/>
+
 			</n-space>
 
 			<n-divider/>
@@ -31,7 +27,7 @@
 	</n-config-provider>
 </template>
 
-<style scoped>
+<style>
 
 .b-topbar .n-space {
 	margin: 1rem;
@@ -41,7 +37,7 @@
 	margin: 0;
 }
 
-.b-topbar a {
+.b-topbar .b-li {
 	display: flex;
 	align-items: center;
 
@@ -52,11 +48,11 @@
 
 }
 
-.b-topbar a > span {
+.b-topbar .b-li > span {
 	position: relative;
 }
 
-.b-topbar a .b-hover-underline {
+.b-topbar .b-li .b-hover-underline {
 	position: absolute;
 	
 	left: 0;
@@ -73,12 +69,7 @@
 	transition-duration: .2s;
 }
 
-/* .b-topbar a.router-link-active .b-hover-underline {
-	bottom: -1px;
-	height: 4px;
-} */
-
-.b-topbar a:hover .b-hover-underline, .b-topbar a.router-link-active .b-hover-underline {
+.b-topbar .b-li:hover .b-hover-underline, .b-topbar .b-li.router-link-active .b-hover-underline {
 	transform: scaleX(1);
 	transform-origin: left center;
 }
@@ -87,12 +78,14 @@
 <script>
 
 import { useThemeVars } from 'naive-ui'
+import LoginButton from "./loginbutton.vue"
 
 export default {
   data() {
     return {
 		themeVars: useThemeVars(),
 	}
-  }
+  },
+  components: {LoginButton},
 }
 </script>
