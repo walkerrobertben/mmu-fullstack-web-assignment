@@ -1,14 +1,17 @@
 <template>
-    <!-- <n-text>{{ articles }}</n-text> -->
-    <div class="b-article-list">
+    <div class="b-page-width">
+        
+        <Title b-text="Articles"></Title>
 
+        <n-grid cols="1 450:2 700:3" responsive="self" :x-gap="16" :y-gap="16">
+            <n-gi v-for="article in articles">
+                <ArticleCard :b-title="article.title" :b-author="article.author" :b-date="article.date_published" :b-text="article.article_text"></ArticleCard>
+            </n-gi>
+            
+        </n-grid>
+        
     </div>
-    <ArticleCard/>
 </template>
-
-<style>
-    
-</style>
 
 <script>
 
@@ -17,6 +20,7 @@ import { article_service } from "../../services/article.service"
 
 const articles = ref([]);
 
+import Title from "../components/universal/title.vue"
 import ArticleCard from "../components/articles/card.vue"
 
 export default {
@@ -35,6 +39,6 @@ export default {
             articles.value = [];
         });
     },
-    components: {ArticleCard} 
+    components: {Title, ArticleCard} 
 }
 </script>

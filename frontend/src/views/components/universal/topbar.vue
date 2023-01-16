@@ -31,7 +31,7 @@
 	</n-config-provider>
 </template>
 
-<style>
+<style scoped>
 
 .b-topbar .n-space {
 	margin: 1rem;
@@ -47,7 +47,7 @@
 
 	padding: 1rem;
 
-	font-size: 1.5rem;
+	font-size: 1rem;
 	text-decoration: none;
 
 }
@@ -62,7 +62,7 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	height: 3px;
+	height: 2px;
 
 	background-color: v-bind("themeVars.primaryColor");
 
@@ -73,10 +73,10 @@
 	transition-duration: .2s;
 }
 
-.b-topbar a.router-link-active .b-hover-underline {
+/* .b-topbar a.router-link-active .b-hover-underline {
 	bottom: -1px;
 	height: 4px;
-}
+} */
 
 .b-topbar a:hover .b-hover-underline, .b-topbar a.router-link-active .b-hover-underline {
 	transform: scaleX(1);

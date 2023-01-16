@@ -1,6 +1,8 @@
 <template>
-	<div class="b-content-container">
-		<n-h1>Welcome to the blog!</n-h1>
+	<div class="b-page-width">
+		
+		<Title b-text="Welcome to the blog!"></Title>
+
 		<n-h2>MMU full stack web assignment</n-h2>
 		<n-h3>Ben Walker</n-h3>
 	</div>
@@ -14,3 +16,11 @@
 	margin: 0;
 }
 </style>
+
+<script>
+import Title from "../components/universal/title.vue"
+
+export default {
+    components: {Title} 
+}
+</script>
