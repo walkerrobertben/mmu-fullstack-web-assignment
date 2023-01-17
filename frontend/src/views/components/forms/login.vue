@@ -1,5 +1,5 @@
 <template>
-    <n-form :show-label="false">
+    <n-form ref="form" :show-label="false" @submit.prevent="tryLogin">
         <n-form-item :validation-status="emailStatus" :feedback="emailFeedback">
             <n-input type="email" placeholder="email@domain.com" v-model:value="email" @focus="enteringInfo"/>
         </n-form-item>
@@ -8,12 +8,11 @@
         </n-form-item>
 
         <n-space justify="center" align="center" :size="0">
-            <n-button :type="loginFailed ? 'Error' : 'Primary'" :loading="attempting" @click="tryLogin">Login</n-button>
+            <n-button :type="loginFailed ? 'Error' : 'Primary'" :loading="attempting" attr-type="submit">Login</n-button>
 
             <div class="b-unable-clipper" :class="{'b-revealed': loginFailed}">
-                <n-text ref="unableText" type="error">Unable to login</n-text>
+                <n-text type="error">Unable to login</n-text>
             </div>
-
         </n-space>
     </n-form>
 </template>
@@ -98,6 +97,13 @@ export default {
             }),
             
         }
+    },
+    mounted() {
+        //keydown event propogates up and then something higher stops it (todo with the naieve popup)
+        //this lets the submit event run!
+        this.$refs.form.$el.addEventListener("keydown", (event) => {
+            event.stopPropagation();
+        });
     },
     methods: {enteringInfo, tryLogin}
 }
