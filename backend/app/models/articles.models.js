@@ -27,7 +27,7 @@ function canAccess(article, auth) {
 self.getAll = (auth) => {
     return new Promise((resolve, reject) => {
 
-        const query = "SELECT * FROM articles";
+        const query = "SELECT * FROM articles ORDER BY date_published DESC, article_id DESC";
         const params = [];
     
         const articles = [];
