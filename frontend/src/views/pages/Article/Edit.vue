@@ -41,8 +41,8 @@
         </n-card>
 
         <n-space>
-            <n-button type="primary" style="margin-left:">Save changes</n-button>
-            <n-button type="default" style="margin-left:">Discard changes</n-button>
+            <n-button :disabled="!has_made_changes" type="primary" style="margin-left:">Save changes</n-button>
+            <n-button :disabled="!has_made_changes" type="default" style="margin-left:">Discard changes</n-button>
         </n-space>
         
 
@@ -90,6 +90,10 @@ export default {
             }),
             nice_body: computed(() => {
                 return `Hi, my name is ${this.nice_author} and this is my first article.`
+            }),
+
+            has_made_changes: computed(() => {
+                return !mObject.equals(this.article.original, this.article.updated);
             }),
         }
     },
