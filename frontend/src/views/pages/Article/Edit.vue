@@ -42,7 +42,7 @@
 
         <n-space>
             <n-button :disabled="!has_made_changes" type="primary" style="margin-left:" @click="saveChanges">Save changes</n-button>
-            <n-button :disabled="!has_made_changes" type="default" style="margin-left:">Discard changes</n-button>
+            <n-button :disabled="!has_made_changes" type="default" style="margin-left:" @click="discardChanges">Discard changes</n-button>
         </n-space>
         
 
@@ -84,6 +84,10 @@ function saveChanges() {
             }
         });
     }
+}
+
+function discardChanges() {
+    this.article.updated = mObject.deepcopy(this.article.original);
 }
 
 export default {
@@ -130,7 +134,7 @@ export default {
         });
     },
 
-    methods: {setVisibility, saveChanges},
+    methods: {setVisibility, saveChanges, discardChanges},
     components: {Subnav, Title}
 }
 </script>
