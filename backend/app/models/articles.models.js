@@ -20,6 +20,9 @@ function DBRowToArticle(row, user_id) {
         //test.f.articles.retrival.js dissallows created_by in here, which makes things really messy!
         "is_private": !!row.is_private,
         "is_owned"  : row.created_by == user_id,
+
+        //added this to make the date_edited appear once an article is edited
+        "edit_count": row.edit_count,
     }
 }
 
@@ -105,8 +108,8 @@ self.addSingle = (article, created_by_user_id) => {
     return new Promise((resolve, reject) => {
         const date = Date.now();
 
-        const query = "INSERT INTO articles (title, author, date_published, article_text, created_by, is_private) VALUES(?,?,?,?,?,?)";
-        const params = [article.title, article.author, date, article.article_text, created_by_user_id, article.is_private];
+        const query = "INSERT INTO articles (title, author, date_published, article_text, created_by, is_private, edit_count) VALUES(?,?,?,?,?,?,?)";
+        const params = [article.title, article.author, date, article.article_text, created_by_user_id, article.is_private, 0];
     
         db.run(query, params, function(error) {
             if (error) {
@@ -118,16 +121,17 @@ self.addSingle = (article, created_by_user_id) => {
     });
 }
 
-self.updateSingle = (article_id, article, set_edit_date) => {
+//is_private gets updated via this method, but doesnt count as an edit, so pass the content_was_edited to set the date
+self.updateSingle = (article_id, article, content_was_edited) => {
     return new Promise((resolve, reject) => {
-        
+
         let query = "UPDATE articles SET title=?, author=?, article_text=?, is_private=?";
         const params = [article.title, article.author, article.article_text, article.is_private];
 
-        if (set_edit_date) {
+        if (content_was_edited) {
             const date = Date.now();
 
-            query += ", date_edited=?";
+            query += ", date_edited=?, edit_count = edit_count + 1";
             params.push(date);
         }
 

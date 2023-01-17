@@ -11,11 +11,14 @@
                     :b-article-id="article.article_id"
                     :b-title="article.title"
                     :b-author="article.author"
+                    :b-text="article.article_text"
+
                     :b-date-published="article.date_published"
                     :b-date-edited="article.date_edited"
-                    :b-text="article.article_text"
+
                     :b-is-owned="article.is_owned"
                     :b-is-private="article.is_private"
+                    :b-edit-count="article.edit_count"
                 ></ArticleCard>
             </n-gi>
             

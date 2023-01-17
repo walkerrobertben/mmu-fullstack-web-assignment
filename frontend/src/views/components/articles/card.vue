@@ -10,7 +10,7 @@
                 <n-space :vertical="true" :size="0">
                     <n-text>by {{bAuthor}}</n-text>
                     <n-text>{{bDatePublished}}</n-text>
-                    <n-text v-if="bDateEdited != undefined" depth="3" italic>Edited on {{bDateEdited}}</n-text>
+                    <n-text v-if="bEditCount >= 2 && bDateEdited != undefined" depth="3" italic>Edited on {{bDateEdited}}</n-text>
                 </n-space>
                 <n-divider/>
                 <n-text>{{truncatedText}}</n-text>
@@ -78,11 +78,12 @@ export default {
         bArticleId: Number,
         bTitle: String,
         bAuthor: String,
+        bText: String,
         bDatePublished: String,
         bDateEdited: String,
-        bText: String,
         bIsOwned: Boolean,
         bIsPrivate: Boolean,
+        bEditCount: Number,
     },
     methods: {readArticle},
     components: {ArticleTags}
