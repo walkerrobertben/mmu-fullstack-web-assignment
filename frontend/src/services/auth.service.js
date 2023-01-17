@@ -3,7 +3,14 @@ const self = {}
 import { ref } from "vue";
 import { request_service } from  "./request.service"
 
+import router from "../router/index";
+
 self.token = ref(localStorage.getItem("session_token"));
+
+self.reload_for_auth = () => {
+    // window.location.reload(true);
+    router.go();
+}
 
 self.getToken = () => {
     return self.token.value;

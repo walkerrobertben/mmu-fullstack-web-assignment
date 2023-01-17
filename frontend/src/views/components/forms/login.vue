@@ -65,6 +65,10 @@ function tryLogin() { //on button click
     auth_service.login(this.email, this.password).then((loginResult) => {
         this.attempting = false;
         this.loginFailed = !loginResult;
+
+        if (loginResult) {
+            auth_service.reload_for_auth();
+        }
     });
 }
 

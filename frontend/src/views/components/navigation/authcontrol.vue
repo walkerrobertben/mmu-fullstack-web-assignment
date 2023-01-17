@@ -51,7 +51,10 @@ export default {
         }
     },
     methods: {
-        logout: auth_service.logout
+        logout: () => {
+            auth_service.logout();
+            auth_service.reload_for_auth();
+        }
     }
 }
 </script>
