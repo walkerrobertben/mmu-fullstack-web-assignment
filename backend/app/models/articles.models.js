@@ -7,16 +7,19 @@ const user_levels = require("../lib/user_levels");
 function DBRowToArticle(row, user_id) {
     return {
         "article_id": row.article_id,
-        "title": row.title,
-        "author": row.author,
-        "date_published": new Date(row.date_published).toLocaleDateString(),
-        "date_edited": new Date(row.date_edited).toLocaleDateString(),
+
+        "title"       : row.title,
+        "author"      : row.author,
         "article_text": row.article_text,
+
+        //should probably do these toLocaleDateString() calls on the client? to account for timezone?
+        "date_published": new Date(row.date_published).toLocaleDateString(),
+        "date_edited"   : (row.date_edited ? new Date(row.date_edited).toLocaleDateString() : null),
 
         //added these properties to support private/public articles
         //test.f.articles.retrival.js dissallows created_by in here, which makes things really messy!
         "is_private": !!row.is_private,
-        "is_owned": row.created_by == user_id,
+        "is_owned"  : row.created_by == user_id,
     }
 }
 
@@ -102,8 +105,8 @@ self.addSingle = (article, created_by_user_id) => {
     return new Promise((resolve, reject) => {
         const date = Date.now();
 
-        const query = "INSERT INTO articles (title, author, date_published, date_edited, article_text, created_by, is_private) VALUES(?,?,?,?,?,?,?)";
-        const params = [article.title, article.author, date, date, article.article_text, created_by_user_id, article.is_private];
+        const query = "INSERT INTO articles (title, author, date_published, article_text, created_by, is_private) VALUES(?,?,?,?,?,?)";
+        const params = [article.title, article.author, date, article.article_text, created_by_user_id, article.is_private];
     
         db.run(query, params, function(error) {
             if (error) {
@@ -117,9 +120,10 @@ self.addSingle = (article, created_by_user_id) => {
 
 self.updateSingle = (article_id, article) => {
     return new Promise((resolve, reject) => {
+        const date = Date.now();
 
-        const query = "UPDATE articles SET title=?, author=?, article_text=?, is_private=? WHERE article_id=?";
-        const params = [article.title, article.author, article.article_text, article.is_private, article_id];
+        const query = "UPDATE articles SET date_edited=?, title=?, author=?, article_text=?, is_private=? WHERE article_id=?";
+        const params = [date, article.title, article.author, article.article_text, article.is_private, article_id];
 
         db.run(query, params, (error) => {
             if (error) {
