@@ -1,13 +1,13 @@
 <template>
     <div class="b-page-width">
 
-        <n-breadcrumb>
-            <n-breadcrumb-item @click="goBack">
-                <n-icon><BackArrow/></n-icon>
-                Articles
-            </n-breadcrumb-item>
-            <n-breadcrumb-item>{{article.title}}</n-breadcrumb-item>
-        </n-breadcrumb>
+        <Subnav
+            :back="true"
+            :links="[
+                {to: '/articles', name: 'Articles'},
+                {name: `${article.title}`},
+            ]"
+        />
 
         <n-space class="b-title-and-tags" :size="0">
             <div style="flex-grow: 1">
@@ -31,10 +31,6 @@
 </template>
 
 <style scoped>
-
-.n-breadcrumb {
-    margin-top: 1.5rem;
-}
 .b-page-title {
     margin: 0;
 }
@@ -60,13 +56,9 @@
 <script>
 import { article_service } from "../../../services/article.service"
 
+import Subnav from "../../components/universal/subnav.vue"
 import Title from "../../components/universal/title.vue"
-import BackArrow from "../../assets/BackArrow.vue"
 import ArticleTags from "../../components/articles/tags.vue"
-
-function goBack() {
-    history.back();
-}
 
 export default {
     data() {
@@ -90,7 +82,6 @@ export default {
             console.error(error);
         });
     },
-    methods: {goBack},
-    components: {Title, BackArrow, ArticleTags}
+    components: {Subnav, Title, ArticleTags}
 }
 </script>
