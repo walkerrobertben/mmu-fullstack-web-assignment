@@ -4,12 +4,14 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/pages/Home.vue";
 import Articles from "../views/pages/Articles.vue";
 import Article from "../views/pages/Article.vue";
+import Edit from "../views/pages/Edit.vue";
 import Login from "../views/pages/Login.vue";
 
 const routes = [
     {path: "/", component: Home},
     {path: "/articles", component: Articles},
     {path: "/article/:id", component: Article},
+    {path: "/article/:id/edit", component: Edit},
     {path: "/login", component: Login},
 ];
 
