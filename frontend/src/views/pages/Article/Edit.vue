@@ -41,7 +41,7 @@
         </n-card>
 
         <n-space>
-            <n-button :disabled="!has_made_changes" type="primary" style="margin-left:">Save changes</n-button>
+            <n-button :disabled="!has_made_changes" type="primary" style="margin-left:" @click="saveChanges">Save changes</n-button>
             <n-button :disabled="!has_made_changes" type="default" style="margin-left:">Discard changes</n-button>
         </n-space>
         
@@ -68,6 +68,22 @@ import mObject from "../../../utility/object_manipulation";
 
 function setVisibility(isPublic) {
     this.is_private = !isPublic;
+}
+
+function saveChanges() {
+    if (this.has_made_changes) {
+
+        const article_to_write = mObject.deepcopy(this.article.updated)
+
+        article_service.updateSingle(this.article_id, article_to_write)
+        .then((success) => {
+            console.log("save success:", success);
+
+            if (success) {
+                this.article.original = article_to_write;
+            }
+        });
+    }
 }
 
 export default {
@@ -114,7 +130,7 @@ export default {
         });
     },
 
-    methods: {setVisibility},
+    methods: {setVisibility, saveChanges},
     components: {Subnav, Title}
 }
 </script>

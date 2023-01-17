@@ -2,8 +2,6 @@ const self = {}
 
 import { auth_service } from  "./auth.service"
 
-const fake_delay = 0;
-
 self.baseOptions = () => {
     const options = {
         method: "GET",
@@ -27,18 +25,22 @@ self.request = (url, options = null) => {
         options = self.baseOptions();
     }
     
-    const result = fetch(url, options);
-
-    if (fake_delay > 0) {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                result.then(resolve).catch(reject);
-            }, fake_delay);
-        });
-    } else {
-        return result;
-    }
-    
+    return new Promise((resolve, reject) => {
+        fetch(url, options)
+        .then((response) => {
+            if (response.ok) {
+                resolve(response);
+            } else {
+                const error = `Response failed ${response.status}`
+                console.error(error);
+                reject(error);
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+            reject(error);
+        })
+    });
 }
 
 self.request_json = (url, options = null) => {

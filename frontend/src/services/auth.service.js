@@ -31,7 +31,6 @@ self.login = (email, password) => {
             resolve(true);
         })
         .catch((error) => {
-            console.log(error);
             resolve(false);
         });
 
