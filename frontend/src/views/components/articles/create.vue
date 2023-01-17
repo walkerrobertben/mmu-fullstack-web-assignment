@@ -19,6 +19,10 @@
     margin-top: 1.25rem;
     margin-bottom: 1.25rem; 
 }
+
+.n-button {
+    padding-left: 15px;
+}
 </style>
 
 <script>
