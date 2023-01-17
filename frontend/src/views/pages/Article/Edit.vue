@@ -15,15 +15,15 @@
         <n-card style="margin-bottom: 1.5rem">
             <n-form>
                 <n-form-item label="Title">
-                    <n-input v-model:value="article.title" :placeholder="nice_title" ></n-input>
+                    <n-input v-model:value="article.updated.title" :placeholder="nice_title" ></n-input>
                 </n-form-item>
 
                 <n-form-item label="Author Name">
-                    <n-input v-model:value="article.author" :placeholder="nice_author"></n-input>
+                    <n-input v-model:value="article.updated.author" :placeholder="nice_author"></n-input>
                 </n-form-item>
 
                 <n-form-item label="Body">
-                    <n-input v-model:value="article.article_text" :placeholder="nice_body" type="textarea" :autosize="{minRows: 10}"></n-input>
+                    <n-input v-model:value="article.updated.article_text" :placeholder="nice_body" type="textarea" :autosize="{minRows: 10}"></n-input>
                 </n-form-item>
             </n-form>
         </n-card>
@@ -64,6 +64,8 @@ import { article_service } from "../../../services/article.service"
 import Subnav from "../../components/navigation/subnav.vue"
 import Title from "../../components/universal/title.vue"
 
+import mObject from "../../../utility/object_manipulation";
+
 function setVisibility(isPublic) {
     this.is_private = !isPublic;
 }
@@ -72,15 +74,19 @@ export default {
     data() {
         return {
             article_id: -1,
-            article: {},
 
-            is_private: false,
+            article: {
+                original: {},
+                updated: {},
+            },
+
+            is_private: false, //move this into article
 
             nice_title: computed(() => {
-                return this.article.title == "" ? "My first article" : this.article.title;
+                return this.article.updated.title == "" ? "My first article" : this.article.updated.title;
             }),
             nice_author: computed(() => {
-                return this.article.author == "" ? "John Doe" : this.article.author;
+                return this.article.updated.author == "" ? "John Doe" : this.article.updated.author;
             }),
             nice_body: computed(() => {
                 return `Hi, my name is ${this.nice_author} and this is my first article.`
@@ -96,7 +102,8 @@ export default {
 
         article_service.getSingle(this.article_id)
         .then((json) => {
-            this.article = json;
+            this.article.original = json;
+            this.article.updated = mObject.deepcopy(json);
         })
         .catch((error) => {
             console.error(error);
