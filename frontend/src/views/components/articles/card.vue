@@ -16,18 +16,13 @@
             </div>
             <div class="b-bottom">
                 <n-divider/>
-                <n-button class="b-card-read-more" secondary @click="readArticle" :data-article-id="bArticleId">Read more</n-button>
+                <n-button secondary @click="readArticle">Read more</n-button>
             </div>
         </div>
     </n-card>
 </template>
 
 <style scoped>
-
-/* .n-space {
-    flex-flow: row-reverse wrap !important;
-} */
-
 .n-card {
     height: 100%;
 }
@@ -51,12 +46,6 @@
 }
 </style>
 
-<style>
-.n-button.b-card-read-more * {
-    pointer-events: none;
-}
-</style>
-
 <script>
 import { computed } from "vue";
 
@@ -72,8 +61,8 @@ function truncate(str) {
     }
 }
 
-function readArticle(event) {
-    this.$router.push(`/article/${event.target.dataset.articleId}`);
+function readArticle() {
+    this.$router.push(`/article/${this.bArticleId}`);
 }
 
 export default {
