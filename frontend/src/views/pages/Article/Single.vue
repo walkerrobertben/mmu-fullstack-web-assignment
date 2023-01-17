@@ -76,7 +76,11 @@ export default {
         }
     },
     mounted() {
-        this.article_id = this.$route.params.id;
+
+        this.article_id = parseInt(this.$route.params.id);
+        if (isNaN(this.article_id)) {
+            //redirect to error page here?
+        }
         
         article_service.getSingle(this.article_id)
         .then((json) => {
