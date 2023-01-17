@@ -9,7 +9,8 @@
                 <n-h2>{{bTitle}}</n-h2>
                 <n-space :vertical="true" :size="0">
                     <n-text>by {{bAuthor}}</n-text>
-                    <n-text>{{bDate}}</n-text>
+                    <n-text>{{bDatePublished}}</n-text>
+                    <n-text v-if="bDateEdited != undefined" depth="3" italic>Edited on {{bDateEdited}}</n-text>
                 </n-space>
                 <n-divider/>
                 <n-text>{{truncatedText}}</n-text>
@@ -77,7 +78,8 @@ export default {
         bArticleId: Number,
         bTitle: String,
         bAuthor: String,
-        bDate: String,
+        bDatePublished: String,
+        bDateEdited: String,
         bText: String,
         bIsOwned: Boolean,
         bIsPrivate: Boolean,

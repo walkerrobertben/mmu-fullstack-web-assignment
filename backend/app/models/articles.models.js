@@ -118,12 +118,21 @@ self.addSingle = (article, created_by_user_id) => {
     });
 }
 
-self.updateSingle = (article_id, article) => {
+self.updateSingle = (article_id, article, set_edit_date) => {
     return new Promise((resolve, reject) => {
-        const date = Date.now();
+        
+        let query = "UPDATE articles SET title=?, author=?, article_text=?, is_private=?";
+        const params = [article.title, article.author, article.article_text, article.is_private];
 
-        const query = "UPDATE articles SET date_edited=?, title=?, author=?, article_text=?, is_private=? WHERE article_id=?";
-        const params = [date, article.title, article.author, article.article_text, article.is_private, article_id];
+        if (set_edit_date) {
+            const date = Date.now();
+
+            query += ", date_edited=?";
+            params.push(date);
+        }
+
+        query += " WHERE article_id=?";
+        params.push(article_id);
 
         db.run(query, params, (error) => {
             if (error) {

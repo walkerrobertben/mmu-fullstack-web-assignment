@@ -98,20 +98,25 @@ self.updateSingle = (req, res) => {
                     }
                 }
 
-                if (req.body.hasOwnProperty("title")) {
+                let set_edit_date = false;
+
+                if (req.body.hasOwnProperty("title") && req.body.title !== article.title) {
                     article.title = req.body.title;
+                    set_edit_date = true;
                 }
-                if (req.body.hasOwnProperty("author")) {
+                if (req.body.hasOwnProperty("author") && req.body.author !== article.author) {
                     article.author = req.body.author;
+                    set_edit_date = true;
                 }
-                if (req.body.hasOwnProperty("article_text")) {
+                if (req.body.hasOwnProperty("article_text") && req.body.article_text !== article.article_text) {
                     article.article_text = req.body.article_text;
+                    set_edit_date = true;
                 }
                 if (req.body.hasOwnProperty("is_private")) {
                     article.is_private = req.body.is_private;
                 }
 
-                model.updateSingle(article_id, article).then(() => {
+                model.updateSingle(article_id, article, set_edit_date).then(() => {
                     res.sendStatus(200);
                 }).catch((error) => {
                     console.error(error);
