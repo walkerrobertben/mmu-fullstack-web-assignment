@@ -19,7 +19,7 @@ self.equals = (obj1, obj2) => { //deep-compare two objects
         for (const [key, va] of Object.entries(a)) {
 
             const vb = b[key];
-            if (vb == undefined) return false; //key not present in b
+            if (vb === undefined) return false; //key not present in b
 
             const ta = typeof va;
             const tb = typeof vb;
