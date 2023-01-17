@@ -14,7 +14,7 @@
                 <Title :b-text="article.title"></Title>
             </div>
             <div>
-                <ArticleTags :b-show-wrote="true" :b-is-private="true"></ArticleTags>
+                <ArticleTags :b-article-id="article_id" :b-show-wrote="true" :b-is-private="true"></ArticleTags>
             </div>
         </n-space>
 

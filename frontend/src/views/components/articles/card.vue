@@ -2,7 +2,7 @@
     <n-card>
         <div class="b-container">
             <div v-if="bIsOwned" class="b-tags">
-                <ArticleTags :b-show-wrote="false" :b-is-private="bIsPrivate"></ArticleTags>
+                <ArticleTags :b-article-id="bArticleId" :b-show-wrote="false" :b-is-private="bIsPrivate"></ArticleTags>
             </div>
 
             <div class="b-content">
