@@ -22,10 +22,10 @@
 </template>
 
 <script>
-import { article_service } from "../../services/article.service"
+import { article_service } from "../../../services/article.service"
 
-import Title from "../components/universal/title.vue"
-import ArticleCard from "../components/articles/card.vue"
+import Title from "../../components/universal/title.vue"
+import ArticleCard from "../../components/articles/card.vue"
 
 export default {
     data() {

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Title from "../components/universal/title.vue"
+import Title from "../../components/universal/title.vue"
 
 export default {
     components: {Title}

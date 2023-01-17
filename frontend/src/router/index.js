@@ -2,22 +2,25 @@ import { createRouter, createWebHistory } from "vue-router";
 
 //pages
 import Home from "../views/pages/Home.vue";
-import Articles from "../views/pages/Articles.vue";
-import Article from "../views/pages/Article.vue";
-import Edit from "../views/pages/Edit.vue";
 import Login from "../views/pages/Login.vue";
+
+import article_multi from "../views/pages/Article/Multiple.vue";
+import article_single from "../views/pages/Article/Single.vue";
+import article_edit from "../views/pages/Article/Edit.vue";
+
+import error_404 from "../views/pages/404.vue";
+//todo: error_400 (permission deined)
 
 const routes = [
     {path: "/", component: Home},
-    {path: "/articles", component: Articles},
-    {path: "/article/:id", component: Article},
-    {path: "/article/:id/edit", component: Edit},
     {path: "/login", component: Login},
-];
 
-//404
-import NotFound from "../views/pages/404.vue";
-routes.push({path: "/:pathMatch(.*)*", component: NotFound})
+    {path: "/articles", component: article_multi},
+    {path: "/article/:id", component: article_single},
+    {path: "/article/:id/edit", component: article_edit},
+    
+    {path: "/:pathMatch(.*)*", component: error_404}
+];
 
 //make router
 const router = createRouter({

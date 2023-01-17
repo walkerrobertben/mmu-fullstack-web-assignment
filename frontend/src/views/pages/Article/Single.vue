@@ -58,11 +58,11 @@
 </style>
 
 <script>
-import { article_service } from "../../services/article.service"
+import { article_service } from "../../../services/article.service"
 
-import Title from "../components/universal/title.vue"
-import BackArrow from "../assets/BackArrow.vue"
-import ArticleTags from "../components/articles/tags.vue"
+import Title from "../../components/universal/title.vue"
+import BackArrow from "../../assets/BackArrow.vue"
+import ArticleTags from "../../components/articles/tags.vue"
 
 function goBack() {
     history.back();
