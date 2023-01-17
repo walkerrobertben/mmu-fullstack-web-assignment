@@ -36,7 +36,7 @@
                     <n-button secondary :type="is_private ? 'info' : 'default'" @click="() => {setVisibility(false)}">Private</n-button>
                     <n-button secondary :type="is_private ? 'default' : 'primary'" @click="() => {setVisibility(true)}">Public</n-button>
                 </n-button-group>
-                <n-tag :type="is_private ? 'info' : 'primary'" v-text="is_private ? 'Only you can see this article' : 'Everyone can see this article'"></n-tag>
+                <n-tag :type="is_private ? 'info' : 'primary'">{{ is_private ? 'Only you can see this article' : 'Everyone can see this article' }}</n-tag>
             </n-space>
         </n-card>
 
