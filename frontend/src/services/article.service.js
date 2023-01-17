@@ -10,6 +10,26 @@ self.getSingle = (article_id) => {
     return request_service.request_json(`http://localhost:3333/articles/${article_id}`);
 }
 
+self.createSingle = (new_article) => {
+    return new Promise((resolve) => {
+        const options = request_service.baseOptions();
+        options.method = "POST";
+        options.add_json({
+            title: new_article.title,
+            author: new_article.author,
+            article_text: new_article.article_text,
+        });
+
+        request_service.request_json("http://localhost:3333/articles", options)
+        .then((json) => {
+            resolve(json);
+        })
+        .catch((error) => {
+            resolve(false);
+        });
+    });
+}
+
 self.updateSingle = (article_id, new_article) => {
     return new Promise((resolve) => {
         const options = request_service.baseOptions();
