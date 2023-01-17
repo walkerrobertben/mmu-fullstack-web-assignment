@@ -10,12 +10,16 @@ self.getToken = () => {
 }
 
 self.setToken = (new_value) => {
-    localStorage.setItem("session_token", new_value);
+    if (new_value !== null) {
+        localStorage.setItem("session_token", new_value);
+    } else {
+        localStorage.removeItem("session_token");
+    }
     self.token.value = new_value;
 }
 
 self.isAuthenticated = () => {
-    return self.getToken() != null;
+    return self.getToken() !== null;
 }
 
 self.login = (email, password) => {

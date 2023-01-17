@@ -1,5 +1,4 @@
 <template>
-
     <n-dropdown v-if="!isLoggedIn" class="b-login-button-dropdown" trigger="click" :options="loginDropdownOptions">
         <div class="b-li">
             <span>
@@ -15,18 +14,6 @@
             <span class="b-hover-underline"></span>
         </span>
     </div>
-
-    <!-- <n-popconfirm v-if="isLoggedIn" :show-icon="false" :show-arrow="false" :negative-text="null">
-        <template #trigger>
-            <div class="b-li">
-                <span>
-                    <n-text>Logout</n-text>
-                    <span class="b-hover-underline"></span>
-                </span>
-            </div>
-        </template>
-    </n-popconfirm> -->
-
 </template>
 
 <style>
