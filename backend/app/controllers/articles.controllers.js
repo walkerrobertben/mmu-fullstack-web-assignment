@@ -42,7 +42,7 @@ self.createSingle = (req, res) => {
             "title": Joi.string().required(),
             "author": Joi.string().required(),
             "article_text": Joi.string().required(),
-            "is_private": Joi.boolean().default(false),
+            "is_private": Joi.boolean(),
         });
 
         const validation = schema.validate(req.body);
@@ -53,6 +53,10 @@ self.createSingle = (req, res) => {
     }
 
     const article = Object.assign({}, req.body);
+
+    if (!req.body.hasOwnProperty("is_private")) {
+        article.is_private = false;
+    }
 
     model.addSingle(article, req.authenticated.user_id).then((article_id) => {
         res.status(201).send({article_id: article_id});

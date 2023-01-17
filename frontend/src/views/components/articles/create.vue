@@ -36,6 +36,7 @@ function createArticle() {
         title: placeholder_title,
         author: placeholder_author,
         article_text: placeholder_body,
+        is_private: true,
     })
     .then((result) => {
         if (result.success) {

@@ -13,8 +13,8 @@
                     :b-author="article.author"
                     :b-date="article.date_published"
                     :b-text="article.article_text"
-                    :b-is-owned="index <= 1"
-                    :b-is-private="index == 1"
+                    :b-is-owned="article.is_owned"
+                    :b-is-private="article.is_private"
                 ></ArticleCard>
             </n-gi>
             

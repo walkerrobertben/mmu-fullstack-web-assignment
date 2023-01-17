@@ -14,7 +14,7 @@
                 <Title :b-text="article.title"></Title>
             </div>
             <div>
-                <ArticleTags :b-article-id="article_id" :b-show-wrote="true" :b-is-private="true"></ArticleTags>
+                <ArticleTags v-if="article.is_owned" :b-article-id="article_id" :b-show-wrote="article.is_owned" :b-is-private="article.is_private"></ArticleTags>
             </div>
         </n-space>
 

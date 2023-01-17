@@ -18,6 +18,7 @@ self.createSingle = (new_article) => {
             title: new_article.title,
             author: new_article.author,
             article_text: new_article.article_text,
+            is_private: new_article.is_private,
         });
 
         request_service.request_json("http://localhost:3333/articles", options)
@@ -44,6 +45,7 @@ self.updateSingle = (article_id, new_article) => {
             title: new_article.title,
             author: new_article.author,
             article_text: new_article.article_text,
+            is_private: new_article.is_private,
         });
 
         request_service.request(`http://localhost:3333/articles/${article_id}`, options)

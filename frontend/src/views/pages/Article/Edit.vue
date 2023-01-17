@@ -33,10 +33,10 @@
             
             <n-space align="center">
                 <n-button-group>
-                    <n-button secondary :type="is_private ? 'info' : 'default'" @click="() => {setVisibility(false)}">Private</n-button>
-                    <n-button secondary :type="is_private ? 'default' : 'primary'" @click="() => {setVisibility(true)}">Public</n-button>
+                    <n-button secondary :type="this.article.updated.is_private ? 'info' : 'default'" @click="() => {setVisibility(false)}">Private</n-button>
+                    <n-button secondary :type="this.article.updated.is_private ? 'default' : 'primary'" @click="() => {setVisibility(true)}">Public</n-button>
                 </n-button-group>
-                <n-tag :type="is_private ? 'info' : 'primary'">{{ is_private ? 'Only you can see this article' : 'Everyone can see this article' }}</n-tag>
+                <n-tag :type="this.article.updated.is_private ? 'info' : 'primary'">{{ this.article.updated.is_private ? 'Only you can see this article' : 'Everyone can see this article' }}</n-tag>
             </n-space>
         </n-card>
 
@@ -67,7 +67,7 @@ import Title from "../../components/universal/title.vue"
 import mObject from "../../../utility/object_manipulation";
 
 function setVisibility(isPublic) {
-    this.is_private = !isPublic;
+    this.article.updated.is_private = !isPublic;
 }
 
 function saveChanges() {
@@ -99,8 +99,6 @@ export default {
                 original: {},
                 updated: {},
             },
-
-            is_private: false, //move this into article
 
             nice_title: computed(() => {
                 return this.article.updated.title == "" ? "My first article" : this.article.updated.title;
