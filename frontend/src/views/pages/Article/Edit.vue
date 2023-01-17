@@ -31,7 +31,7 @@
         <n-card style="margin-bottom: 1.5rem">
             <n-text style="display: inline-block; line-height: 1.25; min-height: 20px; padding-left: 2px; padding-bottom: 6px;">Visiblity</n-text>
             
-            <n-space align="center" :size="12">
+            <n-space align="center">
                 <n-button-group>
                     <n-button secondary :type="is_private ? 'info' : 'default'" @click="() => {setVisibility(false)}">Private</n-button>
                     <n-button secondary :type="is_private ? 'default' : 'primary'" @click="() => {setVisibility(true)}">Public</n-button>
@@ -40,7 +40,11 @@
             </n-space>
         </n-card>
 
-        <n-button type="primary" style="margin-left:">Save changes</n-button>
+        <n-space>
+            <n-button type="primary" style="margin-left:">Save changes</n-button>
+            <n-button type="default" style="margin-left:">Discard changes</n-button>
+        </n-space>
+        
 
     </div>
 </template>
