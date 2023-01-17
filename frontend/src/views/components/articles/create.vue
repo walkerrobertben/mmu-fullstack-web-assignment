@@ -22,10 +22,27 @@
 </style>
 
 <script>
+
+import { article_service } from "../../../services/article.service"
+
 import Plus from "../../assets/Plus.vue"
 
+const placeholder_title = "My first article";
+const placeholder_author = "John Doe";
+const placeholder_body = `Hi, my name is ${placeholder_author} and this is my first article.`;
+
 function createArticle() {
-    
+    article_service.createSingle({
+        title: placeholder_title,
+        author: placeholder_author,
+        article_text: placeholder_body,
+    })
+    .then((result) => {
+        if (result.success) {
+            const new_article_id = result.json.article_id;
+            this.$router.push(`/article/${new_article_id}/edit`);
+        }
+    });
 }
 
 export default {

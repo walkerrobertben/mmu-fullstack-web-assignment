@@ -22,10 +22,16 @@ self.createSingle = (new_article) => {
 
         request_service.request_json("http://localhost:3333/articles", options)
         .then((json) => {
-            resolve(json);
+            resolve({
+                success: true,
+                json: json,
+            });
         })
         .catch((error) => {
-            resolve(false);
+            resolve({
+                success: false,
+                json: null,
+            });
         });
     });
 }
