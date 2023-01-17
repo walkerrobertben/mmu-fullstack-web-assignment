@@ -22,25 +22,21 @@
 </template>
 
 <script>
-
-import { ref } from "vue";
 import { article_service } from "../../services/article.service"
 
 import Title from "../components/universal/title.vue"
 import ArticleCard from "../components/articles/card.vue"
 
-const articles = ref([]);
-
 export default {
     data() {
         return {
-            articles: articles,
+            articles: [],
         }
     },
     mounted() {
         article_service.getAll()
         .then((json) => {
-            articles.value = json;
+            this.articles = json;
         })
         .catch((error) => {
             console.error(error);

@@ -47,5 +47,4 @@ import TopBar from "./views/components/universal/topbar.vue"
 export default {
 	components: {TopBar}
 }
-
 </script>

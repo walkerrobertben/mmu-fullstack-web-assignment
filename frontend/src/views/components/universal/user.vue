@@ -20,23 +20,23 @@
 import { h } from "vue";
 
 import LoginForm from "../forms/login.vue";
-import MountComponent from "../../../utility/mountComponent"
+import getMountedComponent from "../../../utility/mount_component"
+
+const dropdownOptions = [
+    {
+        type: "render",
+        render: () => {
+            return getMountedComponent(
+                LoginForm,
+                h("div", {style: "width: 200px; padding: 1rem;"})    
+            ); 
+        },
+    }
+]
 
 export default {
     data() {
-        return {
-            dropdownOptions: [
-                {
-                    type: "render",
-                    render: () => {
-                        return MountComponent(
-                            LoginForm,
-                            h("div", {style: "width: 200px; padding: 1rem;"})
-                        ); 
-                    },
-                }
-            ]
-        }
+        return {dropdownOptions}
     },
     updated(a) {
         console.log(a);

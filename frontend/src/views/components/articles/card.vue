@@ -1,7 +1,6 @@
 <template>
     <n-card>
         <div class="b-container">
-
             <div v-if="bIsOwned" class="b-tags">
                 <ArticleTags :b-show-wrote="false" :b-is-private="bIsPrivate"></ArticleTags>
             </div>
@@ -82,7 +81,7 @@ export default {
         return {
             truncatedText: computed(() => {
                 return truncate(this.bText);
-            })
+            }),
         }
     },
     props: {

@@ -8,7 +8,7 @@
         </n-form-item>
 
         <n-space justify="center" align="center" :size="0">
-            <n-button :type="loginFailed ? 'Error' : 'Primary'" :loading="loggingIn" @click="tryLogin">Login</n-button>
+            <n-button :type="loginFailed ? 'Error' : 'Primary'" :loading="attempting" @click="tryLogin">Login</n-button>
 
             <div class="b-unable-clipper" :class="{'b-revealed': loginFailed}">
                 <n-text ref="unableText" type="error">Unable to login</n-text>
@@ -42,69 +42,54 @@
 </style>
 
 <script>
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { Joi } from 'vue-joi-validation';
 
-const email = ref("");
-const password = ref("");
-
-const loggingIn = ref(false);
-const loginFailed = ref(false);
-
-function validateEmailWithJoi() {
-    const schema = Joi.object({
-        value: Joi.string().email()
-    });
-    const validation = schema.validate({value: email.value});
-    return validation;
-}
-
-function getEmailStatus() {
-    if (!email.value) return undefined;
-    const validation = validateEmailWithJoi();
-    return validation.error ? "warning" : undefined;
-}
-function getEmailFeedback() {
-    if (!email.value) return undefined;
-    const validation = validateEmailWithJoi();
-    return validation.error ? "Enter a valid email address" : undefined;
-}
-
-function getLoginStatus() {
-    return loginFailed.value ? "error" : undefined;
+function validateEmailWithJoi(email_value) {
+    if (!email_value) return true;
+    const schema = Joi.object({value: Joi.string().email()});
+    const validation = schema.validate({value: email_value});
+    return !validation.error;
 }
 
 function enteringInfo() { //on input focus
-    loginFailed.value = false;
+    this.loginFailed = false;
 }
 
 function tryLogin() { //on button click
-    loggingIn.value = true;
-    loginFailed.value = false;
-
+    this.attempting = true;
+    this.loginFailed = false;
     setTimeout(() => {
-        loggingIn.value = false;
-        loginFailed.value = true;
+        this.attempting = false;
+        this.loginFailed = true;
     }, 1000);
 }
 
 export default {
     data() {
         return {
-            email: email,
-            password: password,
+            email: null,
+            password: null,
 
-            loggingIn: loggingIn,
-            loginFailed: loginFailed,
+            attempting: false,
+            loginFailed: false,
+
+            loginStatus: computed(() => {
+                return this.loginFailed ? "error" : undefined;
+            }),
 
             emailStatus: computed(() => {
-                const loginStatus = getLoginStatus();
-                return loginStatus == undefined ? getEmailStatus() : loginStatus;
+                if (this.loginStatus == undefined) {
+                    return !validateEmailWithJoi(this.email) ? "warning" : undefined;
+                } else {
+                    return this.loginStatus;
+                }
             }),
             
-            emailFeedback: computed(getEmailFeedback),
-
-            loginStatus: computed(getLoginStatus),
+            emailFeedback: computed(() => {
+                return !validateEmailWithJoi(this.email) ? "Enter a valid email address" : undefined;
+            }),
+            
         }
     },
     methods: {enteringInfo, tryLogin}

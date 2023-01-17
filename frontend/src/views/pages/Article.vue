@@ -1,15 +1,13 @@
 <template>
     <div class="b-page-width">
 
-        <n-page-header>
-            <n-breadcrumb>
-                <n-breadcrumb-item @click="goBack">
-                    <n-icon><BackArrow/></n-icon>
-                    Articles
-                </n-breadcrumb-item>
-                <n-breadcrumb-item>{{article.title}}</n-breadcrumb-item>
-            </n-breadcrumb>
-        </n-page-header>
+        <n-breadcrumb>
+            <n-breadcrumb-item @click="goBack">
+                <n-icon><BackArrow/></n-icon>
+                Articles
+            </n-breadcrumb-item>
+            <n-breadcrumb-item>{{article.title}}</n-breadcrumb-item>
+        </n-breadcrumb>
 
         <n-space class="b-title-and-tags" :size="0">
             <div style="flex-grow: 1">
@@ -34,8 +32,8 @@
 
 <style scoped>
 
-.n-page-header-wrapper {
-    margin: 1.25rem 0;
+.n-breadcrumb {
+    margin-top: 1.5rem;
 }
 .b-page-title {
     margin: 0;
@@ -43,25 +41,28 @@
 </style>
 
 <style>
+/* the margins are a bit weird here to give space between title and tag when flexbox wraps */
 .b-title-and-tags {
-    margin: 1.25rem 0;
+    margin-top: calc(1rem - 0.75rem);
+    margin-bottom: 1.25rem;
     align-items: center;
 }
 .b-title-and-tags > div:nth-child(1){
     flex-grow: 1;
+    margin-top: 0.75rem;
+}
+.b-title-and-tags > div:nth-child(2){
+    flex-grow: 1;
+    margin-top: 0.75rem;
 }
 </style>
 
 <script>
-import { ref } from "vue";
 import { article_service } from "../../services/article.service"
 
 import Title from "../components/universal/title.vue"
 import BackArrow from "../assets/BackArrow.vue"
 import ArticleTags from "../components/articles/tags.vue"
-
-const article_id = ref(-1);
-const article = ref({});
 
 function goBack() {
     history.back();
@@ -70,16 +71,16 @@ function goBack() {
 export default {
     data() {
         return {
-            article_id: article_id,
-            article: article,
+            article_id: -1,
+            article: {},
         }
     },
     mounted() {
-        article_id.value = this.$route.params.id;
+        this.article_id = this.$route.params.id;
         
-        article_service.getSingle(article_id.value)
+        article_service.getSingle(this.article_id)
         .then((json) => {
-            article.value = json;
+            this.article = json;
         })
         .catch((error) => {
             console.error(error);
