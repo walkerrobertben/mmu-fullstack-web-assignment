@@ -45,6 +45,8 @@
 import { computed } from "vue";
 import { Joi } from 'vue-joi-validation';
 
+import { auth_service } from "../../../services/auth.service"
+
 function validateEmailWithJoi(email_value) {
     if (!email_value) return true;
     const schema = Joi.object({value: Joi.string().email()});
@@ -59,10 +61,11 @@ function enteringInfo() { //on input focus
 function tryLogin() { //on button click
     this.attempting = true;
     this.loginFailed = false;
-    setTimeout(() => {
+
+    auth_service.login(this.email, this.password).then((loginResult) => {
         this.attempting = false;
-        this.loginFailed = true;
-    }, 1000);
+        this.loginFailed = !loginResult;
+    });
 }
 
 export default {

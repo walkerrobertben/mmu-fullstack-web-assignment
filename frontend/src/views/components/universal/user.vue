@@ -1,5 +1,6 @@
 <template>
-    <n-dropdown class="b-login-button-dropdown" trigger="click" :options="dropdownOptions">
+
+    <n-dropdown v-if="!isLoggedIn" class="b-login-button-dropdown" trigger="click" :options="loginDropdownOptions">
         <div class="b-li">
             <span>
                 <n-text>Login</n-text>
@@ -7,6 +8,25 @@
             </span>
         </div>
     </n-dropdown>
+
+    <div v-if="isLoggedIn" class="b-li" @click="logout">
+        <span>
+            <n-text>Logout</n-text>
+            <span class="b-hover-underline"></span>
+        </span>
+    </div>
+
+    <!-- <n-popconfirm v-if="isLoggedIn" :show-icon="false" :show-arrow="false" :negative-text="null">
+        <template #trigger>
+            <div class="b-li">
+                <span>
+                    <n-text>Logout</n-text>
+                    <span class="b-hover-underline"></span>
+                </span>
+            </div>
+        </template>
+    </n-popconfirm> -->
+
 </template>
 
 <style>
@@ -17,12 +37,14 @@
 </style>
 
 <script>
-import { h } from "vue";
+import { h, computed } from "vue";
+
+import { auth_service } from "../../../services/auth.service"
 
 import LoginForm from "../forms/login.vue";
 import getMountedComponent from "../../../utility/mount_component"
 
-const dropdownOptions = [
+const loginDropdownOptions = [
     {
         type: "render",
         render: () => {
@@ -36,10 +58,13 @@ const dropdownOptions = [
 
 export default {
     data() {
-        return {dropdownOptions}
+        return {
+            loginDropdownOptions,
+            isLoggedIn: computed(auth_service.isAuthenticated),
+        }
     },
-    updated(a) {
-        console.log(a);
+    methods: {
+        logout: auth_service.logout
     }
 }
 </script>
