@@ -56,7 +56,7 @@
 <script>
 import { article_service } from "../../../services/article.service"
 
-import Subnav from "../../components/universal/subnav.vue"
+import Subnav from "../../components/navigation/subnav.vue"
 import Title from "../../components/universal/title.vue"
 import ArticleTags from "../../components/articles/tags.vue"
 

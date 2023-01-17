@@ -20,7 +20,7 @@
 
 				<div class="b-space-grow"></div>
 
-				<UserLink/>
+				<AuthControl/>
 
 			</n-space>
 
@@ -85,7 +85,7 @@
 <script>
 
 import { useThemeVars } from 'naive-ui'
-import UserLink from "./user.vue"
+import AuthControl from "./authcontrol.vue"
 
 export default {
   data() {
@@ -93,6 +93,6 @@ export default {
 		themeVars: useThemeVars(),
 	}
   },
-  components: {UserLink},
+  components: {AuthControl},
 }
 </script>

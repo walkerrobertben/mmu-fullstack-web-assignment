@@ -42,7 +42,7 @@ p, a, span {
 </style>
 
 <script>
-import TopBar from "./views/components/universal/topbar.vue"
+import TopBar from "./views/components/navigation/topbar.vue"
 
 export default {
 	components: {TopBar}
