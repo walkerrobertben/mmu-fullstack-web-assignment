@@ -3,7 +3,7 @@
         
         <Title b-text="Articles"></Title>
 
-        <n-grid cols="1 450:2 700:3" responsive="self" :x-gap="16" :y-gap="16">
+        <n-grid cols="1 550:2 800:3" responsive="self" :x-gap="16" :y-gap="16">
             <n-gi v-for="(article, index) in articles">
                 <ArticleCard
                     :b-article-id="article.article_id"
