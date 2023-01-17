@@ -77,8 +77,19 @@ function saveChanges() {
 
         article_service.updateSingle(this.article_id, article_to_write)
         .then((success) => {
-            console.log("save success:", success);
 
+            /*
+                warning!
+
+                the server will have updated date_edited and edit_count
+                and these fields wont be present until the page is reloaded
+
+                this isn't a problem unless we implement a 'remove edit field'
+                button on the edit page.
+
+                solution: replace article_to_write with a .getSingle() request
+            */
+           
             if (success) {
                 this.article.original = article_to_write;
             }
