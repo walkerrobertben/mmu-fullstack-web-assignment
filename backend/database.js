@@ -56,6 +56,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                     date_published INTEGER,
                     date_edited INTEGER,
                     created_by INTEGER,
+                    is_private BOOLEAN,
                     FOREIGN KEY(created_by) REFERENCES users(user_id)
                 )`,
             (err) => {

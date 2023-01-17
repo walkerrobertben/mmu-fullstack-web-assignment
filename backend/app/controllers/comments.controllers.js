@@ -11,8 +11,9 @@ const user_levels = require("../lib/user_levels");
 self.getAll = (req, res) => {
 
     const article_id = parseInt(req.params.article_id);
+    const auth = req.authenticated;
 
-    articles_model.getSingle(article_id).then((article) => {
+    articles_model.getSingle(article_id, auth).then((article) => {
         if (article != null) {
             model.getAll(article_id).then((comments) => {
                 res.status(200).send(comments);
@@ -32,8 +33,9 @@ self.getAll = (req, res) => {
 self.createSingle = (req, res) => {
 
     const article_id = parseInt(req.params.article_id);
+    const auth = req.authenticated;
 
-    articles_model.getSingle(article_id).then((article) => {
+    articles_model.getSingle(article_id, auth).then((article) => {
         if (article != null) {
 
             { //validation

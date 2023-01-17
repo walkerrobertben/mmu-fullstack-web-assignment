@@ -16,6 +16,13 @@ function GetAuthenticated(user_id) {
 //this *checks* if authenticated but will always call next()
 self.check = (req, res, next) => {
 
+    //add dummy authenticated first
+    req.authenticated = {
+        "user_id": null,
+        "user_level": user_levels.LEVEL_NONE,
+    }
+
+    
     const session_token = req.header("X-Authorization");
 
     if (session_token == null) {

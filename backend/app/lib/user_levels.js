@@ -3,6 +3,7 @@ const self = {}
 //authentication level enums
 //these are like 'permission levels' to determine what actions a user can perform
 
+self.LEVEL_NONE = -1;
 self.LEVEL_AUTHOR = 0;
 self.LEVEL_ADMIN = 1;
 

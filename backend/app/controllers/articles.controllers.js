@@ -7,7 +7,10 @@ const model = require("../models/articles.models");
 const user_levels = require("../lib/user_levels");
 
 self.getAll = (req, res) => {
-    model.getAll().then((articles) => {
+
+    const auth = req.authenticated;
+
+    model.getAll(auth).then((articles) => {
         res.status(200).send(articles);
     }).catch((error) => {
         console.error(error);
@@ -18,8 +21,9 @@ self.getAll = (req, res) => {
 self.getSingle = (req, res) => {
     
     const article_id = parseInt(req.params.article_id);
+    const auth = req.authenticated;
 
-    model.getSingle(article_id).then((article) => {
+    model.getSingle(article_id, auth).then((article) => {
         if (article != null) {
             res.status(200).send(article);
         } else {
@@ -37,7 +41,8 @@ self.createSingle = (req, res) => {
         const schema = Joi.object({
             "title": Joi.string().required(),
             "author": Joi.string().required(),
-            "article_text": Joi.string().required()
+            "article_text": Joi.string().required(),
+            "is_private": Joi.boolean().default(false),
         });
 
         const validation = schema.validate(req.body);
@@ -60,8 +65,9 @@ self.createSingle = (req, res) => {
 self.updateSingle = (req, res) => {
 
     const article_id = parseInt(req.params.article_id);
+    const auth = req.authenticated;
 
-    model.getSingle(article_id).then((article) => {
+    model.getSingle(article_id, auth).then((article) => {
         if (article != null) {
 
             model.getAuthor(article_id).then((author_id) => {
@@ -77,7 +83,8 @@ self.updateSingle = (req, res) => {
                     const schema = Joi.object({
                         "title": Joi.string(),
                         "author": Joi.string(),
-                        "article_text": Joi.string()
+                        "article_text": Joi.string(),
+                        "is_private": Joi.boolean(),
                     });
 
                     const validation = schema.validate(req.body);
@@ -95,6 +102,9 @@ self.updateSingle = (req, res) => {
                 }
                 if (req.body.hasOwnProperty("article_text")) {
                     article.article_text = req.body.article_text;
+                }
+                if (req.body.hasOwnProperty("is_private")) {
+                    article.is_private = req.body.is_private;
                 }
 
                 model.updateSingle(article_id, article).then(() => {
@@ -122,8 +132,9 @@ self.updateSingle = (req, res) => {
 self.deleteSingle = (req, res) => {
 
     const article_id = parseInt(req.params.article_id);
+    const auth = req.authenticated;
 
-    model.getSingle(article_id).then((article) => {
+    model.getSingle(article_id, auth).then((article) => {
         if (article != null) {
 
             model.getAuthor(article_id).then((author_id) => {
