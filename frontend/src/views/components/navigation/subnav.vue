@@ -16,12 +16,21 @@ import BackArrow from "../../assets/BackArrow.vue"
 
 function nav_back() {
     //this.$router.go(-1);
-    history.back();
+    
+    // history.back();
+
+    for (let i = this.links.length - 1; i >= 0; i--) {
+        const link = this.links[i];
+        if (link.to != undefined) {
+            this.$router.push(link.to);
+            break;
+        }
+    }
 }
 
-function nav_to(link) {
-    if (link == null) return;
-    this.$router.push(link);
+function nav_to(to) {
+    if (to == null) return;
+    this.$router.push(to);
 }
 
 export default {
