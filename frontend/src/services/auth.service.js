@@ -3,30 +3,28 @@ const self = {}
 import { ref } from "vue";
 import { request_service } from  "./request.service"
 
+import store from "../utility/local_storage"
+
 import router from "../router/index";
 
-self.token = ref(localStorage.getItem("session_token"));
+const x_user_ref = ref(store.pull_object("x-user"));
 
 self.reload_for_auth = () => {
     // window.location.reload(true);
     router.go();
 }
 
-self.getToken = () => {
-    return self.token.value;
+self.getUser = () => {
+    return x_user_ref.value;
 }
 
-self.setToken = (new_value) => {
-    if (new_value !== null) {
-        localStorage.setItem("session_token", new_value);
-    } else {
-        localStorage.removeItem("session_token");
-    }
-    self.token.value = new_value;
+self.setUser = (new_user) => {
+    store.push_object("x-user", new_user);
+    x_user_ref.value = new_user;
 }
 
 self.isAuthenticated = () => {
-    return self.getToken() !== null;
+    return self.getUser() != null;
 }
 
 self.login = (email, password) => {
@@ -38,7 +36,10 @@ self.login = (email, password) => {
 
         request_service.request_json("http://localhost:3333/login", options)
         .then((json) => {
-            self.setToken(json.session_token);
+            self.setUser({
+                user_level: json.user_level,
+                session_token: json.session_token,
+            });
             resolve(true);
         })
         .catch((error) => {
@@ -49,9 +50,24 @@ self.login = (email, password) => {
 }
 
 self.logout = () => {
-    if (self.isAuthenticated()) {
-        self.setToken(null);
-    }
+    return new Promise((resolve) => {
+        if (self.isAuthenticated()) {
+    
+            //send actual logout request
+            const options = request_service.baseOptions();
+            options.method = "POST";
+            request_service.request("http://localhost:3333/logout", options)
+            .catch()
+            .finally(resolve); //resolve no matter what
+
+            //immediately delete token
+            self.setUser(null);
+
+        } else {
+            resolve();
+        }
+    });
+    
 }
 
 export const auth_service = self;

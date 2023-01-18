@@ -9,7 +9,7 @@ self.baseOptions = () => {
     }
 
     if (auth_service.isAuthenticated()) {
-        options.headers["X-Authorization"] = auth_service.getToken();
+        options.headers["X-Authorization"] = auth_service.getUser().session_token;
     }
 
     options.add_json = (json) => {
