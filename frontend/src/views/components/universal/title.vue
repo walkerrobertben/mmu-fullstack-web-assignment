@@ -6,7 +6,7 @@
 
 <style scoped>
 .n-h1 {
-    margin-top: 1.25rem;
+    padding-top: 1.25rem;
     margin-bottom: 1.25rem;
 }
 </style>

@@ -28,9 +28,25 @@
 
 		<n-divider/>
 	</div>
+	<div class="b-space-content"></div>
 </template>
 
 <style>
+.b-topbar {
+	position: fixed;
+
+	top: 0;
+	left: 0;
+	right: 0;
+
+	z-index: 1000;
+	background-color: v-bind("themeVars.baseColor");
+}
+
+.b-space-content {
+	width: 100%;
+	height: calc( (1rem * 1.6) + 2rem + 2rem + 1px);
+}
 
 .b-topbar .n-space {
 	padding: 1rem;
