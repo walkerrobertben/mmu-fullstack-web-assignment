@@ -3,10 +3,10 @@
         
         <Title b-text="Articles"></Title>
 
-        <CreateButton/>
+        <CreateButton v-if="canCreateArticle"/>
 
         <n-grid cols="1 550:2 800:3" responsive="self" :x-gap="16" :y-gap="16">
-            <n-gi v-for="(article, index) in articles">
+            <n-gi v-for="article in articles">
                 <ArticleCard
                     :b-article-id="article.article_id"
                     :b-title="article.title"
@@ -28,7 +28,9 @@
 </template>
 
 <script>
+import { computed } from "vue"
 import { article_service } from "../../../services/article.service"
+import { auth_service } from "../../../services/auth.service"
 
 import Title from "../../components/universal/title.vue"
 import CreateButton from "../../components/articles/create.vue"
@@ -37,6 +39,11 @@ import ArticleCard from "../../components/articles/card.vue"
 export default {
     data() {
         return {
+
+            canCreateArticle: computed(() => {
+                return auth_service.getUserLevel() >= auth_service.USER_LEVELS.LEVEL_AUTHOR;
+            }),
+
             articles: [],
         }
     },
