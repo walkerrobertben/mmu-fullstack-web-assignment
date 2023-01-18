@@ -13,6 +13,7 @@ function DBRowToUser(row) {
         "first_name": row.first_name,
         "last_name" : row.last_name,
         "email"     : row.email,
+        "user_level": user_levels.get_level(row.user_id),
     }
 }
 
@@ -39,7 +40,7 @@ function HashPassword(password, salt) {
 self.getAll = () => {
     return new Promise((resolve, reject) => {
 
-        const query = "SELECT * FROM users";
+        const query = "SELECT * FROM users ORDER BY user_id ASC";
         const params = [];
     
         const users = [];

@@ -16,6 +16,12 @@ self.USER_LEVELS = {
     LEVEL_ADMIN:  1,
 }
 
+self.USER_LEVEL_NAMES = {
+    [self.USER_LEVELS.LEVEL_NONE]:   "None",
+    [self.USER_LEVELS.LEVEL_AUTHOR]: "Author",
+    [self.USER_LEVELS.LEVEL_ADMIN]:  "Admin",
+}
+
 self.reload_for_auth = () => {
     // window.location.reload(true);
     router.go();
