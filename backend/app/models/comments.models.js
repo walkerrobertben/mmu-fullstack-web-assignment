@@ -13,7 +13,7 @@ function DBRowToComment(row) {
 self.getAll = (article_id) => {
     return new Promise((resolve, reject) => {
 
-        const query = "SELECT * FROM comments WHERE article_id=?";
+        const query = "SELECT * FROM comments WHERE article_id=? ORDER BY date_published DESC, comment_id DESC";
         const params = [article_id];
 
         const comments = [];
