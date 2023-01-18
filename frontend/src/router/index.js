@@ -17,7 +17,8 @@ const routes = [
 
     {path: "/articles", component: article_multi},
     {path: "/article/:id", component: article_single},
-    {path: "/article/:id/edit", component: article_edit},
+
+    {path: "/article/:id/:action(edit|create)", component: article_edit},
     
     {path: "/:pathMatch(.*)*", component: error_404}
 ];

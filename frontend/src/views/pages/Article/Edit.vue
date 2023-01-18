@@ -6,11 +6,11 @@
             :links="[
                 {to: '/articles', name: 'Articles'},
                 {to: `/article/${article_id}`, name: `${nice_title}`},
-                {name: 'Edit Article'}
+                {name: `${page_title}`}
             ]"
         />
 
-        <Title b-text="Edit Article"></Title>
+        <Title :b-text="page_title"></Title>
 
         <n-card style="margin-bottom: 1.5rem">
             <n-form>
@@ -124,11 +124,17 @@ export default {
             has_made_changes: computed(() => {
                 return !mObject.equals(this.article.original, this.article.updated);
             }),
+
+            article_action: "null",
+            page_title: computed(() => {
+                return this.article_action.charAt(0).toUpperCase() + this.article_action.substring(1) + " Article";
+            })
         }
     },
     mounted() {
 
         this.article_id = parseInt(this.$route.params.id);
+        this.article_action = this.$route.params.action;
         if (isNaN(this.article_id)) {
             //redirect to error page here?
         }

@@ -45,7 +45,7 @@ function createArticle() {
     .then((result) => {
         if (result.success) {
             const new_article_id = result.json.article_id;
-            this.$router.push(`/article/${new_article_id}/edit`);
+            this.$router.push(`/article/${new_article_id}/create`);
         }
     });
 }
