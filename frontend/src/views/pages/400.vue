@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<div class="b-page-width">
-			<Title b-text="Error 404" :b-user-greeting="true"></Title>
-			<n-h2>Content not found</n-h2>
+			<Title b-text="Error 400" :b-user-greeting="true"></Title>
+			<n-h2>Permission denied</n-h2>
 		</div>
   </div>
 </template>

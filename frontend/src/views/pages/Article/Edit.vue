@@ -60,6 +60,8 @@
 import { computed } from "vue"
 
 import { article_service } from "../../../services/article.service"
+import { auth_service } from "../../../services/auth.service";
+import { redirect_service } from "../../../services/redirect.service";
 
 import Subnav from "../../components/navigation/subnav.vue"
 import Title from "../../components/universal/title.vue"
@@ -135,16 +137,19 @@ export default {
 
         this.article_id = parseInt(this.$route.params.id);
         this.article_action = this.$route.params.action;
-        if (isNaN(this.article_id)) {
-            //redirect to error page here?
-        }
 
         article_service.getSingle(this.article_id)
         .then((json) => {
+
+            if (!json.is_owned && auth_service.getUserLevel() < auth_service.USER_LEVELS.LEVEL_ADMIN) {
+                return redirect_service.error_400();
+            }
+
             this.article.original = json;
             this.article.updated = mObject.deepcopy(json);
         })
         .catch((error) => {
+            redirect_service.error_404();
             console.error(error);
         });
     },

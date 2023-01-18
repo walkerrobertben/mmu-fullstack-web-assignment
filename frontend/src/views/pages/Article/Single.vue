@@ -57,6 +57,7 @@
 
 <script>
 import { article_service } from "../../../services/article.service"
+import { redirect_service } from "../../../services/redirect.service";
 
 import Subnav from "../../components/navigation/subnav.vue"
 import Title from "../../components/universal/title.vue"
@@ -77,6 +78,7 @@ export default {
             this.article = json;
         })
         .catch((error) => {
+            redirect_service.error_404();
             console.error(error);
         });
     },
