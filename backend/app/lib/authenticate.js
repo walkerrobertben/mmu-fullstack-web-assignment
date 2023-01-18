@@ -8,10 +8,9 @@ const user_levels = require("../lib/user_levels");
 function GetAuthenticated(user_id) {
     return {
         "user_id": user_id,
-        "user_level": (user_id === 1 ? user_levels.LEVEL_ADMIN : user_levels.LEVEL_AUTHOR)
+        "user_level": user_levels.get_level(user_id),
     }
 }
-
 
 //this *checks* if authenticated but will always call next()
 self.check = (req, res, next) => {
@@ -19,7 +18,7 @@ self.check = (req, res, next) => {
     //add dummy authenticated first
     req.authenticated = {
         "user_id": null,
-        "user_level": user_levels.LEVEL_NONE,
+        "user_level": user_levels.get_level(null),
     }
 
     

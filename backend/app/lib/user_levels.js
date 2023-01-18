@@ -16,4 +16,15 @@ self.LEVEL_ADMIN = 1;
 //admin can create author accounts
 //admin can update/delete anything
 
+//determine level from user_id
+self.get_level = (user_id) => {
+    if (user_id === 1) {
+        return self.LEVEL_ADMIN;
+    } else if (user_id != null) {
+        return self.LEVEL_AUTHOR;
+    } else {
+        return self.LEVEL_NONE;
+    }
+}
+
 module.exports = self;

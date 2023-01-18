@@ -79,13 +79,25 @@ self.login = (req, res) => {
             model.getToken(user_id).then((session_token) => {
 
                 if (session_token != null) {
-                    res.status(200).send({user_id: user_id, session_token: session_token}); //already logged in
+
+                    //already logged in
+                    res.status(200).send({
+                        user_id: user_id,
+                        user_level: user_levels.get_level(user_id),
+                        session_token: session_token,
+                    });
 
                 } else {
                     
                     //give the user a session token
                     model.setToken(user_id).then((session_token) => {
-                        res.status(200).send({user_id: user_id, session_token: session_token}); //logged in
+
+                        //logged in
+                        res.status(200).send({
+                            user_id: user_id,
+                            user_level: user_levels.get_level(user_id),
+                            session_token: session_token
+                        }); 
 
                     }).catch((error) => {
                         console.error(error);
