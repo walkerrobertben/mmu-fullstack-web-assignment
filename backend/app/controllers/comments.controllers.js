@@ -8,6 +8,11 @@ const articles_model = require("../models/articles.models");
 
 const user_levels = require("../lib/user_levels");
 
+const ProfanityFilter = require("bad-words");
+const profanity_filter = new ProfanityFilter({
+    placeHolder: "#"
+});
+
 self.getAll = (req, res) => {
 
     const article_id = parseInt(req.params.article_id);
@@ -48,6 +53,13 @@ self.createSingle = (req, res) => {
                 if (validation.error) {
                     return res.status(400).send(validation.error.details[0].message);
                 }
+            }
+
+            { //profanity filter
+                const original_text = req.body.comment_text;
+                const clean_text = profanity_filter.clean(original_text);
+
+                req.body.comment_text = clean_text
             }
 
             const comment = Object.assign({}, req.body);
