@@ -1,8 +1,9 @@
 <template>
     <n-card>
         <div class="b-container">
-            <div v-if="bIsOwned" class="b-tags">
-                <ArticleTags :b-article-id="bArticleId" :b-show-wrote="false" :b-is-private="bIsPrivate"></ArticleTags>
+
+            <div class="b-tags">
+                <ArticleTags :b-article-id="bArticleId" :b-is-owned="bIsOwned" :b-is-private="bIsPrivate" :b-show-wrote="false"></ArticleTags>
             </div>
 
             <div class="b-content">
@@ -32,7 +33,7 @@
     display: flex;
     flex-direction: column;
 }
-.b-tags {
+.b-tags .n-space {
     margin-bottom: 0.5rem;
 }
 .b-content {

@@ -9,6 +9,13 @@ import router from "../router/index";
 
 const x_user_ref = ref(store.pull_object("x-user"));
 
+//copied from backend. could probably come up with a better way of getting these to the client
+self.USER_LEVELS = {
+    LEVEL_NONE:  -1,
+    LEVEL_AUTHOR: 0,
+    LEVEL_ADMIN:  1,
+}
+
 self.reload_for_auth = () => {
     // window.location.reload(true);
     router.go();
@@ -25,6 +32,14 @@ self.setUser = (new_user) => {
 
 self.isAuthenticated = () => {
     return self.getUser() != null;
+}
+
+self.getUserLevel = () => {
+    if (self.isAuthenticated()) {
+        return self.getUser().user_level;
+    } else {
+        return self.USER_LEVELS.LEVEL_NONE;
+    }
 }
 
 self.login = (email, password) => {
