@@ -23,10 +23,12 @@
             <n-text>Published {{article.date_published}}</n-text>
             <n-text v-if="article.edit_count >= 2 && article.date_edited != undefined" depth="3" italic>Edited on {{article.date_edited}}</n-text>
         </n-space>
+
         <n-divider/>
-        <n-text style="white-space: pre;">{{article.article_text}}</n-text>
+        <n-text style="white-space: pre">{{article.article_text}}</n-text>
         <n-divider/>
-        <n-h3>Comments (0)</n-h3>
+
+        <CommentList :b-article-id="article_id" :b-article-author="article.author"/>
     </div>
 </template>
 
@@ -59,20 +61,16 @@ import { article_service } from "../../../services/article.service"
 import Subnav from "../../components/navigation/subnav.vue"
 import Title from "../../components/universal/title.vue"
 import ArticleTags from "../../components/articles/tags.vue"
+import CommentList from "../Comment/Multiple.vue"
 
 export default {
     data() {
         return {
-            article_id: -1,
+            article_id: parseInt(this.$route.params.id),
             article: {},
         }
     },
     mounted() {
-
-        this.article_id = parseInt(this.$route.params.id);
-        if (isNaN(this.article_id)) {
-            //redirect to error page here?
-        }
         
         article_service.getSingle(this.article_id)
         .then((json) => {
@@ -82,6 +80,6 @@ export default {
             console.error(error);
         });
     },
-    components: {Subnav, Title, ArticleTags}
+    components: {Subnav, Title, ArticleTags, CommentList}
 }
 </script>
