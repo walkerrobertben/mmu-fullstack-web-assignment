@@ -21,10 +21,10 @@
         <n-space :vertical="true" :size="0">
             <n-text>by {{article.author}}</n-text>
             <n-text>Published {{article.date_published}}</n-text>
-            <!-- <n-text depth="3">Edited {{article.date_edited}}</n-text> -->
+            <n-text v-if="article.edit_count >= 2 && article.date_edited != undefined" depth="3" italic>Edited on {{article.date_edited}}</n-text>
         </n-space>
         <n-divider/>
-        <n-text>{{article.article_text}}</n-text>
+        <n-text style="white-space: pre;">{{article.article_text}}</n-text>
         <n-divider/>
         <n-h3>Comments (0)</n-h3>
     </div>
