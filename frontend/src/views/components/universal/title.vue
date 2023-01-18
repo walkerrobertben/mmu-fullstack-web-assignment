@@ -1,5 +1,7 @@
 <template>
-    <n-h1 class="b-page-title">{{ bText }}</n-h1>
+    <n-h1 class="b-page-title">
+        {{ bText }}
+    </n-h1>
 </template>
 
 <style scoped>
@@ -12,7 +14,8 @@
 <script>
 export default {
     props: {
-        bText: String
-    }
+        bText: String,
+        bUserGreeting: Boolean,
+    },
 }
 </script>

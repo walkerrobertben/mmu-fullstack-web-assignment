@@ -50,11 +50,11 @@ self.login = (email, password) => {
         options.add_json({email, password});
 
         request_service.request_json("http://localhost:3333/login", options)
-        .then((json) => {
-            self.setUser({
-                user_level: json.user_level,
-                session_token: json.session_token,
-            });
+        .then((user_data) => {
+
+            console.log(user_data);
+
+            self.setUser(user_data);
             resolve(true);
         })
         .catch((error) => {

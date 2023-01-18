@@ -28,8 +28,9 @@ import { h, computed } from "vue";
 
 import { auth_service } from "../../../services/auth.service"
 
-import LoginForm from "../forms/login.vue";
 import getMountedComponent from "../../../utility/mount_component"
+
+import LoginForm from "../forms/login.vue";
 
 const loginDropdownOptions = [
     {
@@ -57,6 +58,6 @@ export default {
                 auth_service.reload_for_auth();
             });
         }
-    }
+    },
 }
 </script>

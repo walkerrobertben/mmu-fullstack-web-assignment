@@ -1,32 +1,33 @@
 <template>
+	<div class="b-topbar">
+		<n-space :size="16">
 
-	<n-config-provider>
-		<div class="b-topbar">
-			<n-space :size="16">
+			<router-link to="/" class="b-li">
+				<span>
+					<n-text>Home</n-text>
+					<span class="b-hover-underline"></span>
+				</span>
+			</router-link>
 
-				<router-link to="/" class="b-li">
-					<span>
-						<n-text>Home</n-text>
-						<span class="b-hover-underline"></span>
-					</span>
-				</router-link>
+			<router-link to="/articles" class="b-li">
+				<span>
+					<n-text>Articles</n-text>
+					<span class="b-hover-underline"></span>
+				</span>
+			</router-link>
 
-				<router-link to="/articles" class="b-li">
-					<span>
-						<n-text>Articles</n-text>
-						<span class="b-hover-underline"></span>
-					</span>
-				</router-link>
+			<div class="b-space-grow"></div>
 
-				<div class="b-space-grow"></div>
+			<div class="b-li b-not-link">
+				<UserGreeting/>
+			</div>
+			
+			<AuthControl/>
 
-				<AuthControl/>
+		</n-space>
 
-			</n-space>
-
-			<n-divider/>
-		</div>
-	</n-config-provider>
+		<n-divider/>
+	</div>
 </template>
 
 <style>
@@ -51,7 +52,9 @@
 
 	font-size: 1rem;
 	text-decoration: none;
-	
+}
+
+.b-topbar .b-li:not(.b-not-link) {
 	cursor: pointer;
 }
 
@@ -85,6 +88,8 @@
 <script>
 
 import { useThemeVars } from 'naive-ui'
+
+import UserGreeting from "../universal/usergreeting.vue"
 import AuthControl from "./authcontrol.vue"
 
 export default {
@@ -93,6 +98,6 @@ export default {
 		themeVars: useThemeVars(),
 	}
   },
-  components: {AuthControl},
+  components: {UserGreeting, AuthControl},
 }
 </script>

@@ -72,20 +72,20 @@ self.login = (req, res) => {
     }
 
     model.attemptLogin(req.body.email, req.body.password).then((loginAttemptResult) => {
-
+        
         if (loginAttemptResult.success) {
             const user_id = loginAttemptResult.user_id;
 
-            model.getToken(user_id).then((session_token) => {
+            model.getUserData(user_id).then((user_data) => {
 
-                if (session_token != null) {
+                if (user_data == null) {
+                    throw "Login attempt succeeded, but no user data found";
+                }
+
+                if (user_data.session_token != null) {
 
                     //already logged in
-                    res.status(200).send({
-                        user_id: user_id,
-                        user_level: user_levels.get_level(user_id),
-                        session_token: session_token,
-                    });
+                    res.status(200).send(user_data);
 
                 } else {
                     
@@ -93,11 +93,8 @@ self.login = (req, res) => {
                     model.setToken(user_id).then((session_token) => {
 
                         //logged in
-                        res.status(200).send({
-                            user_id: user_id,
-                            user_level: user_levels.get_level(user_id),
-                            session_token: session_token
-                        }); 
+                        user_data.session_token = session_token;
+                        res.status(200).send(user_data); 
 
                     }).catch((error) => {
                         console.error(error);

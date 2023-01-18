@@ -4,12 +4,25 @@ const crypto = require("crypto");
 
 const db = require("../../database");
 
+const user_levels = require("../lib/user_levels");
+
+//sent to admin client for user management
 function DBRowToUser(row) {
     return {
-        "user_id": row.user_id,
+        "user_id"   : row.user_id,
         "first_name": row.first_name,
-        "last_name": row.last_name,
-        "email": row.email
+        "last_name" : row.last_name,
+        "email"     : row.email,
+    }
+}
+
+//sent to client for auth
+function DBRowToUserData(row) {
+    return {
+        "session_token": row.session_token,
+        "user_id"      : row.user_id,
+        "first_name"   : row.first_name,
+        "user_level"   : user_levels.get_level(row.user_id),
     }
 }
 
@@ -123,10 +136,31 @@ self.attemptLogin = (email, password) => {
     });
 }
 
-self.getToken = (user_id) => {
+// self.getToken = (user_id) => {
+//     return new Promise((resolve, reject) => {
+
+//         const query = "SELECT session_token FROM users WHERE user_id=?";
+//         const params = [user_id];
+
+//         db.get(query, params, (error, row) => {
+//             if (error) {
+//                 reject(error);
+//             } else {
+//                 if (row != null) {
+//                     resolve(row.session_token);
+//                 } else {
+//                     resolve(null);
+//                 }
+//             }
+//         });
+//     });
+// }
+
+//replaces self.getToken
+self.getUserData = (user_id) => {
     return new Promise((resolve, reject) => {
 
-        const query = "SELECT session_token FROM users WHERE user_id=?";
+        const query = "SELECT * FROM users WHERE user_id=?";
         const params = [user_id];
 
         db.get(query, params, (error, row) => {
@@ -134,7 +168,7 @@ self.getToken = (user_id) => {
                 reject(error);
             } else {
                 if (row != null) {
-                    resolve(row.session_token);
+                    resolve(DBRowToUserData(row));
                 } else {
                     resolve(null);
                 }
