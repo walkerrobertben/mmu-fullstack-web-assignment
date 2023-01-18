@@ -23,9 +23,7 @@
 				</span>
 			</router-link>
 
-			<div class="b-space-grow"></div>
-
-			<div class="b-li b-not-link">
+			<div class="b-li b-not-link b-right-justify">
 				<UserGreeting/>
 			</div>
 			
@@ -59,8 +57,8 @@
 	padding: 1rem;
 }
 
-.b-topbar .n-space div:has(> .b-space-grow) {
-	flex-grow: 1;
+.b-topbar .n-space div:has(> .b-right-justify) {
+	margin-left: auto;
 }
 
 .b-topbar .n-divider{
