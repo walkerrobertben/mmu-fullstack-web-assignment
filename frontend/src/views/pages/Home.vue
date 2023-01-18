@@ -1,7 +1,5 @@
 <template>
 	<div class="b-page-width">
-		
-		
 		<Title b-text="Welcome to the blog!" :b-user-greeting="true"></Title>
 
 		<n-h2>MMU full stack web assignment</n-h2>
@@ -16,10 +14,9 @@
 </style>
 
 <script>
-import UserGreeting from "../components/universal/usergreeting.vue"
 import Title from "../components/universal/title.vue"
 
 export default {
-    components: {UserGreeting, Title} 
+    components: {Title} 
 }
 </script>

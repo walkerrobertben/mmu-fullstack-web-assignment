@@ -16,6 +16,13 @@
 				</span>
 			</router-link>
 
+			<router-link v-if="isAdmin" to="/users" class="b-li">
+				<span>
+					<n-text>Users</n-text>
+					<span class="b-hover-underline"></span>
+				</span>
+			</router-link>
+
 			<div class="b-space-grow"></div>
 
 			<div class="b-li b-not-link">
@@ -28,7 +35,7 @@
 
 		<n-divider/>
 	</div>
-	<div class="b-space-content"></div>
+	<div class="b-pad-page"></div>
 </template>
 
 <style>
@@ -43,7 +50,7 @@
 	background-color: v-bind("themeVars.baseColor");
 }
 
-.b-space-content {
+.b-pad-page {
 	width: 100%;
 	height: calc( (1rem * 1.6) + 2rem + 2rem + 1px);
 }
@@ -52,7 +59,7 @@
 	padding: 1rem;
 }
 
-.b-topbar .n-space div:nth-child(3) {
+.b-topbar .n-space div:has(> .b-space-grow) {
 	flex-grow: 1;
 }
 
@@ -102,8 +109,9 @@
 </style>
 
 <script>
-
+import { computed } from "vue"
 import { useThemeVars } from 'naive-ui'
+import { auth_service } from '../../../services/auth.service'
 
 import UserGreeting from "../universal/usergreeting.vue"
 import AuthControl from "./authcontrol.vue"
@@ -112,6 +120,10 @@ export default {
   data() {
     return {
 		themeVars: useThemeVars(),
+
+		isAdmin: computed(() => {
+			return auth_service.getUserLevel() >= auth_service.USER_LEVELS.LEVEL_ADMIN;
+		}),
 	}
   },
   components: {UserGreeting, AuthControl},
