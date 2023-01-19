@@ -61,6 +61,27 @@ self.getAll = () => {
     });
 }
 
+self.getSingle = (user_id) => {
+    return new Promise((resolve, reject) => {
+
+        const query = "SELECT * FROM users WHERE user_id=?";
+        const params = [user_id];
+
+        db.get(query, params, (error, row) => {
+            if (error) {
+                reject(error);
+            } else {
+                if (row != null) {
+                    resolve(DBRowToUser(row));
+                } else {
+                    resolve(null);
+                }
+            }
+        });
+
+    });
+}
+
 self.getUserIdFromSessionToken = (session_token) => {
     return new Promise((resolve, reject) => {
 
@@ -95,6 +116,22 @@ self.addSingle = (user) => {
                 reject(error);
             } else {
                 resolve(this.lastID);
+            }
+        });
+    });
+}
+
+self.deleteSingle = (user_id) => {
+    return new Promise((resolve, reject) => {
+
+        const query = "DELETE FROM users WHERE user_id=?";
+        const params = [user_id];
+
+        db.run(query, params, (error) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve();
             }
         });
     });

@@ -56,6 +56,36 @@ self.createSingle = (req, res) => {
     });
 }
 
+self.deleteSingle = (req, res) => {
+
+    //require admin
+    if (req.authenticated.user_level < user_levels.LEVEL_ADMIN) {
+        return res.sendStatus(401);
+    }
+
+    const user_id = parseInt(req.params.user_id);
+
+    model.getSingle(user_id).then((user) => {
+        if (user != null) {
+
+            model.deleteSingle(user_id).then(() => {
+                res.sendStatus(200);
+            }).catch((error) => {
+                console.error(error);
+                res.sendStatus(500);
+            });
+            
+        } else {
+            res.sendStatus(404);    
+        }
+    }).catch((error) => {
+        console.error(error);
+        res.sendStatus(500);
+    });
+
+}
+
+
 self.login = (req, res) => {
     
     { //validation

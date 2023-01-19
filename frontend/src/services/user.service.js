@@ -12,7 +12,7 @@ self.createSingle = (new_user) => {
         options.method = "POST";
         options.add_json({
             first_name: new_user.first_name,
-            last_name: new_user.first_name,
+            last_name: new_user.last_name,
             email: new_user.email,
             password: new_user.password,
         });
@@ -29,6 +29,21 @@ self.createSingle = (new_user) => {
                 success: false,
                 json: null,
             });
+        });
+    });
+}
+
+self.deleteSingle = (user_id) => {
+    return new Promise((resolve) => {
+        const options = request_service.baseOptions();
+        options.method = "DELETE";
+
+        request_service.request(`http://localhost:3333/users/${user_id}`, options)
+        .then((response) => {
+            resolve(true);
+        })
+        .catch((error) => {
+            resolve(false);
         });
     });
 }
