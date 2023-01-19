@@ -1,4 +1,6 @@
 <template>
+    <Toaster ref="toaster"/>
+
     <div class="b-page-width">
 
         <Subnav
@@ -85,6 +87,7 @@ import { article_service } from "../../../services/article.service"
 import { auth_service } from "../../../services/auth.service";
 import { redirect_service } from "../../../services/redirect.service";
 
+import Toaster from "../../components/universal/toaster.vue"
 import Subnav from "../../components/navigation/subnav.vue"
 import Title from "../../components/universal/title.vue"
 
@@ -118,6 +121,8 @@ function saveChanges() {
            
             if (success) {
                 this.article.original = article_to_write;
+            } else {
+                this.$refs.toaster.error("Unable to save changes");
             }
         });
     }
@@ -135,8 +140,9 @@ function doDelete() {
     .then((success) => {
         this.show_delete_popup = false;
         if (success) {
-            //redirect to articles
-            redirect_service.go("/articles");
+            redirect_service.go("/articles"); //redirect to articles
+        } else {
+            this.$refs.toaster.error("Unable to delete article");
         }
     });
 }
@@ -195,6 +201,6 @@ export default {
     },
 
     methods: {setVisibility, saveChanges, discardChanges, promptDelete, doDelete},
-    components: {Subnav, Title, DeleteIcon}
+    components: {Toaster, Subnav, Title, DeleteIcon}
 }
 </script>

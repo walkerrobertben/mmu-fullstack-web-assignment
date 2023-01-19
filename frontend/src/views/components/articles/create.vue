@@ -1,4 +1,5 @@
 <template>
+    <Toaster ref="toaster"/>
     <n-card>
         <n-space align="center" :size="24">
             <n-text style="display: inline-block; padding-top: 3px;">Create new article</n-text>
@@ -26,9 +27,8 @@
 </style>
 
 <script>
-
 import { article_service } from "../../../services/article.service"
-
+import Toaster from "../universal/toaster.vue"
 import Plus from "../../assets/Plus.vue"
 
 const placeholder_title = "My first article";
@@ -46,12 +46,14 @@ function createArticle() {
         if (result.success) {
             const new_article_id = result.json.article_id;
             this.$router.push(`/article/${new_article_id}/create`);
+        } else {
+            this.$refs.toaster.error("Unable to create new article");
         }
     });
 }
 
 export default {
     methods: {createArticle},
-    components: {Plus},
+    components: {Toaster, Plus},
 }
 </script>

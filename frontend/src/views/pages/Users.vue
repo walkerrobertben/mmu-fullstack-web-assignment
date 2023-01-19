@@ -1,4 +1,6 @@
 <template>
+    <Toaster ref="toaster"/>
+
     <div class="b-page-width">
 		<Title b-text="Users" :b-user-greeting="true"></Title>
 
@@ -56,6 +58,7 @@ div:has(> .b-input-name) {
 import { user_service } from "../../services/user.service"
 import { auth_service } from "../../services/auth.service"
 
+import Toaster from "../components/universal/toaster.vue"
 import Title from "../components/universal/title.vue"
 
 import { h } from "vue";
@@ -84,6 +87,8 @@ function tryAddUser() {
     .then((result) => {
         if (result.success) {
             getUsers.call(this);
+        } else {
+            this.$refs.toaster.error("Unable to add user");
         }
     });
 
@@ -104,8 +109,9 @@ function doDelete() {
         this.prompting_delete_user_id = null;
 
         if (success) {
-            //refresh users
-            getUsers.call(this);
+            getUsers.call(this); //refresh users
+        } else {
+            this.$refs.toaster.error("Unable to delete user");
         }
     });
 }
@@ -161,6 +167,6 @@ export default {
         getUsers.call(this);
     },
     methods: {tryAddUser, promptDelete, doDelete},
-    components: {Title},
+    components: {Toaster, Title},
 }
 </script>

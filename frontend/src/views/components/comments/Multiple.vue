@@ -1,4 +1,6 @@
 <template>
+    <Toaster ref="toaster"/>
+
     <n-card>
         <n-h3>Post comment</n-h3>
         <n-form :show-label="false" @submit.prevent="tryPost">
@@ -26,6 +28,8 @@
 
 <script>
 import { comment_service } from "../../../services/comment.service"
+
+import Toaster from "../../components/universal/toaster.vue"
 import CommentSingle from "./Single.vue"
 
 function getComments() {
@@ -47,6 +51,8 @@ function tryPost() {
     .then((result) => {
         if (result.success) {
             getComments.call(this);
+        } else {
+            this.$refs.toaster.error("Unable to post comment");
         }
     });
 
@@ -58,6 +64,8 @@ function tryDelete(comment_id) {
     .then((success) => {
         if (success) {
             getComments.call(this);
+        } else {
+            this.$refs.toaster.error("Unable to delete comment");
         }
     });
 }
@@ -78,6 +86,6 @@ export default {
         bIsOwned: Boolean,
     },
     methods: {tryPost, tryDelete},
-    components: {CommentSingle},
+    components: {Toaster, CommentSingle},
 }
 </script>

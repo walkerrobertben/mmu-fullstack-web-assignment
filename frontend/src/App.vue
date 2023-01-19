@@ -1,14 +1,16 @@
 <template>
-	<div class="b-page-flexed">
-		<div>
-			<TopBar/>
-			<router-view/>
+	<n-message-provider>
+		<div class="b-page-flexed">
+			<div>
+				<TopBar/>
+				<router-view/>
+			</div>
+			<div>
+				<n-divider/>
+				<n-text style="display: block; width: 100%; margin-bottom: 20px; text-align: center;">MMU FSW BLOG</n-text>
+			</div>
 		</div>
-		<div>
-			<n-divider/>
-			<n-text style="display: block; width: 100%; margin-bottom: 20px; text-align: center;">MMU FSW BLOG</n-text>
-		</div>
-	</div>
+	</n-message-provider>
 </template>
 
 <style>
