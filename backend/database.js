@@ -9,7 +9,19 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
       console.error(err.message)
       throw err
     }else{
-        console.log('Connected to the SQLite database.') 
+        console.log('Connected to the SQLite database.')
+
+
+        //explicitly enable foreign key constraint
+        db.run("PRAGMA foreign_keys = ON", (err) => {
+            if (err) {
+                console.log("Unable to turn on foreign keys!");
+            } else {
+                console.log("Foreign keys enabled");
+            }
+        });
+
+        
 
         db.run(`CREATE TABLE users (
                     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -84,7 +96,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 }
             }
         )
-
+        
     }
 });
 
