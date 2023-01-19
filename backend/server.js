@@ -21,6 +21,9 @@ app.use(morgan('tiny'));
 //Cors
 app.use(cors());
 
+//Fake delay
+app.use((req, res, next) => { setTimeout(next, 1000); });
+
 // Body parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

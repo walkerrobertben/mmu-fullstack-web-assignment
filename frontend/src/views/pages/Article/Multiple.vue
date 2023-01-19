@@ -1,4 +1,5 @@
 <template>
+    <Loader ref="loader"/>
     <Toaster ref="toaster"/>
 
     <div class="b-page-width">
@@ -34,6 +35,7 @@ import { computed } from "vue"
 import { article_service } from "../../../services/article.service"
 import { auth_service } from "../../../services/auth.service"
 
+import Loader from "../../components/universal/loader.vue"
 import Toaster from "../../components/universal/toaster.vue"
 import Title from "../../components/universal/title.vue"
 import CreateButton from "../../components/articles/create.vue"
@@ -51,15 +53,20 @@ export default {
         }
     },
     mounted() {
+
+        this.$refs.loader.start();
+
         article_service.getAll()
         .then((json) => {
+            this.$refs.loader.finish(true);
             this.articles = json;
         })
         .catch((error) => {
             console.error(error);
+            this.$refs.loader.finish(false);
             this.$refs.toaster.error("Unable to load articles from server");
         });
     },
-    components: {Toaster, Title, CreateButton, ArticleCard}
+    components: {Loader, Toaster, Title, CreateButton, ArticleCard}
 }
 </script>

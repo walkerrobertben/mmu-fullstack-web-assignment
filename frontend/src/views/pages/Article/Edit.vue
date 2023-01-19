@@ -1,4 +1,5 @@
 <template>
+    <Loader ref="loader"/>
     <Toaster ref="toaster"/>
 
     <div class="b-page-width">
@@ -87,6 +88,7 @@ import { article_service } from "../../../services/article.service"
 import { auth_service } from "../../../services/auth.service";
 import { redirect_service } from "../../../services/redirect.service";
 
+import Loader from "../../components/universal/loader.vue"
 import Toaster from "../../components/universal/toaster.vue"
 import Subnav from "../../components/navigation/subnav.vue"
 import Title from "../../components/universal/title.vue"
@@ -181,6 +183,8 @@ export default {
     },
     mounted() {
 
+        this.$refs.loader.start();
+
         this.article_id = parseInt(this.$route.params.id);
         this.article_action = this.$route.params.action;
 
@@ -191,17 +195,20 @@ export default {
                 return redirect_service.error_400();
             }
 
+            this.$refs.loader.finish(true);
             this.article.original = json;
             this.article.updated = mObject.deepcopy(json);
         })
         .catch((error) => {
             redirect_service.error_404();
+            
             console.error(error);
+            this.$refs.loader.finish(false);
             this.$refs.toaster.error("Unable to load article from server");
         });
     },
 
     methods: {setVisibility, saveChanges, discardChanges, promptDelete, doDelete},
-    components: {Toaster, Subnav, Title, DeleteIcon}
+    components: {Loader, Toaster, Subnav, Title, DeleteIcon}
 }
 </script>

@@ -1,4 +1,5 @@
 <template>
+    <Loader ref="loader"/>
     <Toaster ref="toaster"/>
 
     <n-card>
@@ -29,16 +30,21 @@
 <script>
 import { comment_service } from "../../../services/comment.service"
 
+import Loader from "../../components/universal/loader.vue"
 import Toaster from "../../components/universal/toaster.vue"
 import CommentSingle from "./Single.vue"
 
 function getComments() {
+    this.$refs.loader.start();
+
     comment_service.getAll(this.bArticleId)
     .then((json) => {
+        this.$refs.loader.finish(true);
         this.comments = json;
     })
     .catch((error) => {
         console.error(error);
+        this.$refs.loader.finish(false);
         this.$refs.toaster.error("Unable to load comments from server");
     });
 }
@@ -87,6 +93,6 @@ export default {
         bIsOwned: Boolean,
     },
     methods: {tryPost, tryDelete},
-    components: {Toaster, CommentSingle},
+    components: {Loader, Toaster, CommentSingle},
 }
 </script>

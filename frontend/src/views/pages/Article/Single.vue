@@ -1,4 +1,5 @@
 <template>
+    <Loader ref="loader"/>
     <Toaster ref="toaster"/>
     
     <div class="b-page-width">
@@ -61,6 +62,7 @@
 import { article_service } from "../../../services/article.service"
 import { redirect_service } from "../../../services/redirect.service";
 
+import Loader from "../../components/universal/loader.vue"
 import Toaster from "../../components/universal/toaster.vue"
 import Subnav from "../../components/navigation/subnav.vue"
 import Title from "../../components/universal/title.vue"
@@ -75,17 +77,22 @@ export default {
         }
     },
     mounted() {
+
+        this.$refs.loader.start();
         
         article_service.getSingle(this.article_id)
         .then((json) => {
+            this.$refs.loader.finish(true);
             this.article = json;
         })
         .catch((error) => {
             redirect_service.error_404();
+            
             console.error(error);
+            this.$refs.loader.finish(false);
             this.$refs.toaster.error("Unable to load article from server");
         });
     },
-    components: {Toaster, Subnav, Title, ArticleTags, CommentList}
+    components: {Loader, Toaster, Subnav, Title, ArticleTags, CommentList}
 }
 </script>

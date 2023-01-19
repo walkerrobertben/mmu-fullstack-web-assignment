@@ -1,4 +1,5 @@
 <template>
+    <Loader ref="loader"/>
     <Toaster ref="toaster"/>
 
     <div class="b-page-width">
@@ -58,6 +59,7 @@ div:has(> .b-input-name) {
 import { user_service } from "../../services/user.service"
 import { auth_service } from "../../services/auth.service"
 
+import Loader from "../components/universal/loader.vue"
 import Toaster from "../components/universal/toaster.vue"
 import Title from "../components/universal/title.vue"
 
@@ -65,6 +67,8 @@ import { h } from "vue";
 import { NButton } from "naive-ui";
 
 function getUsers() {
+    this.$refs.loader.start();
+
     user_service.getAll()
     .then((users) => {
 
@@ -74,10 +78,12 @@ function getUsers() {
             row.role = auth_service.USER_LEVEL_NAMES[row.user_level];
         });
 
+        this.$refs.loader.finish(true);
         this.users = users;
     })
     .catch((error) => {
         console.error(error);
+        this.$refs.loader.finish(false);
         this.$refs.toaster.error("Unable to load users from server");
     });
 }
@@ -168,6 +174,6 @@ export default {
         getUsers.call(this);
     },
     methods: {tryAddUser, promptDelete, doDelete},
-    components: {Toaster, Title},
+    components: {Loader, Toaster, Title},
 }
 </script>
