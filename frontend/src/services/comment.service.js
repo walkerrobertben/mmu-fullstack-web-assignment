@@ -30,4 +30,19 @@ self.createSingle = (article_id, new_comment) => {
     });
 }
 
+self.deleteSingle = (comment_id) => {
+    return new Promise((resolve) => {
+        const options = request_service.baseOptions();
+        options.method = "DELETE";
+
+        request_service.request(`http://localhost:3333/comments/${comment_id}`, options)
+        .then((response) => {
+            resolve(true);
+        })
+        .catch((error) => {
+            resolve(false);
+        });
+    });
+}
+
 export const comment_service = self;

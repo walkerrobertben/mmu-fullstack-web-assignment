@@ -25,10 +25,10 @@
         </n-space>
 
         <n-divider/>
-        <n-text style="white-space: pre">{{article.article_text}}</n-text>
+        <n-text style="white-space: pre-wrap">{{article.article_text}}</n-text>
         <n-divider/>
 
-        <CommentList :b-article-id="article_id" :b-article-author="article.author"/>
+        <CommentList :b-article-id="article_id" :b-article-author="article.author" :b-is-owned="article.is_owned"/>
     </div>
 </template>
 

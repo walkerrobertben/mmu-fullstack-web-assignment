@@ -12,7 +12,7 @@
     <n-card style="margin-top: 1.5rem">
         <n-h3>Comments ({{ comments.length }})</n-h3>
         <n-space :vertical="true" :size="16">
-            <CommentSingle v-for="comment in comments" :comment="comment"/>
+            <CommentSingle v-for="comment in comments" :comment="comment" :b-is-owned="bIsOwned" @try-delete="() => {tryDelete(comment.comment_id)}"/>
         </n-space>
     </n-card>
 </template>
@@ -53,6 +53,15 @@ function tryPost() {
     this.comment_text = "";
 }
 
+function tryDelete(comment_id) {
+    comment_service.deleteSingle(comment_id)
+    .then((success) => {
+        if (success) {
+            getComments.call(this);
+        }
+    });
+}
+
 export default {
     data() {
         return {
@@ -66,8 +75,9 @@ export default {
     props: {
         bArticleId: Number,
         bArticleAuthor: String,
+        bIsOwned: Boolean,
     },
-    methods: {tryPost},
+    methods: {tryPost, tryDelete},
     components: {CommentSingle},
 }
 </script>
