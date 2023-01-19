@@ -58,7 +58,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                     created_by INTEGER,
                     is_private BOOLEAN,
                     edit_count INTEGER,
-                    FOREIGN KEY(created_by) REFERENCES users(user_id)
+                    FOREIGN KEY(created_by) REFERENCES users(user_id) ON DELETE CASCADE
                 )`,
             (err) => {
                 if(err){
@@ -74,7 +74,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                     comment_text text,
                     date_published INTEGER,
                     article_id INTEGER,
-                    FOREIGN KEY(article_id) REFERENCES articles(article_id)
+                    FOREIGN KEY(article_id) REFERENCES articles(article_id) ON DELETE CASCADE
                 )`,
             (err) => {
                 if(err){

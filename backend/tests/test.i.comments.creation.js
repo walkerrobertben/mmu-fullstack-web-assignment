@@ -34,6 +34,7 @@ describe("Test creation of comments.", () => {
                     if(articles.length === res.body.length){
                         let id = articles[Math.floor(Math.random() * articles.length)]
                         if(id === 0) id = 1
+                        articles = [];
 
                         return chai.request(SERVER_URL)
                             .post("/articles/" + id + "/comments")
