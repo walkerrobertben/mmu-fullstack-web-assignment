@@ -68,13 +68,20 @@ self.deleteSingle = (req, res) => {
     model.getSingle(user_id).then((user) => {
         if (user != null) {
 
-            model.deleteSingle(user_id).then(() => {
-                res.sendStatus(200);
-            }).catch((error) => {
-                console.error(error);
+            //require target user is *not* an admin
+            if (user.user_level < user_levels.LEVEL_ADMIN) {
+
+                model.deleteSingle(user_id).then(() => {
+                    res.sendStatus(200);
+                }).catch((error) => {
+                    console.error(error);
+                    res.sendStatus(500);
+                });
+
+            } else {
+                //error, cant delete admins!
                 res.sendStatus(500);
-            });
-            
+            }
         } else {
             res.sendStatus(404);    
         }
