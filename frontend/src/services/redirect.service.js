@@ -2,18 +2,19 @@ const self = {}
 
 import router from "../router/index";
 
-self.error_400 = () => {
+self.go = (path) => {
     router.push({
-        path: "/denied",
+        path: path,
         replace: true,
     });
 }
 
+self.error_400 = () => {
+    self.go("/denied");
+}
+
 self.error_404 = () => {
-    router.push({
-        path: "/404",
-        replace: true,
-    });
+    self.go("/404");
 }
 
 export const redirect_service = self;

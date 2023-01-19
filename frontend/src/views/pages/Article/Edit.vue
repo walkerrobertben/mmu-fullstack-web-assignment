@@ -31,12 +31,18 @@
         <n-card style="margin-bottom: 1.5rem">
             <n-text style="display: inline-block; line-height: 1.25; min-height: 20px; padding-left: 2px; padding-bottom: 6px;">Visiblity</n-text>
             
-            <n-space align="center">
+            <n-space align="center" style="margin-bottom: 1.25rem">
                 <n-button-group>
                     <n-button secondary :type="this.article.updated.is_private ? 'info' : 'default'" @click="() => {setVisibility(false)}">Private</n-button>
                     <n-button secondary :type="this.article.updated.is_private ? 'default' : 'primary'" @click="() => {setVisibility(true)}">Public</n-button>
                 </n-button-group>
                 <n-tag :type="this.article.updated.is_private ? 'info' : 'primary'">{{ this.article.updated.is_private ? 'Only you can see this article' : 'Everyone can see this article' }}</n-tag>
+            </n-space>
+
+            <n-text style="display: inline-block; line-height: 1.25; min-height: 20px; padding-left: 2px; padding-bottom: 6px;">Delete article</n-text>
+            <n-space align="center">
+                <n-button type="error" @click="promptDelete">Delete article</n-button>
+                <n-tag type="error">Delete this article, and all comments on it</n-tag>
             </n-space>
         </n-card>
 
@@ -45,8 +51,24 @@
             <n-button :disabled="!has_made_changes" type="default" style="margin-left:" @click="discardChanges">Discard changes</n-button>
         </n-space>
         
-
     </div>
+
+
+    <n-modal
+        :show="show_delete_popup"
+        preset="dialog"
+        type = "error"
+        title="Delete article"
+        content="Are you sure you want to delete this article?"
+        positive-text="Delete article"
+        negative-text="Cancel"
+        transform-origin="center"
+
+        :on-close="() => {show_delete_popup = false}"
+        :on-negative-click="() => {show_delete_popup = false}"
+        :on-positive-click="doDelete"
+    />
+    
 </template>
 
 <style scoped>
@@ -65,6 +87,8 @@ import { redirect_service } from "../../../services/redirect.service";
 
 import Subnav from "../../components/navigation/subnav.vue"
 import Title from "../../components/universal/title.vue"
+
+import DeleteIcon from "../../assets/Delete.vue"
 
 import mObject from "../../../utility/object_manipulation";
 
@@ -103,6 +127,20 @@ function discardChanges() {
     this.article.updated = mObject.deepcopy(this.article.original);
 }
 
+function promptDelete() {
+    this.show_delete_popup = true;
+}
+function doDelete() {
+    article_service.deleteSingle(this.article_id)
+    .then((success) => {
+        this.show_delete_popup = false;
+        if (success) {
+            //redirect to articles
+            redirect_service.go("/articles");
+        }
+    });
+}
+
 export default {
     data() {
         return {
@@ -130,7 +168,9 @@ export default {
             article_action: "null",
             page_title: computed(() => {
                 return this.article_action.charAt(0).toUpperCase() + this.article_action.substring(1) + " Article";
-            })
+            }),
+
+            show_delete_popup: false,
         }
     },
     mounted() {
@@ -154,7 +194,7 @@ export default {
         });
     },
 
-    methods: {setVisibility, saveChanges, discardChanges},
-    components: {Subnav, Title}
+    methods: {setVisibility, saveChanges, discardChanges, promptDelete, doDelete},
+    components: {Subnav, Title, DeleteIcon}
 }
 </script>
