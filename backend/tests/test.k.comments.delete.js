@@ -60,7 +60,7 @@ describe("Test deleting a single comment.", () => {
             expect(res).to.have.status(200)
             expect(res.body).to.be.an('array')
 
-            ARTICLE_ID = res.body[0].article_id;
+            ARTICLE_ID = res.body[0].article_id; //I CHANGED THIS
     
             return chai.request(SERVER_URL)
                 .get("/articles/" + ARTICLE_ID + "/comments")
@@ -91,7 +91,7 @@ describe("Test deleting a single comment.", () => {
             expect(res).to.have.status(200)
             expect(res.body).to.be.an('array')
 
-            ARTICLE_ID = res.body[0].article_id;
+            ARTICLE_ID = res.body[0].article_id; //I CHANGED THIS
 
             return chai.request(SERVER_URL)
                 .get("/articles/" + ARTICLE_ID + "/comments")
