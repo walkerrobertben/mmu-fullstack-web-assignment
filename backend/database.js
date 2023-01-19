@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose()
 const crypto = require("crypto")
 
-const DBSOURCE = "backend/db.sqlite"
+const DBSOURCE = __dirname + "/db.sqlite"
 
 let db = new sqlite3.Database(DBSOURCE, (err) => {
     if (err) {
