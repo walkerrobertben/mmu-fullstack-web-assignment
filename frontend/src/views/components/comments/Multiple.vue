@@ -39,10 +39,14 @@ function getComments() {
 
     comment_service.getAll(this.bArticleId)
     .then((json) => {
+        if (this._.isUnmounted) return; //element unmounted before async finished
+
         this.$refs.loader.finish(true);
         this.comments = json;
     })
     .catch((error) => {
+        if (this._.isUnmounted) return; //element unmounted before async finished
+        
         console.error(error);
         this.$refs.loader.finish(false);
         this.$refs.toaster.error("Unable to load comments from server");
@@ -56,6 +60,8 @@ function tryPost() {
 
     comment_service.createSingle(this.bArticleId, new_comment)
     .then((result) => {
+        if (this._.isUnmounted) return; //element unmounted before async finished
+
         if (result.success) {
             getComments.call(this);
         } else {
@@ -69,6 +75,8 @@ function tryPost() {
 function tryDelete(comment_id) {
     comment_service.deleteSingle(comment_id)
     .then((success) => {
+        if (this._.isUnmounted) return; //element unmounted before async finished
+        
         if (success) {
             getComments.call(this);
         } else {

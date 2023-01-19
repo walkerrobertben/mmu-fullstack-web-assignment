@@ -43,6 +43,8 @@ function createArticle() {
         is_private: true,
     })
     .then((result) => {
+        if (this._.isUnmounted) return; //element unmounted before async finished
+        
         if (result.success) {
             const new_article_id = result.json.article_id;
             this.$router.push(`/article/${new_article_id}/create`);

@@ -82,10 +82,14 @@ export default {
         
         article_service.getSingle(this.article_id)
         .then((json) => {
+            if (this._.isUnmounted) return; //element unmounted before async finished
+
             this.$refs.loader.finish(true);
             this.article = json;
         })
         .catch((error) => {
+            if (this._.isUnmounted) return; //element unmounted before async finished
+            
             redirect_service.error_404();
             
             console.error(error);

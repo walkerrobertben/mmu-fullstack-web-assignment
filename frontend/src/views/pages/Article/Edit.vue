@@ -108,6 +108,8 @@ function saveChanges() {
 
         article_service.updateSingle(this.article_id, article_to_write)
         .then((success) => {
+            
+            if (this._.isUnmounted) return; //element unmounted before async finished
 
             /*
                 warning!
@@ -140,7 +142,10 @@ function promptDelete() {
 function doDelete() {
     article_service.deleteSingle(this.article_id)
     .then((success) => {
+        if (this._.isUnmounted) return; //element unmounted before async finished
+
         this.show_delete_popup = false;
+        
         if (success) {
             redirect_service.go("/articles"); //redirect to articles
         } else {
@@ -190,6 +195,7 @@ export default {
 
         article_service.getSingle(this.article_id)
         .then((json) => {
+            if (this._.isUnmounted) return; //element unmounted before async finished
 
             if (!json.is_owned && auth_service.getUserLevel() < auth_service.USER_LEVELS.LEVEL_ADMIN) {
                 return redirect_service.error_400();
@@ -200,6 +206,8 @@ export default {
             this.article.updated = mObject.deepcopy(json);
         })
         .catch((error) => {
+            if (this._.isUnmounted) return; //element unmounted before async finished
+
             redirect_service.error_404();
             
             console.error(error);

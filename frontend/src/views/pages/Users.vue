@@ -71,6 +71,7 @@ function getUsers() {
 
     user_service.getAll()
     .then((users) => {
+        if (this._.isUnmounted) return; //element unmounted before async finished
 
         //compute extra data for table rows
         users.forEach((row) => {
@@ -82,6 +83,8 @@ function getUsers() {
         this.users = users;
     })
     .catch((error) => {
+        if (this._.isUnmounted) return; //element unmounted before async finished
+
         console.error(error);
         this.$refs.loader.finish(false);
         this.$refs.toaster.error("Unable to load users from server");
@@ -92,6 +95,8 @@ function tryAddUser() {
 
     user_service.createSingle(this.new_user)
     .then((result) => {
+        if (this._.isUnmounted) return; //element unmounted before async finished
+
         if (result.success) {
             getUsers.call(this);
         } else {
@@ -112,6 +117,8 @@ function promptDelete(user_id) {
 function doDelete() {
     user_service.deleteSingle(this.prompting_delete_user_id)
     .then((success) => {
+        if (this._.isUnmounted) return; //element unmounted before async finished
+        
         this.show_delete_popup = false;
         this.prompting_delete_user_id = null;
 

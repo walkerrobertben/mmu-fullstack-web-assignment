@@ -60,23 +60,20 @@ const router = createRouter({
 });
 
 //add page nav tracking stuff for async handling
-{
-    let nav_index = 0;
+// {
+//     let nav_index = 0;
 
-    router.beforeEach(() => {
-        nav_index += 1;
-    });
+//     router.beforeEach(() => {
+//         nav_index += 1;
+//     });
 
-    router.get_nav_index = () => {
-        return nav_index
-    }
+//     router.get_nav_index = () => {
+//         return nav_index
+//     }
     
-    router.has_navigated_since = (old_nav_index) => {
-        return nav_index != old_nav_index;
-    }
-}
-
-
-
+//     router.has_navigated_since = (old_nav_index) => {
+//         return nav_index != old_nav_index;
+//     }
+// }
 
 export default router;

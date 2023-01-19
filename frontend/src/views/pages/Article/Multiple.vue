@@ -58,10 +58,14 @@ export default {
 
         article_service.getAll()
         .then((json) => {
+            if (this._.isUnmounted) return; //element unmounted before async finished
+
             this.$refs.loader.finish(true);
             this.articles = json;
         })
         .catch((error) => {
+            if (this._.isUnmounted) return; //element unmounted before async finished
+
             console.error(error);
             this.$refs.loader.finish(false);
             this.$refs.toaster.error("Unable to load articles from server");

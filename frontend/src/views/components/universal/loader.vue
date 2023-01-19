@@ -3,13 +3,13 @@
 import { useLoadingBar } from "naive-ui"
 export default {
     mounted() {
-        const loader = useLoadingBar();
-
+        
         let n = 0;
+        this.loader = useLoadingBar();
         
         this.start = () => {
             if (n == 0) {
-                loader.start();
+                this.loader.start();
             }
             n += 1;
         };
@@ -18,12 +18,17 @@ export default {
             n -= 1;
             if (n == 0) {
                 if (success) {
-                    loader.finish();
+                    this.loader.finish();
                 } else {
-                    loader.error();
+                    this.loader.error();
                 }
             }
         };
+    },
+    unmounted() {
+        if (this.loader) {
+            this.loader.finish();
+        }
     },
 }
 </script>
