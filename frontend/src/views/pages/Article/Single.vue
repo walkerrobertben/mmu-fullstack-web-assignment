@@ -1,4 +1,6 @@
 <template>
+    <Toaster ref="toaster"/>
+    
     <div class="b-page-width">
 
         <Subnav
@@ -59,6 +61,7 @@
 import { article_service } from "../../../services/article.service"
 import { redirect_service } from "../../../services/redirect.service";
 
+import Toaster from "../../components/universal/toaster.vue"
 import Subnav from "../../components/navigation/subnav.vue"
 import Title from "../../components/universal/title.vue"
 import ArticleTags from "../../components/articles/tags.vue"
@@ -80,8 +83,9 @@ export default {
         .catch((error) => {
             redirect_service.error_404();
             console.error(error);
+            this.$refs.toaster.error("Unable to load article from server");
         });
     },
-    components: {Subnav, Title, ArticleTags, CommentList}
+    components: {Toaster, Subnav, Title, ArticleTags, CommentList}
 }
 </script>

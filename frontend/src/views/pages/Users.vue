@@ -78,6 +78,7 @@ function getUsers() {
     })
     .catch((error) => {
         console.error(error);
+        this.$refs.toaster.error("Unable to load users from server");
     });
 }
 

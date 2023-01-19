@@ -39,6 +39,7 @@ function getComments() {
     })
     .catch((error) => {
         console.error(error);
+        this.$refs.toaster.error("Unable to load comments from server");
     });
 }
 

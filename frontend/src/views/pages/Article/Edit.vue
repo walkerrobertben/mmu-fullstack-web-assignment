@@ -197,6 +197,7 @@ export default {
         .catch((error) => {
             redirect_service.error_404();
             console.error(error);
+            this.$refs.toaster.error("Unable to load article from server");
         });
     },
 

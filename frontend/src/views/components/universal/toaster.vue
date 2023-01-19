@@ -4,7 +4,10 @@ import { useMessage } from "naive-ui"
 export default {
     mounted() {
         const toaster = useMessage();
-        this.error = toaster.error;
+        
+        this.error = (msg) => {
+            toaster.error(msg);
+        };
     },
 }
 

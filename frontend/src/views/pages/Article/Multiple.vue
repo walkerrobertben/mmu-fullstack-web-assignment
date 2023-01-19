@@ -1,4 +1,6 @@
 <template>
+    <Toaster ref="toaster"/>
+
     <div class="b-page-width">
         
         <Title b-text="Articles"></Title>
@@ -32,6 +34,7 @@ import { computed } from "vue"
 import { article_service } from "../../../services/article.service"
 import { auth_service } from "../../../services/auth.service"
 
+import Toaster from "../../components/universal/toaster.vue"
 import Title from "../../components/universal/title.vue"
 import CreateButton from "../../components/articles/create.vue"
 import ArticleCard from "../../components/articles/card.vue"
@@ -54,8 +57,9 @@ export default {
         })
         .catch((error) => {
             console.error(error);
+            this.$refs.toaster.error("Unable to load articles from server");
         });
     },
-    components: {Title, CreateButton, ArticleCard}
+    components: {Toaster, Title, CreateButton, ArticleCard}
 }
 </script>
