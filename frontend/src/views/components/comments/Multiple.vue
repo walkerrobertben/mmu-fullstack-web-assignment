@@ -5,9 +5,9 @@
     <n-card>
         <n-h3>Post comment</n-h3>
         <CommentForm
-            :is-posting="this.is_posting"
+            :article-id="bArticleId"
             :placeholder="`Wow ${bArticleAuthor}, nice article!`"
-            @try-post="tryPost"
+            @comment-added="getComments"
         />
     </n-card>
 
@@ -59,24 +59,6 @@ function getComments() {
     });
 }
 
-function tryPost(comment_text) {
-
-    this.is_posting = true;
-
-    comment_service.createSingle(this.bArticleId, {comment_text})
-    .then((result) => {
-        if (this._.isUnmounted) return; //element unmounted before async finished
-
-        this.is_posting = false;
-
-        if (result.success) {
-            getComments.call(this);
-        } else {
-            this.$refs.toaster.error("Unable to post comment");
-        }
-    });
-}
-
 function tryDelete(comment_id) {
 
     this.is_deleting = comment_id;
@@ -99,8 +81,6 @@ export default {
     data() {
         return {
             comments: [],
-
-            is_posting: false,
             is_deleting: null,
         }
     },
@@ -112,7 +92,7 @@ export default {
         bArticleAuthor: String,
         bIsOwned: Boolean,
     },
-    methods: {tryPost, tryDelete},
+    methods: {getComments, tryDelete},
     components: {Loader, Toaster, CommentSingle, CommentForm},
 }
 </script>
