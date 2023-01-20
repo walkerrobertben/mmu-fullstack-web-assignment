@@ -8,14 +8,20 @@
             <n-form-item>
                 <n-input v-model:value="comment_text" :placeholder="`Wow ${bArticleAuthor}, nice article!`" type="textarea" :autosize="{minRows: 3}"></n-input>
             </n-form-item>
-            <n-button attr-type="submit" secondary>Post comment</n-button>
+            <n-button attr-type="submit" secondary :loading="is_posting">Post comment</n-button>
         </n-form>
     </n-card>
 
     <n-card style="margin-top: 1.5rem">
         <n-h3>Comments ({{ comments.length }})</n-h3>
         <n-space :vertical="true" :size="16">
-            <CommentSingle v-for="comment in comments" :comment="comment" :b-is-owned="bIsOwned" @try-delete="() => {tryDelete(comment.comment_id)}"/>
+            <CommentSingle
+                v-for="comment in comments"
+                :comment="comment"
+                :b-is-owned="bIsOwned"
+                :b-is-deleting="is_deleting == comment.comment_id"
+                @try-delete="() => {tryDelete(comment.comment_id)}"
+            />
         </n-space>
     </n-card>
 </template>
@@ -54,6 +60,9 @@ function getComments() {
 }
 
 function tryPost() {
+
+    this.is_posting = true;
+
     const new_comment = {
         comment_text: this.comment_text,
     };
@@ -61,6 +70,8 @@ function tryPost() {
     comment_service.createSingle(this.bArticleId, new_comment)
     .then((result) => {
         if (this._.isUnmounted) return; //element unmounted before async finished
+
+        this.is_posting = false;
 
         if (result.success) {
             getComments.call(this);
@@ -73,10 +84,15 @@ function tryPost() {
 }
 
 function tryDelete(comment_id) {
+
+    this.is_deleting = comment_id;
+
     comment_service.deleteSingle(comment_id)
     .then((success) => {
         if (this._.isUnmounted) return; //element unmounted before async finished
         
+        this.is_deleting = null;
+
         if (success) {
             getComments.call(this);
         } else {
@@ -90,6 +106,9 @@ export default {
         return {
             comments: [],
             comment_text: "",
+
+            is_posting: false,
+            is_deleting: null,
         }
     },
     mounted() {

@@ -1,10 +1,12 @@
 <template>
     <n-space :size="16" style="flex-wrap: nowrap">
         
-        <n-button v-if="shouldShowDelete" class="b-no-shrink" @click="$emit('tryDelete')" text type="error" style="font-size: 1rem; vertical-align: text-bottom;">
-            <n-icon>
-                <DeleteIcon />
-            </n-icon>
+        <n-button v-if="shouldShowDelete" :loading="bIsDeleting" class="b-no-shrink" @click="$emit('tryDelete')" text type="error" style="font-size: 1rem; vertical-align: text-bottom;">
+            <template #icon>
+                <n-icon>
+                    <DeleteIcon />
+                </n-icon>
+            </template>
         </n-button>
 
         <n-text class="b-no-shrink" depth="3">{{ comment.date_published }}</n-text>
@@ -34,6 +36,7 @@ export default {
     },
     props: {
         bIsOwned: Boolean,
+        bIsDeleting: Boolean,
         comment: Object,
     },
     components: {DeleteIcon}

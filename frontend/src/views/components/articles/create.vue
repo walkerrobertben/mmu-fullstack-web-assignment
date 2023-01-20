@@ -3,7 +3,7 @@
     <n-card>
         <n-space align="center" :size="24">
             <n-text style="display: inline-block; padding-top: 3px;">Create new article</n-text>
-            <n-button type="primary" :round="true" @click="createArticle">
+            <n-button type="primary" :round="true" @click="createArticle" :loading="is_creating">
                 <template #icon>
                     <n-icon>
                         <Plus/>
@@ -36,6 +36,8 @@ const placeholder_author = "John Doe";
 const placeholder_body = `Hi, my name is ${placeholder_author} and this is my first article.`;
 
 function createArticle() {
+    this.is_creating = true;
+
     article_service.createSingle({
         title: placeholder_title,
         author: placeholder_author,
@@ -45,6 +47,8 @@ function createArticle() {
     .then((result) => {
         if (this._.isUnmounted) return; //element unmounted before async finished
         
+        this.is_creating = false;
+
         if (result.success) {
             const new_article_id = result.json.article_id;
             this.$router.push(`/article/${new_article_id}/create`);
@@ -55,6 +59,11 @@ function createArticle() {
 }
 
 export default {
+    data() {
+        return {
+            is_creating: false,
+        }
+    },
     methods: {createArticle},
     components: {Toaster, Plus},
 }

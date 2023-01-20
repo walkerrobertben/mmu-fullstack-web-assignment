@@ -25,7 +25,7 @@
                     <n-input v-model:value="new_user.password" type="password" placeholder="Password"/>
                 </n-space>
 
-                <n-button type="primary" attr-type="submit">Add user</n-button>
+                <n-button type="primary" attr-type="submit" :loading="is_adding">Add user</n-button>
             </n-form>
         </n-card>
 
@@ -38,6 +38,8 @@
             positive-text="Delete user"
             negative-text="Cancel"
             transform-origin="center"
+
+            :loading="is_deleting"
 
             :on-close="() => {show_delete_popup = false; prompting_delete_user_id = null}"
             :on-negative-click="() => {show_delete_popup = false; prompting_delete_user_id = null}"
@@ -93,9 +95,13 @@ function getUsers() {
 
 function tryAddUser() {
 
+    this.is_adding = true;
+
     user_service.createSingle(this.new_user)
     .then((result) => {
         if (this._.isUnmounted) return; //element unmounted before async finished
+
+        this.is_adding = false;
 
         if (result.success) {
             getUsers.call(this);
@@ -115,10 +121,13 @@ function promptDelete(user_id) {
 }
 
 function doDelete() {
+    this.is_deleting = true;
+
     user_service.deleteSingle(this.prompting_delete_user_id)
     .then((success) => {
         if (this._.isUnmounted) return; //element unmounted before async finished
         
+        this.is_deleting = false;
         this.show_delete_popup = false;
         this.prompting_delete_user_id = null;
 
@@ -175,6 +184,9 @@ export default {
 
             show_delete_popup: false,
             prompting_delete_user_id: null,
+
+            is_adding: false,
+            is_deleting: false,
         }
     },
     mounted() {

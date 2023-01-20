@@ -50,7 +50,7 @@
         </n-card>
 
         <n-space>
-            <n-button :disabled="!has_made_changes" type="primary" style="margin-left:" @click="saveChanges">Save changes</n-button>
+            <n-button :disabled="!has_made_changes" type="primary" style="margin-left:" @click="saveChanges" :loading="is_saving">Save changes</n-button>
             <n-button :disabled="!has_made_changes" type="default" style="margin-left:" @click="discardChanges">Discard changes</n-button>
         </n-space>
         
@@ -66,6 +66,8 @@
         positive-text="Delete article"
         negative-text="Cancel"
         transform-origin="center"
+
+        :loading="is_deleting"
 
         :on-close="() => {show_delete_popup = false}"
         :on-negative-click="() => {show_delete_popup = false}"
@@ -104,6 +106,8 @@ function setVisibility(isPublic) {
 function saveChanges() {
     if (this.has_made_changes) {
 
+        this.is_saving = true;
+
         const article_to_write = mObject.deepcopy(this.article.updated)
 
         article_service.updateSingle(this.article_id, article_to_write)
@@ -122,6 +126,8 @@ function saveChanges() {
 
                 solution: replace article_to_write with a .getSingle() request
             */
+
+            this.is_saving = false;
            
             if (success) {
                 this.article.original = article_to_write;
@@ -140,10 +146,14 @@ function promptDelete() {
     this.show_delete_popup = true;
 }
 function doDelete() {
+
+    this.is_deleting = true;
+
     article_service.deleteSingle(this.article_id)
     .then((success) => {
         if (this._.isUnmounted) return; //element unmounted before async finished
 
+        this.is_deleting = false;
         this.show_delete_popup = false;
         
         if (success) {
@@ -184,6 +194,9 @@ export default {
             }),
 
             show_delete_popup: false,
+
+            is_saving: false,
+            is_deleting: false,
         }
     },
     mounted() {
