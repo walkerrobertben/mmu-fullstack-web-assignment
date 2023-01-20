@@ -14,19 +14,8 @@
 
             <n-h3>Add new user</n-h3>
 
-            <n-form :show-label="false" @submit.prevent="tryAddUser">
-
-                <n-space :vertical="true" align="stretch" :size="16" style="margin-bottom: 1rem">
-                    <n-space :size="16">
-                        <n-input v-model:value="new_user.first_name" class="b-input-name" type="text" placeholder="First name"/>
-                        <n-input v-model:value="new_user.last_name"  class="b-input-name" type="text" placeholder="Last name"/>
-                    </n-space>
-                    <n-input v-model:value="new_user.email"    type="email"    placeholder="email@domain.com"/>
-                    <n-input v-model:value="new_user.password" type="password" placeholder="Password"/>
-                </n-space>
-
-                <n-button type="primary" attr-type="submit" :loading="is_adding">Add user</n-button>
-            </n-form>
+            <UserForm @user-added="getUsers"/>
+            
         </n-card>
 
         <n-modal
@@ -49,13 +38,6 @@
 	</div>
 </template>
 
-<style>
-div:has(> .b-input-name) {
-    flex-grow: 1;
-}
-</style>
-
-
 
 <script>
 import { user_service } from "../../services/user.service"
@@ -64,6 +46,7 @@ import { auth_service } from "../../services/auth.service"
 import Loader from "../components/universal/loader.vue"
 import Toaster from "../components/universal/toaster.vue"
 import Title from "../components/universal/title.vue"
+import UserForm from "../components/forms/user.vue"
 
 import { h } from "vue";
 import { NButton } from "naive-ui";
@@ -91,28 +74,6 @@ function getUsers() {
         this.$refs.loader.finish(false);
         this.$refs.toaster.error("Unable to load users from server");
     });
-}
-
-function tryAddUser() {
-
-    this.is_adding = true;
-
-    user_service.createSingle(this.new_user)
-    .then((result) => {
-        if (this._.isUnmounted) return; //element unmounted before async finished
-
-        this.is_adding = false;
-
-        if (result.success) {
-            getUsers.call(this);
-        } else {
-            this.$refs.toaster.error("Unable to add user");
-        }
-    });
-
-    for (const key in this.new_user) {
-        this.new_user[key] = "";
-    }
 }
 
 function promptDelete(user_id) {
@@ -175,24 +136,18 @@ export default {
 
             users: [],
 
-            new_user: {
-                first_name: "",
-                last_name : "",
-                email     : "",
-                password  : "",
-            },
+
 
             show_delete_popup: false,
             prompting_delete_user_id: null,
 
-            is_adding: false,
             is_deleting: false,
         }
     },
     mounted() {
         getUsers.call(this);
     },
-    methods: {tryAddUser, promptDelete, doDelete},
-    components: {Loader, Toaster, Title},
+    methods: {getUsers, promptDelete, doDelete},
+    components: {Loader, Toaster, Title, UserForm},
 }
 </script>

@@ -10,8 +10,6 @@
                 @focus="() => { do_validate = false }"
             >
 
-                
-                
             </n-input>
         </n-form-item>
         <n-button attr-type="submit" secondary :loading="isPosting">Post comment</n-button>

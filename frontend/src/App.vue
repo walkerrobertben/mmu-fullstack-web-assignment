@@ -1,18 +1,20 @@
 <template>
-	<n-loading-bar-provider>
-		<n-message-provider>
-			<div class="b-page-flexed">
-				<div>
-					<TopBar/>
-					<router-view/>
+	<n-config-provider :theme-overrides="{ common: { fontWeightStrong: '600' } }">
+		<n-loading-bar-provider>
+			<n-message-provider>
+				<div class="b-page-flexed">
+					<div>
+						<TopBar/>
+						<router-view/>
+					</div>
+					<div>
+						<n-divider/>
+						<n-text style="display: block; width: 100%; margin-bottom: 20px; text-align: center;">MMU FSW BLOG</n-text>
+					</div>
 				</div>
-				<div>
-					<n-divider/>
-					<n-text style="display: block; width: 100%; margin-bottom: 20px; text-align: center;">MMU FSW BLOG</n-text>
-				</div>
-			</div>
-		</n-message-provider>
-	</n-loading-bar-provider>
+			</n-message-provider>
+		</n-loading-bar-provider>
+	</n-config-provider>
 </template>
 
 <style>
