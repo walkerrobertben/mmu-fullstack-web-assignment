@@ -12,7 +12,6 @@ function DBRowToArticle(row, user_id) {
         "author"      : row.author,
         "article_text": row.article_text,
 
-        //should probably do these toLocaleDateString() calls on the client? to account for timezone?
         "date_published": new Date(row.date_published).toLocaleDateString(),
         "date_edited"   : (row.date_edited ? new Date(row.date_edited).toLocaleDateString() : null),
 
