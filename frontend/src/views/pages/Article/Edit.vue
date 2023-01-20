@@ -17,16 +17,25 @@
 
         <n-card style="margin-bottom: 1.5rem">
             <n-form>
-                <n-form-item label="Title">
-                    <n-input v-model:value="article.updated.title" :placeholder="nice_title" ></n-input>
+                <n-form-item label="Title" :feedback="validation.feedback.title" :validation-status="validation.status.title">
+                    <n-input v-model:value="article.updated.title" :placeholder="nice_title"
+                        @input="() => { validation.enable.title = true }"
+                        @focus="() => { validation.enable.title = article.updated.title.length > 0 }"
+                    />
                 </n-form-item>
 
-                <n-form-item label="Author Name">
-                    <n-input v-model:value="article.updated.author" :placeholder="nice_author"></n-input>
+                <n-form-item label="Author name" :feedback="validation.feedback.author" :validation-status="validation.status.author">
+                    <n-input v-model:value="article.updated.author" :placeholder="nice_author"
+                        @input="() => { validation.enable.author = true }"
+                        @focus="() => { validation.enable.author = article.updated.author.length > 0 }"
+                    />
                 </n-form-item>
 
-                <n-form-item label="Body">
-                    <n-input v-model:value="article.updated.article_text" :placeholder="nice_body" type="textarea" :autosize="{minRows: 10}"></n-input>
+                <n-form-item label="Body" :feedback="validation.feedback.article_text" :validation-status="validation.status.article_text">
+                    <n-input v-model:value="article.updated.article_text" :placeholder="nice_body" type="textarea" :autosize="{minRows: 10}"
+                        @input="() => { validation.enable.article_text = true }"
+                        @focus="() => { validation.enable.article_text = article.updated.article_text.length > 0 }"
+                    />
                 </n-form-item>
             </n-form>
         </n-card>
@@ -99,12 +108,31 @@ import DeleteIcon from "../../assets/Delete.vue"
 
 import mObject from "../../../utility/object_manipulation";
 
+const form_fields = ["title", "author", "article_text"];
+const form_field_nice = {
+    "title": "Title",
+    "author": "Author name",
+    "article_text": "Body",
+}
+
 function setVisibility(isPublic) {
     this.article.updated.is_private = !isPublic;
 }
 
 function saveChanges() {
     if (this.has_made_changes) {
+
+        setAllValidate.call(this, true);
+
+        //check validation
+        for (let i = 0; i < form_fields.length; i++) {
+            const field = form_fields[i];
+            const result = validator(field, this.article.updated[field]);
+            if (result !== undefined) {
+                this.$refs.toaster.error(result);
+                return;
+            }
+        };
 
         this.is_saving = true;
 
@@ -130,6 +158,7 @@ function saveChanges() {
             this.is_saving = false;
            
             if (success) {
+                setAllValidate.call(this, false);
                 this.article.original = article_to_write;
             } else {
                 this.$refs.toaster.error("Unable to save changes");
@@ -164,8 +193,44 @@ function doDelete() {
     });
 }
 
+function validator(field, value) {
+    if (value != null && value.length > 0) {
+        return undefined;
+    } else {
+        return `${form_field_nice[field]} cannot be empty`;
+    }
+}
+
+function setAllValidate(enable) {
+    form_fields.forEach((field) => {
+        this.validation.enable[field] = enable;
+    });
+}
+
 export default {
     data() {
+
+        const validation = {
+            enable: {},
+            status: {},
+            feedback: {}
+        };
+
+        form_fields.forEach((field) => {
+
+            validation.enable[field] = false;
+
+            validation.status[field] = computed(() => {
+                const result = validator(field, this.article.updated[field]);
+                return !this.validation.enable[field] || result === undefined ? undefined : "error";
+            });
+
+            validation.feedback[field] = computed(() => {
+                const result = validator(field, this.article.updated[field]);
+                return !this.validation.enable[field] || result === undefined ? undefined : result;
+            });
+        });
+
         return {
             article_id: -1,
 
@@ -192,6 +257,8 @@ export default {
             page_title: computed(() => {
                 return this.article_action.charAt(0).toUpperCase() + this.article_action.substring(1) + " Article";
             }),
+
+            validation: validation,
 
             show_delete_popup: false,
 

@@ -75,7 +75,7 @@ import InfoIcon from "../../assets/Info.vue"
 
 const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/;
 
-const form_keys = ["first_name", "last_name", "email", "password"];
+const form_fields = ["first_name", "last_name", "email", "password"];
 
 const validators = {
     "first_name": (value) => {
@@ -133,8 +133,8 @@ const validators = {
 };
 
 function setAllValidate(enable) {
-    form_keys.forEach((key) => {
-        this.validation.enable[key] = enable;
+    form_fields.forEach((field) => {
+        this.validation.enable[field] = enable;
     });
 }
 
@@ -149,9 +149,9 @@ function tryAddUser() {
     setAllValidate.call(this, true);
 
     //check validation
-    for (let i = 0; i < form_keys.length; i++) {
-        const key = form_keys[i];
-        if (validators[key](this.new_user[key]) !== undefined) {
+    for (let i = 0; i < form_fields.length; i++) {
+        const field = form_fields[i];
+        if (validators[field](this.new_user[field]) !== undefined) {
             return;
         }
     };
@@ -187,19 +187,19 @@ export default {
             feedback: {}
         };
 
-        form_keys.forEach((key) => {
-            new_user[key] = "";
+        form_fields.forEach((field) => {
+            new_user[field] = "";
 
-            validation.enable[key] = false;
+            validation.enable[field] = false;
 
-            validation.status[key] = computed(() => {
-                const result = validators[key](this.new_user[key]);
-                return !this.validation.enable[key] || result === undefined ? undefined : "error";
+            validation.status[field] = computed(() => {
+                const result = validators[field](this.new_user[field]);
+                return !this.validation.enable[field] || result === undefined ? undefined : "error";
             });
 
-            validation.feedback[key] = computed(() => {
-                const result = validators[key](this.new_user[key]);
-                return !this.validation.enable[key] || result === undefined ? undefined : result;
+            validation.feedback[field] = computed(() => {
+                const result = validators[field](this.new_user[field]);
+                return !this.validation.enable[field] || result === undefined ? undefined : result;
             });
         });
 
