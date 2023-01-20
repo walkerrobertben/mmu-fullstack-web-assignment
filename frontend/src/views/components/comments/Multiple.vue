@@ -4,12 +4,11 @@
 
     <n-card>
         <n-h3>Post comment</n-h3>
-        <n-form :show-label="false" @submit.prevent="tryPost">
-            <n-form-item>
-                <n-input v-model:value="comment_text" :placeholder="`Wow ${bArticleAuthor}, nice article!`" type="textarea" :autosize="{minRows: 3}"></n-input>
-            </n-form-item>
-            <n-button attr-type="submit" secondary :loading="is_posting">Post comment</n-button>
-        </n-form>
+        <CommentForm
+            :is-posting="this.is_posting"
+            :placeholder="`Wow ${bArticleAuthor}, nice article!`"
+            @try-post="tryPost"
+        />
     </n-card>
 
     <n-card style="margin-top: 1.5rem">
@@ -39,6 +38,7 @@ import { comment_service } from "../../../services/comment.service"
 import Loader from "../../components/universal/loader.vue"
 import Toaster from "../../components/universal/toaster.vue"
 import CommentSingle from "./Single.vue"
+import CommentForm from "../forms/comment.vue"
 
 function getComments() {
     this.$refs.loader.start();
@@ -59,15 +59,11 @@ function getComments() {
     });
 }
 
-function tryPost() {
+function tryPost(comment_text) {
 
     this.is_posting = true;
 
-    const new_comment = {
-        comment_text: this.comment_text,
-    };
-
-    comment_service.createSingle(this.bArticleId, new_comment)
+    comment_service.createSingle(this.bArticleId, {comment_text})
     .then((result) => {
         if (this._.isUnmounted) return; //element unmounted before async finished
 
@@ -79,8 +75,6 @@ function tryPost() {
             this.$refs.toaster.error("Unable to post comment");
         }
     });
-
-    this.comment_text = "";
 }
 
 function tryDelete(comment_id) {
@@ -105,7 +99,6 @@ export default {
     data() {
         return {
             comments: [],
-            comment_text: "",
 
             is_posting: false,
             is_deleting: null,
@@ -120,6 +113,6 @@ export default {
         bIsOwned: Boolean,
     },
     methods: {tryPost, tryDelete},
-    components: {Loader, Toaster, CommentSingle},
+    components: {Loader, Toaster, CommentSingle, CommentForm},
 }
 </script>

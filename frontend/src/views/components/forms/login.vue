@@ -1,5 +1,5 @@
 <template>
-    <n-form ref="form" :show-label="false" @submit.prevent="tryLogin">
+    <n-form ref="form" :show-label="false" @submit.prevent="tryLogin" @keydown.enter.stop>
         <n-form-item :validation-status="emailStatus" :feedback="emailFeedback">
             <n-input type="email" placeholder="email@domain.com" v-model:value="email" @focus="enteringInfo"/>
         </n-form-item>
@@ -101,9 +101,11 @@ export default {
     mounted() {
         //keydown event propogates up and then something higher stops it (todo with the naieve popup)
         //this lets the submit event run!
-        this.$refs.form.$el.addEventListener("keydown", (event) => {
-            event.stopPropagation();
-        });
+        // this.$refs.form.$el.addEventListener("keydown", (event) => {
+        //     event.stopPropagation();
+        // });
+
+        //replaced with @keydown.enter.stop on the form!
     },
     methods: {enteringInfo, tryLogin}
 }
