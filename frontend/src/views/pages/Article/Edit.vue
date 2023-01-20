@@ -65,7 +65,6 @@
         
     </div>
 
-
     <n-modal
         :show="show_delete_popup"
         preset="dialog"
