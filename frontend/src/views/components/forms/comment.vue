@@ -52,6 +52,7 @@ export default {
         isPosting: Boolean,
         placeholder: String,
     },
+    emits: ["tryPost"],
     methods: {tryPost},
 }
 </script>

@@ -215,6 +215,7 @@ export default {
         }
     },
     methods: {tryAddUser},
+    emits: ["userAdded"],
     components: {Toaster, InfoIcon},
 }
 
